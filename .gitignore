@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+kernel/
+out/
+results/
+this-week-pins.txt

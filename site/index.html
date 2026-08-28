@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM FitLab — will it run on my setup?</title>
+<meta name="description" content="The fit-check console for home AI rigs: instant VRAM math for your GPU, weekly free-T4 benchmarks, and a live agent-stack compatibility board.">
+<meta name="theme-color" content="#030906">
+<meta property="og:title" content="LLM FitLab — will it run on my setup?">
+<meta property="og:description" content="Instant VRAM fit check for 12 GB GPUs & Colab-free T4 · weekly real benchmarks · verified agent stack.">
+<link rel="icon" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#030906; --bg2:#04120C;
+  --panel:rgba(10,24,17,.62); --panel-solid:#081510;
+  --line:rgba(74,222,128,.14); --line-strong:rgba(74,222,128,.32);
+  --text:#D7E4DC; --soft:#7C948A; --dim:#4E635B;
+  --matrix:#4ADE80; --matrix-deep:#16A34A;
+  --fits:#34D399; --tight:#FBBF24; --offload:#FB923C; --no:#F87171;
+  --bar-w:rgba(74,222,128,.85); --bar-kv:rgba(74,222,128,.42); --bar-oh:rgba(74,222,128,.16);
+  --radius:12px; --mono:'JetBrains Mono',ui-monospace,monospace; --disp:'Space Grotesk',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+body{
+  font-family:'Inter',system-ui,sans-serif;color:var(--text);background:var(--bg);
+  background-image:
+    radial-gradient(1000px 480px at 78% -140px, rgba(74,222,128,.09), transparent 62%),
+    linear-gradient(rgba(74,222,128,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(74,222,128,.05) 1px,transparent 1px);
+  background-size:auto,44px 44px,44px 44px;
+  line-height:1.6;font-size:15px;
+}
+a{color:var(--matrix);text-decoration:none} a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:2px solid var(--matrix);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.eyebrow{font-family:var(--mono);font-size:12px;color:var(--matrix);letter-spacing:.04em}
+.eyebrow::before{content:"// "}
+
+/* operator bar */
+header.top{position:sticky;top:0;z-index:50;background:rgba(3,9,6,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:16px;padding:11px 20px}
+.wordmark{display:flex;align-items:center;gap:9px;color:#fff;font-family:var(--disp);font-weight:700;font-size:18px;letter-spacing:.01em}
+.wordmark small{font-family:var(--mono);font-weight:400;font-size:10.5px;color:var(--soft);letter-spacing:.08em;margin-top:3px}
+.topnav{margin-left:auto;display:flex;gap:16px;align-items:center;font-family:var(--mono);font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-strong);border-radius:999px;padding:4px 11px;color:var(--text);font-family:var(--mono);font-size:11.5px;background:rgba(74,222,128,.06)}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--matrix);box-shadow:0 0 8px var(--matrix);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* hero */
+.hero{padding:64px 0 22px}
+.hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(34px,6vw,62px);line-height:1.02;letter-spacing:-.02em;color:#fff;max-width:16ch;margin-top:10px}
+.hero h1 em{font-style:normal;color:var(--matrix);text-shadow:0 0 22px rgba(74,222,128,.35)}
+.hero p.sub{margin-top:16px;max-width:64ch;color:var(--soft);font-size:16px}
+.hero p.sub b{color:var(--text)}
+
+/* rig console */
+.rail{position:sticky;top:56px;z-index:40;background:var(--panel);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 16px;margin:26px 0 8px;display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start;box-shadow:0 12px 34px rgba(0,0,0,.45)}
+.rail .lbl{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--dim);display:block;margin-bottom:7px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--line);background:rgba(3,9,6,.5);color:var(--text);
+  border-radius:8px;padding:7px 11px;cursor:pointer;text-align:left;transition:border-color .15s,background .15s,box-shadow .15s}
+.chip:hover{border-color:var(--line-strong)}
+.chip[aria-pressed="true"]{background:rgba(74,222,128,.13);border-color:var(--matrix);box-shadow:0 0 14px rgba(74,222,128,.18) inset}
+.chip small{display:block;font-size:10px;color:var(--soft)}
+
+/* sections */
+section.cat{margin:42px 0}
+.cat-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.cat-head h2{font-family:var(--disp);font-weight:700;font-size:24px;color:#fff;letter-spacing:-.01em}
+.cat-head .ref{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.cat-note{font-size:13px;color:var(--soft);margin:4px 0 14px}
+.cat-note b{color:var(--text)}
+
+.rows{display:flex;flex-direction:column;gap:10px}
+.row{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;
+  display:grid;grid-template-columns:34px minmax(200px,1.1fr) minmax(260px,1.55fr) 175px;gap:8px 18px;align-items:center;
+  transition:border-color .15s,box-shadow .15s}
+.row:hover{border-color:var(--line-strong);box-shadow:0 0 0 1px rgba(74,222,128,.12),0 10px 30px rgba(0,0,0,.35)}
+.rank{font-family:var(--mono);font-weight:700;font-size:16px;color:var(--dim)}
+.mname{font-family:var(--mono);font-size:13.5px;font-weight:500;line-height:1.4;overflow-wrap:anywhere}
+.mname a{color:#EAF4EE;border-bottom:1px solid var(--line)}
+.mname a:hover{color:var(--matrix);border-color:var(--matrix);text-decoration:none}
+.meta{font-size:11px;color:var(--soft);font-family:var(--mono);margin-top:4px;display:flex;gap:7px;flex-wrap:wrap}
+.cap{border:1px solid var(--line);border-radius:5px;padding:0 5px;color:var(--soft)}
+
+/* signature: phosphor fit bar */
+.fitcell{min-width:0}
+.fitbar{position:relative;height:22px;background:rgba(3,9,6,.7);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.fitbar .seg{position:absolute;top:0;bottom:0;transition:width .35s ease,left .35s ease}
+.seg.w{background:var(--bar-w)} .seg.k{background:var(--bar-kv)} .seg.o{background:var(--bar-oh)}
+.seg.spill{background:repeating-linear-gradient(-45deg,rgba(248,113,113,.9) 0 5px,rgba(248,113,113,.35) 5px 10px)}
+.fitbar .vline{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--no);box-shadow:0 0 8px rgba(248,113,113,.8);z-index:2}
+.fitread{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:5px;gap:8px;flex-wrap:wrap}
+.fitread .est-num{color:var(--text);font-weight:500}
+.legend{display:flex;font-family:var(--mono);font-size:10.5px;color:var(--dim);gap:16px;margin:12px 2px 0;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+.verdictcell{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.verdict{font-family:var(--mono);font-size:11.5px;font-weight:700;border-radius:6px;padding:3px 10px;letter-spacing:.03em;border:1px solid}
+.v-fits{color:var(--fits);border-color:var(--fits);background:rgba(52,211,153,.09)}
+.v-tight{color:var(--tight);border-color:var(--tight);background:rgba(251,191,36,.09)}
+.v-offload{color:var(--offload);border-color:var(--offload);background:rgba(251,146,60,.09)}
+.v-no{color:var(--no);border-color:var(--no);background:rgba(248,113,113,.09)}
+.tps{font-family:var(--mono);font-size:12.5px}
+.tps .measured{color:var(--fits);font-weight:700}
+.tps .est{color:var(--soft)}
+.sharebtn{font-family:var(--mono);font-size:11px;color:var(--soft);background:none;border:1px solid var(--line);border-radius:6px;padding:3px 9px;cursor:pointer}
+.sharebtn:hover{color:var(--matrix);border-color:var(--matrix)}
+
+/* plugs board */
+.plugs{background:linear-gradient(180deg,rgba(74,222,128,.05),transparent 55%),var(--panel-solid);border:1px solid var(--line);border-radius:var(--radius);padding:24px 20px;margin:48px 0}
+.plugs h2{font-family:var(--disp);font-size:23px;color:#fff;margin-top:6px}
+.plugs .sub{font-size:13px;color:var(--soft);margin:6px 0 18px;max-width:72ch}
+.plugs .sub b{color:var(--text)}
+.plug-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:9px}
+.plug{border:1px solid var(--line);border-radius:9px;padding:10px 12px;background:rgba(3,9,6,.5)}
+.plug .nm{font-size:13px;font-weight:600;color:#fff;display:flex;align-items:center;gap:8px}
+.plug .dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dot.ok{background:var(--fits);box-shadow:0 0 8px rgba(52,211,153,.8);animation:pulse 2.4s infinite}
+.dot.bad{background:var(--no);box-shadow:0 0 8px rgba(248,113,113,.8)}
+.dot.na{background:var(--dim)}
+.plug .vv{font-family:var(--mono);font-size:10.5px;color:var(--soft);margin-top:4px;overflow-wrap:anywhere}
+.plugs .foot{font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:16px}
+
+/* lanes */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin:44px 0}
+.lane-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.lane-card h3{font-family:var(--disp);font-size:17px;color:#fff;margin:8px 0 6px}
+.lane-card p{font-size:13px;color:var(--soft)}
+.lane-card .eyebrow.f{color:var(--fits)} .lane-card .eyebrow.r{color:var(--matrix)} .lane-card .eyebrow.p{color:var(--offload)}
+
+/* terminal + contribute */
+.term{background:#02120A;border:1px solid var(--line-strong);border-radius:var(--radius);font-family:var(--mono);font-size:13px;margin:8px 0 46px;overflow:hidden}
+.term .bar{display:flex;gap:6px;padding:9px 14px;border-bottom:1px solid var(--line);color:var(--dim);font-size:11px}
+.term .bar i{width:9px;height:9px;border-radius:50%;background:var(--line-strong);display:inline-block}
+.term pre{padding:16px;color:var(--text);overflow-x:auto;line-height:1.9}
+.term .p{color:var(--matrix)} .term .c{color:var(--dim)}
+.contrib{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px dashed var(--line-strong);border-radius:var(--radius);padding:22px;margin-bottom:46px}
+.contrib h3{font-family:var(--disp);font-size:19px;color:#fff}
+.contrib p{font-size:13px;color:var(--soft);max-width:52ch}
+.btn{display:inline-block;background:var(--matrix);color:#04150B;font-weight:700;font-size:14px;border:none;border-radius:9px;padding:11px 18px;margin-left:auto;cursor:pointer;font-family:'Inter',sans-serif}
+.btn:hover{background:#6BE79A}
+.btn.ghost{background:none;color:var(--matrix);border:1px solid var(--matrix);margin-left:0}
+
+/* embed section */
+.embedsec{margin:0 0 48px}
+.embedsec h2{font-family:var(--disp);font-size:22px;color:#fff;margin:6px 0 8px}
+.embedsec p{font-size:13px;color:var(--soft);max-width:70ch}
+.snippet{display:flex;gap:10px;align-items:stretch;margin-top:12px;flex-wrap:wrap}
+.snippet textarea{flex:1;min-width:260px;font-family:var(--mono);font-size:11.5px;color:var(--text);background:#02120A;border:1px solid var(--line);border-radius:9px;padding:12px;resize:vertical;min-height:64px}
+
+footer{border-top:1px solid var(--line);padding:24px 0 46px;font-size:12.5px;color:var(--dim)}
+footer .wrap{display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between}
+footer .spoon{font-family:var(--mono);font-size:11.5px}
+
+
+/* featured: model of the day */
+.featured{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px 20px 16px;margin-top:26px;position:relative;overflow:hidden;box-shadow:0 12px 34px rgba(0,0,0,.4)}
+.featured::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--fits),var(--matrix),var(--offload))}
+.feat-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.feat-tag{font-family:var(--mono);font-size:11px;color:var(--matrix);letter-spacing:.05em}
+.feat-tag::before{content:"// "}
+.feat-ctrl{display:flex;gap:7px}
+.feat-btn{width:30px;height:30px;border:1px solid var(--line);background:rgba(3,9,6,.5);color:var(--text);border-radius:7px;cursor:pointer;font-size:15px;line-height:1}
+.feat-btn:hover{border-color:var(--matrix);color:var(--matrix)}
+.feat-titlerow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.feat-title{font-family:var(--disp);font-weight:700;font-size:clamp(22px,3.6vw,30px);color:#fff;line-height:1.1;overflow-wrap:anywhere}
+.feat-title a{color:#fff;border-bottom:1px solid var(--line)}
+.feat-title a:hover{color:var(--matrix);border-color:var(--matrix);text-decoration:none}
+.feat-stats{display:flex;gap:38px;margin:18px 0 14px;flex-wrap:wrap}
+.stat .n{font-family:var(--disp);font-weight:700;font-size:36px;color:#fff;line-height:1;display:block;letter-spacing:-.01em}
+.stat .n.meas{color:var(--fits)}
+.stat .l{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.05em;display:block;margin-top:5px}
+.featured .fitbar{height:28px;border-radius:7px}
+.feat-actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.feat-cmd{font-family:var(--mono);font-size:12px;color:var(--soft);background:rgba(3,9,6,.6);border:1px solid var(--line);border-radius:7px;padding:6px 10px;display:inline-flex;gap:8px;cursor:pointer;max-width:100%;overflow-wrap:anywhere}
+.feat-cmd:hover{border-color:var(--matrix)} .feat-cmd .p{color:var(--matrix)}
+.feat-dots{display:flex;gap:6px;justify-content:center;margin-top:16px}
+.dot-item{width:8px;height:8px;padding:0;border-radius:50%;background:var(--line-strong);border:none;cursor:pointer;transition:all .2s ease}
+.dot-item:hover{background:var(--soft)}
+.dot-item[aria-current="true"]{background:var(--matrix);width:20px;border-radius:4px;box-shadow:0 0 8px rgba(74,222,128,.5)}
+
+/* share dialog */
+dialog{background:var(--panel-solid);border:1px solid var(--line-strong);border-radius:14px;color:var(--text);padding:20px;max-width:min(680px,94vw)}
+dialog::backdrop{background:rgba(0,0,0,.68);backdrop-filter:blur(3px)}
+dialog h3{font-family:var(--disp);color:#fff;margin-bottom:12px}
+dialog canvas{width:100%;height:auto;border:1px solid var(--line);border-radius:9px}
+dialog .acts{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+dialog .close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--soft);font-size:18px;cursor:pointer}
+
+/* embed mode */
+body.embed{background:var(--bg);padding:10px}
+body.embed header.top,body.embed footer,body.embed main>*{display:none}
+body.embed main>#embedRoot{display:block}
+#embedRoot{max-width:520px}
+#embedRoot .row{grid-template-columns:1fr;gap:8px}
+#embedRoot .credit{font-family:var(--mono);font-size:10.5px;color:var(--dim);margin-top:6px;text-align:right}
+
+@media (max-width:780px){
+  .row{grid-template-columns:26px 1fr;grid-template-areas:"rk nm" "bar bar" "vd vd"}
+  .rank{grid-area:rk} .namecell{grid-area:nm} .fitcell{grid-area:bar}
+  .verdictcell{grid-area:vd;flex-direction:row;align-items:center;justify-content:flex-start}
+  .rail{position:static}
+  .topnav .navlink{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <span class="wordmark">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="1.5" y="6" width="21" height="12" rx="3" stroke="#4ADE80" stroke-width="1.6"/><rect x="4.5" y="9" width="6" height="6" rx="1" fill="#4ADE80"/><rect x="11.5" y="9" width="4" height="6" rx="1" fill="rgba(74,222,128,.45)"/><rect x="16.5" y="9" width="1.6" height="6" rx=".8" fill="rgba(74,222,128,.2)"/><rect x="19.2" y="4" width="1.8" height="16" rx=".9" fill="#F87171"/></svg>
+    LLM FitLab <small>fit-check console</small>
+  </span>
+  <nav class="topnav">
+    <a class="navlink" href="https://github.com/OWNER/llm-fitlab">source</a>
+    <a class="navlink" href="https://colab.research.google.com/github/OWNER/llm-fitlab/blob/main/colab/benchmark_colab.ipynb">notebook</a>
+    <span class="pill" id="statuspill"><span class="dot"></span><span id="statusline">booting…</span></span>
+  </nav>
+</div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <span class="eyebrow">fit check · weekly verified</span>
+    <h1>Will it run on <em>my</em> setup?</h1>
+    <p class="sub">Pick your rig below — every model's VRAM bar, verdict and speed recompute instantly. Behind it, CI keeps the numbers honest: <b>one real benchmark a week on a free T4 16 GB</b> (the same GPU Colab free hands out) and the latest Ollama → OllaBridge → agent-framework chain verified end-to-end. Measurements and version pins, not opinions.</p>
+
+    <div class="featured" id="featured" aria-label="Model of the day" role="region">
+      <div class="feat-head">
+        <span class="feat-tag" id="featTag">model of the day</span>
+        <div class="feat-ctrl">
+          <button class="feat-btn" id="featPrev" aria-label="Previous model">‹</button>
+          <button class="feat-btn" id="featNext" aria-label="Next model">›</button>
+        </div>
+      </div>
+      <div class="feat-body" id="featBody"></div>
+      <div class="feat-dots" id="featDots" aria-label="Featured models"></div>
+    </div>
+  </div>
+
+  <div class="rail" role="group" aria-label="Your rig">
+    <div class="group"><span class="lbl">Your GPU</span><div class="chips" id="gpuChips"></div></div>
+    <div class="group"><span class="lbl">Quant</span><div class="chips" id="quantChips"></div></div>
+    <div class="group"><span class="lbl">Context</span><div class="chips" id="ctxChips"></div></div>
+  </div>
+
+  <div id="cats"></div>
+
+  <div class="plugs" id="plugs">
+    <span class="eyebrow">plugs · this week's verified stack</span>
+    <h2>The agent stack, re-tested every Monday</h2>
+    <p class="sub">CI installs the <b>latest released</b> versions and pushes one real request through <span style="font-family:var(--mono)">framework → OllaBridge :11435/v1 → Ollama → qwen3:0.6b</span>. A green heartbeat means it worked this week, at exactly this version.</p>
+    <div class="plug-grid" id="plugGrid"></div>
+    <div class="foot" id="plugFoot"></div>
+  </div>
+
+  <div class="lanes">
+    <div class="lane-card"><span class="eyebrow f">fits</span><h3>Deterministic VRAM math</h3><p>weights (params × bits⁄8) + KV cache (2·layers·kv_heads·head_dim·ctx·2 B) + 0.9 GB runtime. fits ≤ 92 % · tight ≤ 100 % · offload ≤ 160 % (partial GPU). Recomputed live for the rig you pick.</p></div>
+    <div class="lane-card"><span class="eyebrow r">runs</span><h3>Real weekly benchmarks</h3><p>One model per week on real hardware: load time, TTFT, median tok/s over 3 seeded runs, peak VRAM. CI runs Kaggle's free T4; the community adds 3060s, 4070s and Macs via the notebook.</p></div>
+    <div class="lane-card"><span class="eyebrow p">plugs</span><h3>Compatibility with an expiry date</h3><p>Re-verified weekly against latest Ollama, OllaBridge, LangGraph, LangChain, CrewAI, Langflow, Langfuse, DeepAgents and the top-10 PyPI baseline — recording the pins that passed.</p></div>
+  </div>
+
+  <div class="contrib">
+    <div><span class="eyebrow">contribute</span><h3>Add your GPU in 3 minutes — free</h3>
+    <p>Run the notebook on a T4 (or your own card), submit the prefilled issue. CI validates the JSON and your handle + hardware join the radar.</p></div>
+    <a class="btn" href="https://colab.research.google.com/github/OWNER/llm-fitlab/blob/main/colab/benchmark_colab.ipynb">Run the free benchmark →</a>
+  </div>
+
+  <div class="term" aria-label="quickstart terminal">
+    <div class="bar"><i></i><i></i><i></i>&nbsp;fitlab@radar:~</div>
+    <pre><span class="p">$</span> pip install fitlab && fitlab                    <span class="c"># wizard: pick models, bench YOUR gpu</span>
+<span class="p">$</span> curl -fsSL https://ollama.com/install.sh | sh   <span class="c"># local engine</span>
+<span class="p">$</span> pip install ollabridge && ollabridge up          <span class="c"># OpenAI-compatible :11435</span>
+<span class="p">$</span> ollama pull qwen3:8b                              <span class="c"># today's #1 for 12 GB</span>
+<span class="c"># point LangGraph / CrewAI / Langflow at http://localhost:11435/v1 — done.</span></pre>
+  </div>
+
+  <div class="embedsec">
+    <span class="eyebrow">embed</span>
+    <h2>Put a live fit badge in your README or post</h2>
+    <p>The badge stays current with the weekly registry. Open any model's <b>share</b> button to grab its snippet, or copy the default below.</p>
+    <div class="snippet">
+      <textarea id="embedSnippet" readonly aria-label="Embed code"></textarea>
+      <button class="btn ghost" id="copyEmbed">Copy embed code</button>
+    </div>
+  </div>
+
+  <div id="embedRoot" hidden></div>
+</main>
+
+<dialog id="shareDlg">
+  <button class="close" aria-label="Close">✕</button>
+  <h3 id="shareTitle">Your rig score</h3>
+  <canvas id="shareCanvas" width="1200" height="630"></canvas>
+  <div class="acts">
+    <a class="btn" id="dlCard" download="fitlab-score.png">Download score card</a>
+    <a class="btn ghost" id="postX" target="_blank" rel="noopener">Post on X</a>
+    <button class="btn ghost" id="copyRowEmbed">Copy embed code</button>
+  </div>
+</dialog>
+
+<footer><div class="wrap">
+  <span>Data CC-BY-4.0 · code Apache-2.0 · <a href="https://github.com/OWNER/llm-fitlab">github.com/OWNER/llm-fitlab</a> · part of <a href="https://ruslanmv.com">ruslanmv.com</a></span>
+  <span class="spoon">// there is no spoon. there is a budget line.</span>
+</div></footer>
+
+<script>
+/* ---------- mirrors of scripts/estimate_vram.py ---------- */
+const BPW={Q4_K_M:4.85,Q8_0:8.5};
+const DEF={weights_overhead:1.03,kv_bytes:2,runtime_overhead:0.9,tight:0.92,offload:1.6};
+const GPUS=[
+ {id:"rtx3060-12",name:"RTX 3060",sub:"12 GB · local",vram:12,bw:360},
+ {id:"t4-16",name:"T4 (Colab free)",sub:"15 GB usable",vram:15,bw:320},
+ {id:"rtx4070-12",name:"RTX 4070",sub:"12 GB",vram:12,bw:504},
+ {id:"rtx4060ti-16",name:"RTX 4060 Ti",sub:"16 GB",vram:16,bw:288},
+ {id:"apple-m-16",name:"MacBook M-series",sub:"16 GB unified",vram:11,bw:120}
+];
+const PAGE_URL=location.protocol.startsWith("http")?location.origin+location.pathname:"https://ruslanmv.com/fitlab/";
+function fit(m,q,ctx,g){
+  const a=m.arch,bpw=BPW[q];
+  const w=m.params_b*bpw/8*DEF.weights_overhead;
+  const kv=2*a.n_layers*a.n_kv_heads*a.head_dim*ctx*DEF.kv_bytes/1e9;
+  const est=w+kv+DEF.runtime_overhead;
+  let v="no";
+  if(est<=g.vram*DEF.tight)v="fits";else if(est<=g.vram)v="tight";else if(est<=g.vram*DEF.offload)v="offload";
+  const act=m.active_params_b||m.params_b;
+  const tps=Math.round(g.bw*1e9/(act*1e9*bpw/8+kv*1e9/ctx*64)*0.62*10)/10;
+  return{w,kv,oh:DEF.runtime_overhead,est,v,tps};
+}
+/* ---------- fallback registry (subset; replaced by registry.json when served) ---------- */
+const FALLBACK={
+ generated_at:"seed", ranking_version:"1.1",
+ categories:{
+  "local-12gb":{title:"Top 10 — local rigs · 12 GB",reference_gpu:"rtx3060-12",
+    top:["qwen3-8b","granite-33-8b","llama-31-8b","ministral-8b","qwen3-14b","deepseek-r1-14b","qwen25-coder-14b","phi-4","gemma-3-12b","smollm3-3b"].map(id=>({id}))},
+  "colab-free":{title:"Top 10 — Colab free / Kaggle · T4 16 GB",reference_gpu:"t4-16",
+    top:["qwen3-14b","deepseek-r1-14b","qwen25-coder-14b","phi-4","gemma-3-12b","gpt-oss-20b","qwen3-8b","granite-33-8b","llama-31-8b","mistral-small-24b"].map(id=>({id}))},
+  "multimodal":{title:"Top multimodal · vision-language",reference_gpu:"t4-16",
+    top:["pixtral-12b","gemma-3-12b","llama-32-11b-vision","qwen25-vl-7b","minicpm-v","internvl3-8b","phi-4-multimodal","moondream2"].map(id=>({id}))}
+ },
+ models:{
+  "qwen3-8b":{hf_id:"Qwen/Qwen3-8B",ollama_tag:"qwen3:8b",params_b:8.2,arch:{n_layers:36,n_kv_heads:8,head_dim:128},capabilities:["reasoning","tools","multilingual"],license:"apache-2.0"},
+  "qwen3-14b":{hf_id:"Qwen/Qwen3-14B",ollama_tag:"qwen3:14b",params_b:14.8,arch:{n_layers:40,n_kv_heads:8,head_dim:128},capabilities:["reasoning","tools","coding"],license:"apache-2.0"},
+  "phi-4":{hf_id:"microsoft/phi-4",ollama_tag:"phi4:14b",params_b:14.7,arch:{n_layers:40,n_kv_heads:10,head_dim:128},capabilities:["reasoning","stem"],license:"mit"},
+  "gemma-3-12b":{hf_id:"google/gemma-3-12b-it",ollama_tag:"gemma3:12b",params_b:12.2,arch:{n_layers:48,n_kv_heads:8,head_dim:256},capabilities:["vision","multilingual"],license:"gemma"},
+  "deepseek-r1-14b":{hf_id:"deepseek-ai/DeepSeek-R1-Distill-Qwen-14B",ollama_tag:"deepseek-r1:14b",params_b:14.8,arch:{n_layers:48,n_kv_heads:8,head_dim:128},capabilities:["reasoning"],license:"mit"},
+  "qwen25-coder-14b":{hf_id:"Qwen/Qwen2.5-Coder-14B-Instruct",ollama_tag:"qwen2.5-coder:14b",params_b:14.8,arch:{n_layers:48,n_kv_heads:8,head_dim:128},capabilities:["coding","tools"],license:"apache-2.0"},
+  "llama-31-8b":{hf_id:"meta-llama/Llama-3.1-8B-Instruct",ollama_tag:"llama3.1:8b",params_b:8.0,arch:{n_layers:32,n_kv_heads:8,head_dim:128},capabilities:["tools","multilingual"],license:"llama3.1"},
+  "ministral-8b":{hf_id:"mistralai/Ministral-8B-Instruct-2410",ollama_tag:"ministral-8b",params_b:8.0,arch:{n_layers:36,n_kv_heads:8,head_dim:128},capabilities:["tools"],license:"mrl"},
+  "granite-33-8b":{hf_id:"ibm-granite/granite-3.3-8b-instruct",ollama_tag:"granite3.3:8b",params_b:8.1,arch:{n_layers:40,n_kv_heads:8,head_dim:128},capabilities:["tools","enterprise"],license:"apache-2.0"},
+  "smollm3-3b":{hf_id:"HuggingFaceTB/SmolLM3-3B",ollama_tag:"smollm3",params_b:3.1,arch:{n_layers:36,n_kv_heads:4,head_dim:128},capabilities:["reasoning","small"],license:"apache-2.0"},
+  "gpt-oss-20b":{hf_id:"openai/gpt-oss-20b",ollama_tag:"gpt-oss:20b",params_b:21.0,active_params_b:3.6,arch:{n_layers:24,n_kv_heads:8,head_dim:64},capabilities:["reasoning","tools","moe"],license:"apache-2.0"},
+  "mistral-small-24b":{hf_id:"mistralai/Mistral-Small-3.2-24B-Instruct-2506",ollama_tag:"mistral-small3.2",params_b:24.0,arch:{n_layers:40,n_kv_heads:8,head_dim:128},capabilities:["tools","vision"],license:"apache-2.0"},
+  "qwen25-vl-7b":{hf_id:"Qwen/Qwen2.5-VL-7B-Instruct",ollama_tag:"qwen2.5vl:7b",params_b:8.3,arch:{n_layers:28,n_kv_heads:4,head_dim:128},capabilities:["vision","ocr","video"],license:"apache-2.0"},
+  "llama-32-11b-vision":{hf_id:"meta-llama/Llama-3.2-11B-Vision-Instruct",ollama_tag:"llama3.2-vision:11b",params_b:10.7,arch:{n_layers:40,n_kv_heads:8,head_dim:128},capabilities:["vision"],license:"llama3.2"},
+  "minicpm-v":{hf_id:"openbmb/MiniCPM-V-2_6",ollama_tag:"minicpm-v",params_b:8.1,arch:{n_layers:28,n_kv_heads:4,head_dim:128},capabilities:["vision","ocr"],license:"minicpm"},
+  "pixtral-12b":{hf_id:"mistralai/Pixtral-12B-2409",ollama_tag:null,params_b:12.4,arch:{n_layers:40,n_kv_heads:8,head_dim:128},capabilities:["vision"],license:"apache-2.0"},
+  "internvl3-8b":{hf_id:"OpenGVLab/InternVL3-8B",ollama_tag:null,params_b:8.1,arch:{n_layers:28,n_kv_heads:4,head_dim:128},capabilities:["vision","ocr"],license:"mit"},
+  "phi-4-multimodal":{hf_id:"microsoft/Phi-4-multimodal-instruct",ollama_tag:null,params_b:5.6,arch:{n_layers:32,n_kv_heads:8,head_dim:96},capabilities:["vision","audio"],license:"mit"},
+  "moondream2":{hf_id:"vikhyatk/moondream2",ollama_tag:"moondream",params_b:1.9,arch:{n_layers:24,n_kv_heads:8,head_dim:64},capabilities:["vision","tiny"],license:"apache-2.0"}
+ },
+ compat:{}, benchmarks_latest:{}
+};
+
+const PARAMS=new URLSearchParams(location.search);
+let REG=FALLBACK,
+    gpu=GPUS.find(g=>g.id===PARAMS.get("gpu"))||GPUS[0],
+    quant=BPW[PARAMS.get("quant")]?PARAMS.get("quant"):"Q4_K_M",
+    ctx=[4096,8192,16384,32768].includes(+PARAMS.get("ctx"))?+PARAMS.get("ctx"):8192;
+
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const fmt=n=>n>=10?n.toFixed(1):n.toFixed(2);
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+
+function chipRow(host,items,cur,on){
+  host.innerHTML="";
+  items.forEach(it=>{
+    const b=el("button","chip",it.html);
+    b.setAttribute("aria-pressed",String(it.val===cur));
+    b.onclick=()=>on(it.val);
+    host.appendChild(b);
+  });
+}
+function renderControls(){
+  chipRow(document.getElementById("gpuChips"),GPUS.map(g=>({val:g.id,html:`${g.name}<small>${g.sub}</small>`})),gpu.id,v=>{gpu=GPUS.find(g=>g.id===v);renderAll();});
+  chipRow(document.getElementById("quantChips"),[{val:"Q4_K_M",html:"Q4_K_M"},{val:"Q8_0",html:"Q8_0"}],quant,v=>{quant=v;renderAll();});
+  chipRow(document.getElementById("ctxChips"),[4096,8192,16384,32768].map(c=>({val:c,html:(c/1024)+"K"})),ctx,v=>{ctx=v;renderAll();});
+}
+
+function fitBar(f,g){
+  const scale=g.vram*1.25, pc=x=>Math.min(x/scale*100,100);
+  const line=pc(g.vram);
+  const wW=Math.min(pc(f.w),line);
+  const wK=Math.max(Math.min(pc(f.w+f.kv),line)-wW,0);
+  const wO=Math.max(Math.min(pc(f.est),line)-wW-wK,0);
+  const cell=el("div","fitcell");
+  const bar=el("div","fitbar");
+  bar.setAttribute("role","img");
+  bar.setAttribute("aria-label",`Estimated ${fmt(f.est)} of ${g.vram} GB VRAM — ${f.v}`);
+  const mk=(cls,l,w)=>{const s=el("div","seg "+cls);s.style.left=l+"%";s.style.width=w+"%";return s};
+  bar.append(mk("w",0,wW),mk("k",wW,wK),mk("o",wW+wK,wO));
+  if(f.est>g.vram)bar.append(mk("spill",line,pc(f.est)-line));
+  const vl=el("div","vline");vl.style.left=line+"%";bar.append(vl);
+  cell.append(bar);
+  cell.append(el("div","fitread",`<span>w ${fmt(f.w)} · kv ${fmt(f.kv)} · rt ${fmt(f.oh)}</span><span><span class="est-num">${fmt(f.est)} GB</span> / ${g.vram} GB</span>`));
+  return cell;
+}
+function measuredFor(id){return (REG.benchmarks_latest||{})[`${id}|${gpu.id}`];}
+
+function renderCats(){
+  const host=document.getElementById("cats");host.innerHTML="";
+  let first=true;
+  for(const [cid,cat] of Object.entries(REG.categories)){
+    const sec=el("section","cat");
+    sec.append(el("span","eyebrow",cid.replace(/-/g," ")));
+    const head=el("div","cat-head");
+    head.append(el("h2",null,esc(cat.title)),el("span","ref","ranked on "+(GPUS.find(g=>g.id===cat.reference_gpu)?.name||cat.reference_gpu)+" · ranking v"+(REG.ranking_version||"1.1")));
+    sec.append(head);
+    sec.append(el("p","cat-note","Bars, verdicts and speed reflect <b>your</b> rig ("+gpu.name+", "+quant+", "+(ctx/1024)+"K ctx). Ranks come from the weekly scored sort."));
+    const rows=el("div","rows");
+    cat.top.forEach((t,i)=>{
+      const m=REG.models[t.id];if(!m||!m.arch)return;
+      const f=fit(m,quant,ctx,gpu);
+      const row=el("div","row");
+      row.append(el("div","rank",String(i+1).padStart(2,"0")));
+      const nm=el("div","namecell");
+      nm.append(el("div","mname",`<a href="https://huggingface.co/${esc(m.hf_id)}" rel="noopener">${esc(m.hf_id)}</a>`));
+      const meta=el("div","meta");
+      meta.append(el("span",null,(m.active_params_b?m.active_params_b+"B act / ":"")+m.params_b+"B"));
+      if(m.ollama_tag)meta.append(el("span",null,"ollama:"+esc(m.ollama_tag)));
+      if(m.license)meta.append(el("span","cap",esc(m.license)));
+      (m.capabilities||[]).slice(0,3).forEach(c=>meta.append(el("span","cap",esc(c))));
+      nm.append(meta);row.append(nm);
+      row.append(fitBar(f,gpu));
+      const vd=el("div","verdictcell");
+      vd.append(el("span","verdict v-"+f.v,f.v.toUpperCase()));
+      const meas=measuredFor(t.id);
+      vd.append(el("div","tps",meas
+        ? `<span class="measured">✓ ${meas.gen_tps} tok/s</span> <span class="est">${esc(meas.date)}${meas.submitter?" · @"+esc(meas.submitter):""}</span>`
+        : (f.v==="no"?`<span class="est">—</span>`:`<span class="est">~${f.tps} tok/s est.</span>`)));
+      const sb=el("button","sharebtn","share ↗");
+      sb.onclick=()=>openShare(t.id,m,f,meas);
+      vd.append(sb);
+      row.append(vd);
+      rows.append(row);
+    });
+    sec.append(rows);
+    if(first){sec.append(el("div","legend",`<span><i style="background:var(--bar-w)"></i>weights</span><span><i style="background:var(--bar-kv)"></i>KV cache</span><span><i style="background:var(--bar-oh)"></i>runtime</span><span><i style="background:repeating-linear-gradient(-45deg,rgba(248,113,113,.9) 0 3px,rgba(248,113,113,.35) 3px 6px)"></i>over budget</span><span><i style="background:var(--no);width:3px"></i>VRAM line</span>`));first=false;}
+    host.append(sec);
+  }
+}
+
+function renderPlugs(){
+  const grid=document.getElementById("plugGrid");grid.innerHTML="";
+  const compat=REG.compat||{};
+  const order=["ollama","ollabridge","homepilot","gitpilot","matrixlab","langgraph","langchain","crewai","langflow","langfuse","deepagents"];
+  const names={ollama:"Ollama",ollabridge:"OllaBridge",homepilot:"HomePilot",gitpilot:"GitPilot",matrixlab:"MatrixLab",langgraph:"LangGraph",langchain:"LangChain",crewai:"CrewAI",langflow:"Langflow",langfuse:"Langfuse",deepagents:"DeepAgents"};
+  const ids=Object.keys(compat).length?order.filter(k=>compat[k]):order;
+  ids.forEach(id=>{
+    const r=compat[id];
+    const p=el("div","plug");
+    p.append(el("div","nm",`<span class="dot ${r?(r.ok?"ok":"bad"):"na"}"></span>${names[id]||esc(id)}`));
+    p.append(el("div","vv",r?(esc(r.component_version||"?")+" · "+esc(r.checked_at)):"awaiting first weekly run"));
+    grid.append(p);
+  });
+  document.getElementById("plugFoot").textContent=Object.keys(compat).length
+    ? "probe model qwen3:0.6b · full logs linked from each CI run · top-10 PyPI baseline also verified"
+    : "This board fills itself after the first weekly-benchmark workflow run — enable Actions and add the Kaggle secrets.";
+}
+
+function renderStatus(){
+  const b=Object.values(REG.benchmarks_latest||{});
+  const lastGpu=b.filter(x=>x.source==="ci-kaggle").map(x=>x.date).sort().pop();
+  const c=Object.values(REG.compat||{});
+  document.getElementById("statusline").textContent=
+    REG.generated_at==="seed" ? "seed data · awaiting first CI run"
+    : `radar online · reg ${REG.generated_at} · T4 ${lastGpu||"pending"} · stack ${c.length?c.filter(r=>r.ok).length+"/"+c.length:"pending"}`;
+}
+
+/* ---------- embed ---------- */
+function embedCode(modelId){
+  const src=`${PAGE_URL}?embed=1&model=${modelId}&gpu=${gpu.id}&quant=${quant}&ctx=${ctx}`;
+  return `<iframe src="${src}" width="520" height="150" style="border:0;border-radius:12px" loading="lazy" title="LLM FitLab badge"></iframe>`;
+}
+function renderEmbedSection(){
+  const first=Object.values(REG.categories)[0]?.top?.[0]?.id||"qwen3-8b";
+  document.getElementById("embedSnippet").value=embedCode(first);
+}
+document.getElementById("copyEmbed").onclick=e=>{
+  navigator.clipboard.writeText(document.getElementById("embedSnippet").value);
+  e.target.textContent="Copied ✓";setTimeout(()=>e.target.textContent="Copy embed code",1500);
+};
+function renderEmbedMode(){
+  const id=PARAMS.get("model");
+  const m=REG.models[id];const root=document.getElementById("embedRoot");
+  document.body.classList.add("embed");root.hidden=false;
+  if(!m||!m.arch){root.innerHTML='<div class="row">unknown model — see <a href="'+PAGE_URL+'">LLM FitLab</a></div>';return;}
+  const f=fit(m,quant,ctx,gpu);
+  const row=el("div","row");
+  row.append(el("div","mname",`<a href="${PAGE_URL}" rel="noopener">${esc(m.hf_id)}</a> <span class="verdict v-${f.v}" style="margin-left:8px">${f.v.toUpperCase()}</span>`));
+  row.append(fitBar(f,gpu));
+  const meas=measuredFor(id);
+  row.append(el("div","tps",(meas?`<span class="measured">✓ ${meas.gen_tps} tok/s measured</span>`:(f.v==="no"?"":`<span class="est">~${f.tps} tok/s est.</span>`))+` <span class="est">· ${gpu.name} · ${quant} · ${(ctx/1024)}K</span>`));
+  root.append(row,el("div","credit",`live from <a href="${PAGE_URL}">LLM FitLab</a> · updated weekly`));
+}
+
+/* ---------- share card ---------- */
+const dlg=document.getElementById("shareDlg");
+dlg.querySelector(".close").onclick=()=>dlg.close();
+let shareCtx={};
+function openShare(id,m,f,meas){
+  shareCtx={id};
+  const cv=document.getElementById("shareCanvas"),x=cv.getContext("2d");
+  const W=1200,H=630;
+  x.fillStyle="#030906";x.fillRect(0,0,W,H);
+  x.strokeStyle="rgba(74,222,128,.07)";x.lineWidth=1;
+  for(let i=0;i<W;i+=44){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke();}
+  for(let i=0;i<H;i+=44){x.beginPath();x.moveTo(0,i);x.lineTo(W,i);x.stroke();}
+  x.fillStyle="#4ADE80";x.font="500 26px 'JetBrains Mono',monospace";
+  x.fillText("// llm fitlab — rig score",60,86);
+  x.fillStyle="#FFFFFF";x.font="700 58px 'Space Grotesk',sans-serif";
+  const name=m.hf_id.length>30?m.hf_id.split("/").pop():m.hf_id;
+  x.fillText(name,60,170);
+  x.fillStyle="#7C948A";x.font="500 30px 'JetBrains Mono',monospace";
+  x.fillText(`${gpu.name} · ${quant} · ${(ctx/1024)}K context`,60,222);
+  const tps=meas?meas.gen_tps:f.tps, lbl=meas?"tok/s measured":"tok/s estimated";
+  x.fillStyle=meas?"#34D399":"#D7E4DC";x.font="700 130px 'Space Grotesk',sans-serif";
+  x.fillText(f.v==="no"?"NO FIT":String(tps),60,388);
+  x.fillStyle="#7C948A";x.font="500 30px 'JetBrains Mono',monospace";
+  if(f.v!=="no")x.fillText(lbl,60,432);
+  // fit bar
+  const bx=60,by=480,bw=1080,bh=44,scale=gpu.vram*1.25;
+  x.fillStyle="rgba(3,20,12,1)";x.strokeStyle="rgba(74,222,128,.3)";
+  x.fillRect(bx,by,bw,bh);x.strokeRect(bx,by,bw,bh);
+  const px=v=>Math.min(v/scale,1)*bw;
+  x.fillStyle="rgba(74,222,128,.85)";x.fillRect(bx,by,Math.min(px(f.w),px(gpu.vram)),bh);
+  x.fillStyle="rgba(74,222,128,.42)";x.fillRect(bx+Math.min(px(f.w),px(gpu.vram)),by,Math.max(Math.min(px(f.w+f.kv),px(gpu.vram))-Math.min(px(f.w),px(gpu.vram)),0),bh);
+  x.fillStyle="rgba(74,222,128,.16)";x.fillRect(bx+Math.min(px(f.w+f.kv),px(gpu.vram)),by,Math.max(Math.min(px(f.est),px(gpu.vram))-Math.min(px(f.w+f.kv),px(gpu.vram)),0),bh);
+  if(f.est>gpu.vram){x.fillStyle="rgba(248,113,113,.6)";x.fillRect(bx+px(gpu.vram),by,px(f.est)-px(gpu.vram),bh);}
+  x.fillStyle="#F87171";x.fillRect(bx+px(gpu.vram)-2,by-8,4,bh+16);
+  x.fillStyle="#D7E4DC";x.font="500 26px 'JetBrains Mono',monospace";
+  x.fillText(`${fmt(f.est)} GB est · ${gpu.vram} GB budget · verdict: ${f.v.toUpperCase()}`,bx,by+bh+40);
+  x.fillStyle="#4E635B";x.font="500 24px 'JetBrains Mono',monospace";
+  x.textAlign="right";x.fillText(PAGE_URL.replace(/^https?:\/\//,""),W-60,86);x.textAlign="left";
+  document.getElementById("shareTitle").textContent=`${name} on ${gpu.name}`;
+  document.getElementById("dlCard").href=cv.toDataURL("image/png");
+  const txt=f.v==="no"
+    ? `${name} does not fit my ${gpu.name} — checked on LLM FitLab`
+    : `My ${gpu.name} runs ${name} (${quant}) at ${meas?meas.gen_tps+" tok/s measured":"~"+f.tps+" tok/s"} — checked on LLM FitLab`;
+  document.getElementById("postX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(txt+" "+PAGE_URL);
+  dlg.showModal();
+}
+document.getElementById("copyRowEmbed").onclick=e=>{
+  navigator.clipboard.writeText(embedCode(shareCtx.id));
+  e.target.textContent="Copied ✓";setTimeout(()=>e.target.textContent="Copy embed code",1500);
+};
+
+/* ---------- featured: model of the day ---------- */
+let featPool=[],featIdx=null,featTouched=false;
+const dailyIdx=n=>Math.floor(Date.now()/864e5)%n;
+function buildFeatPool(){
+  const seen=new Set();featPool=[];
+  for(const cat of Object.values(REG.categories||{}))
+    for(const t of (cat.top||[]).slice(0,3)){
+      const m=REG.models[t.id];
+      if(m&&m.arch&&!seen.has(t.id)){seen.add(t.id);featPool.push({id:t.id,m});}
+    }
+}
+function renderCarousel(){
+  const body=document.getElementById("featBody");if(!body)return;
+  buildFeatPool();
+  if(!featPool.length){body.innerHTML="";return;}
+  if(featIdx===null||!featTouched)featIdx=dailyIdx(featPool.length);
+  featIdx=Math.min(featIdx,featPool.length-1);
+  const {id,m}=featPool[featIdx],f=fit(m,quant,ctx,gpu),meas=measuredFor(id);
+  const short=esc(m.hf_id.split("/").pop());
+  body.innerHTML="";
+  const tr=el("div","feat-titlerow");
+  tr.append(el("div","feat-title",`<a href="https://huggingface.co/${esc(m.hf_id)}" rel="noopener">${short}</a>`),
+            el("span","verdict v-"+f.v,f.v.toUpperCase()));
+  body.append(tr);
+  const meta=el("div","meta");meta.style.marginTop="7px";
+  meta.append(el("span",null,(m.active_params_b?m.active_params_b+"B act / ":"")+m.params_b+"B"));
+  if(m.license)meta.append(el("span","cap",esc(m.license)));
+  (m.capabilities||[]).slice(0,4).forEach(c=>meta.append(el("span","cap",esc(c))));
+  body.append(meta);
+  const stats=el("div","feat-stats");
+  stats.innerHTML=`
+    <div class="stat"><span class="n">${fmt(f.est)}</span><span class="l">GB est · budget ${gpu.vram} GB · ${esc(gpu.name)}</span></div>
+    <div class="stat"><span class="n${meas?" meas":""}">${meas?meas.gen_tps:(f.v==="no"?"—":"~"+f.tps)}</span><span class="l">${meas?"tok/s · measured ✓":(f.v==="no"?"does not fit at "+quant:"tok/s · estimated")}</span></div>`;
+  body.append(stats);
+  body.append(fitBar(f,gpu));
+  const acts=el("div","feat-actions");
+  if(m.ollama_tag){
+    const cmd=el("button","feat-cmd",`<span class="p">$</span> ollama run ${esc(m.ollama_tag)} <span style="color:var(--dim)">⧉</span>`);
+    cmd.title="Copy command";
+    cmd.onclick=()=>{navigator.clipboard.writeText("ollama run "+m.ollama_tag);cmd.lastElementChild.textContent="✓";setTimeout(renderCarousel,1200);};
+    acts.append(cmd);
+  }
+  const sh=el("button","sharebtn","share ↗");sh.onclick=()=>openShare(id,m,f,meas);acts.append(sh);
+  body.append(acts);
+  document.getElementById("featTag").textContent=featTouched?"top models this week":"model of the day · rotates daily";
+  const dots=document.getElementById("featDots");dots.innerHTML="";
+  featPool.forEach((_,i)=>{
+    const d=el("button","dot-item");d.setAttribute("aria-label","Model "+(i+1));
+    d.setAttribute("aria-current",String(i===featIdx));
+    d.onclick=()=>{featTouched=true;featIdx=i;renderCarousel();};
+    dots.append(d);
+  });
+}
+document.getElementById("featPrev").onclick=()=>{if(!featPool.length)return;featTouched=true;featIdx=(featIdx-1+featPool.length)%featPool.length;renderCarousel();};
+document.getElementById("featNext").onclick=()=>{if(!featPool.length)return;featTouched=true;featIdx=(featIdx+1)%featPool.length;renderCarousel();};
+
+function renderAll(){
+  if(PARAMS.get("embed")){renderEmbedMode();return;}
+  renderControls();renderCarousel();renderCats();renderPlugs();renderStatus();renderEmbedSection();
+}
+fetch("registry.json").then(r=>r.ok?r.json():null).then(j=>{if(j&&j.models&&Object.keys(j.models).length)REG=j;}).catch(()=>{}).finally(renderAll);
+renderAll();
+</script>
+</body>
+</html>

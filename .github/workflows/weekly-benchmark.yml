@@ -1,0 +1,193 @@
+# Weekly single-model benchmark on a FREE GPU + weekly stack-compat verification.
+#
+# GPU lane  → Kaggle Kernels API (T4 16 GB — the same GPU class as Colab free tier; free Colab has
+#             no headless API, so Kaggle is the ToS-compliant automation path; Colab stays the
+#             human one-click channel via colab/benchmark_colab.ipynb).
+# CPU lane  → same benchmark on the Actions runner, so a datapoint lands even if Kaggle fails.
+# PLUGS lane→ latest Ollama + OllaBridge + LangGraph/CrewAI/Langflow/Langfuse/DeepAgents + top-10
+#             PyPI, exercised end-to-end against a real 0.6 B model on CPU.
+#
+# Secrets: KAGGLE_USERNAME, KAGGLE_KEY (kaggle.com → Settings → API → Create New Token)
+name: weekly-benchmark
+
+on:
+  schedule:
+    - cron: "17 3 * * 1"          # Mondays 03:17 UTC (off the :00 rush)
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Ollama tag to benchmark (blank = weekly rotation)"
+        required: false
+
+concurrency:
+  group: weekly-benchmark
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  pick-model:
+    runs-on: ubuntu-latest
+    outputs:
+      model: ${{ steps.pick.outputs.model }}
+    steps:
+      - uses: actions/checkout@v4            # best practice: pin to a commit SHA in production
+      - id: pick
+        name: Rotate through the registry (week number % queue length)
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import datetime, json, pathlib, os
+          override = os.environ.get("INPUT_MODEL", "").strip()
+          if override:
+              print(f"model={override}"); raise SystemExit
+          reg = json.loads(pathlib.Path("data/registry.json").read_text()) \
+                if pathlib.Path("data/registry.json").exists() else None
+          if reg:
+              ids = [t["id"] for t in reg["categories"]["colab-free"]["top"]]
+              tags = [reg["models"][i].get("ollama_tag") for i in ids]
+              queue = [t for t in tags if t]
+          else:
+              queue = ["qwen3:8b", "phi4:14b", "gemma3:12b", "deepseek-r1:14b",
+                       "qwen2.5-coder:14b", "llama3.1:8b", "qwen3:14b", "gpt-oss:20b"]
+          week = datetime.date.today().isocalendar().week
+          print(f"model={queue[week % len(queue)]}")
+          PY
+        env:
+          INPUT_MODEL: ${{ inputs.model }}
+
+  gpu-kaggle:
+    needs: pick-model
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    continue-on-error: true                  # quota/API hiccups must not kill the week
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install "kaggle>=1.6" jsonschema
+
+      - name: Render Kaggle kernel (runs scripts/bench_gguf.py on a free T4)
+        env:
+          MODEL: ${{ needs.pick-model.outputs.model }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+        run: |
+          mkdir -p kernel
+          RAW="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_SHA}/scripts/bench_gguf.py"
+          cat > kernel/fitlab_bench.py <<EOF
+          import os, subprocess, urllib.request
+          urllib.request.urlretrieve("${RAW}", "bench_gguf.py")
+          os.environ["FITLAB_ENV"] = "kaggle"
+          os.environ["RUN_URL"] = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          subprocess.run(["python", "bench_gguf.py", "--model", "${MODEL}",
+                          "--out", "/kaggle/working", "--source", "ci-kaggle", "--reps", "3"], check=True)
+          EOF
+          cat > kernel/kernel-metadata.json <<EOF
+          { "id": "${KAGGLE_USERNAME}/llm-fitlab-weekly",
+            "title": "llm-fitlab weekly benchmark",
+            "code_file": "fitlab_bench.py",
+            "language": "python", "kernel_type": "script",
+            "is_private": true, "enable_gpu": true, "enable_internet": true }
+          EOF
+
+      - name: Push kernel and wait for the free T4 to finish
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          kaggle kernels push -p kernel
+          for i in $(seq 1 60); do                     # ≤ 60 min
+            sleep 60
+            STATUS=$(kaggle kernels status "${KAGGLE_USERNAME}/llm-fitlab-weekly" 2>/dev/null || echo pending)
+            echo "[$i] $STATUS"
+            case "$STATUS" in
+              *complete*) break ;;
+              *error*|*cancel*) echo "::error::Kaggle run failed"; exit 1 ;;
+            esac
+          done
+          mkdir -p out && kaggle kernels output "${KAGGLE_USERNAME}/llm-fitlab-weekly" -p out
+          ls -la out
+
+      - name: Validate against schema and stage result
+        run: |
+          python - <<'PY'
+          import json, glob, pathlib, jsonschema
+          files = glob.glob("out/**/*.json", recursive=True)
+          assert files, "no result JSON returned from Kaggle"
+          result = json.loads(pathlib.Path(files[0]).read_text())
+          schema = json.loads(pathlib.Path("data/schema/benchmark.schema.json").read_text())
+          jsonschema.validate(result, schema)
+          dest = pathlib.Path("data/benchmarks") / pathlib.Path(files[0]).name
+          dest.write_text(json.dumps(result, indent=2))
+          print("✓ staged", dest, "| gpu:", result["gpu"]["name"], "| tps:", result["metrics"]["gen_tps"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with: { name: gpu-result, path: data/benchmarks/*.json, if-no-files-found: ignore }
+
+  cpu-fallback:
+    needs: pick-model
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Benchmark a small model on the runner CPU (guaranteed weekly datapoint)
+        env:
+          FITLAB_ENV: actions
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python scripts/bench_gguf.py --model qwen3:0.6b --out data/benchmarks --source ci-actions-cpu --reps 3
+      - uses: actions/upload-artifact@v4
+        with: { name: cpu-result, path: data/benchmarks/*.json }
+
+  plugs-compat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install this week's LATEST stack (deliberately unpinned — latest IS the test)
+        run: |
+          pip install --upgrade pip
+          pip install ollabridge langgraph langchain langchain-openai crewai langflow \
+                      langfuse deepagents "agent-matrix-lab" \
+                      torch --index-url https://download.pytorch.org/whl/cpu || true
+          pip install transformers openai huggingface_hub fastapi pydantic numpy pandas httpx requests pyyaml
+          pip freeze > this-week-pins.txt
+      - name: Run end-to-end probes (framework → OllaBridge → Ollama → qwen3:0.6b)
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python scripts/compat_probe.py --report data/compat_report.json
+        continue-on-error: true              # red cells are data, not build failures
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compat-report
+          path: |
+            data/compat_report.json
+            this-week-pins.txt
+
+  commit-results:
+    needs: [gpu-kaggle, cpu-fallback, plugs-compat]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: incoming, merge-multiple: true }
+      - name: Merge artifacts and rebuild registry
+        run: |
+          pip install pyyaml
+          cp incoming/*.json data/benchmarks/ 2>/dev/null || true
+          [ -f incoming/compat_report.json ] && cp incoming/compat_report.json data/compat_report.json || true
+          python scripts/sync_hf.py || true   # rebuild ranks with fresh measurements; HF-down tolerated
+      - name: Open results PR (automation never pushes to main)
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: bot/weekly-benchmark
+          title: "bench: weekly results — ${{ needs.pick-model.outputs.model || 'rotation' }}"
+          commit-message: "bench: weekly GPU/CPU results + compat report"
+          body: |
+            Automated weekly run. GPU lane: Kaggle T4 16 GB (Colab-free class). CPU lane: Actions runner.
+            PLUGS: latest-version stack probed end-to-end. Review the diff in `data/` and merge.
+          labels: bot, benchmark
+          delete-branch: true

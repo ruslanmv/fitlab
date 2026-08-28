@@ -1,0 +1,3 @@
+# maintainer tooling (the PLUGS stack under test is installed unpinned by CI on purpose)
+pyyaml>=6.0
+jsonschema>=4.21

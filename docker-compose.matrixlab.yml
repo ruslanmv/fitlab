@@ -1,0 +1,16 @@
+# Optional maintainer lane: run the PLUGS probes inside MatrixLab's Docker sandbox
+# (agent-matrix/matrixlab) instead of directly on the host.
+#   docker compose -f docker-compose.matrixlab.yml up -d
+#   pip install agent-matrix-lab
+#   matrixlab-sandbox run --workspace . --image python --cmd "pip install -r requirements.txt && python scripts/compat_probe.py"
+services:
+  matrixlab:
+    image: ruslanmv/matrixlab-runner:latest
+    restart: unless-stopped
+    ports: ["8765:8000"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/matrixlab/jobs:/var/lib/matrixlab/jobs
+    environment:
+      MATRIXLAB_LOCAL_JOBS_DIR: /var/lib/matrixlab/jobs
+      MATRIXLAB_HOST_JOBS_DIR: /var/lib/matrixlab/jobs

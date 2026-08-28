@@ -1,0 +1,21 @@
+name: Benchmark submission
+description: Submit a FitLab benchmark result (auto-validated, auto-merged, you get credit)
+title: "[bench] <model> on <gpu>"
+labels: [benchmark-submission]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Paste the JSON printed by `scripts/bench_gguf.py` or the last cell of the Colab notebook — unmodified.
+        CI validates it against the schema and physical sanity bounds, then opens a PR crediting you.
+  - type: textarea
+    id: result
+    attributes:
+      label: Result JSON
+      description: One fenced json block, exactly as produced by the tool.
+      value: |
+        ```json
+        { }
+        ```
+    validations:
+      required: true

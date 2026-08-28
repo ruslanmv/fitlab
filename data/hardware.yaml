@@ -1,0 +1,85 @@
+# GPU profiles = the rows of the compatibility matrix.
+# `reference: true` marks the two GPUs every Top-10 is ranked against.
+# Capability flags are consumed by scripts/estimate_vram.py and the site.
+schema_version: "1.0"
+gpus:
+  - id: rtx3060-12
+    name: "NVIDIA RTX 3060 12GB"
+    reference: true            # the canonical low-end local card
+    vram_gb: 12.0
+    bandwidth_gbs: 360
+    arch: ampere
+    sm: "8.6"
+    flags: { bf16: true, flash_attn2: true, marlin: true }
+    notes: "Cheapest 12 GB ticket; the page's 'local low-end' baseline."
+
+  - id: t4-16
+    name: "NVIDIA T4 16GB (Colab free / Kaggle)"
+    reference: true            # the canonical free-cloud GPU
+    vram_gb: 15.0              # ~15.0 GB usable of 16 on Colab/Kaggle
+    bandwidth_gbs: 320
+    arch: turing
+    sm: "7.5"
+    flags: { bf16: false, flash_attn2: false, marlin: false }
+    notes: "No bfloat16 → force float16 on HF loads. No FlashAttention-2. Identical GPU on Colab free and Kaggle."
+
+  - id: rtx4070-12
+    name: "NVIDIA RTX 4070 12GB"
+    vram_gb: 12.0
+    bandwidth_gbs: 504
+    arch: ada
+    sm: "8.9"
+    flags: { bf16: true, flash_attn2: true, marlin: true }
+
+  - id: rtx4060ti-16
+    name: "NVIDIA RTX 4060 Ti 16GB"
+    vram_gb: 16.0
+    bandwidth_gbs: 288
+    arch: ada
+    sm: "8.9"
+    flags: { bf16: true, flash_attn2: true, marlin: true }
+    notes: "More VRAM than a 3060 but lower bandwidth — slower on 7-8B, wins on 14B+."
+
+  - id: p100-16
+    name: "NVIDIA P100 16GB (Kaggle alt)"
+    vram_gb: 16.0
+    bandwidth_gbs: 732
+    arch: pascal
+    sm: "6.0"
+    flags: { bf16: false, flash_attn2: false, marlin: false, tensor_cores: false }
+    notes: "Kaggle sometimes assigns P100 instead of T4; results labeled separately."
+
+  - id: l4-24
+    name: "NVIDIA L4 24GB (Colab paid ref)"
+    vram_gb: 22.5
+    bandwidth_gbs: 300
+    arch: ada
+    sm: "8.9"
+    flags: { bf16: true, flash_attn2: true, marlin: true }
+
+  - id: apple-m-16
+    name: "Apple Silicon 16GB unified"
+    vram_gb: 11.0              # ~2/3 of unified memory usable for GPU by default
+    bandwidth_gbs: 120
+    arch: apple
+    sm: "n/a"
+    flags: { bf16: true, flash_attn2: false, marlin: false, metal: true }
+    notes: "Community-submitted results only; Ollama Metal backend."
+
+  - id: cpu-only
+    name: "CPU only (any)"
+    vram_gb: 0
+    bandwidth_gbs: 50
+    arch: cpu
+    sm: "n/a"
+    flags: {}
+    notes: "CI fallback lane; relative tok/s signal, labeled cpu."
+
+# Default assumptions for FITS verdicts
+fit_defaults:
+  context_tokens: 8192
+  kv_cache_dtype_bytes: 2      # fp16 KV; Ollama q8_0 KV would be 1
+  runtime_overhead_gb: 0.9     # CUDA context + compute buffers, conservative
+  weights_overhead: 1.03       # GGUF metadata / fragmentation
+  tight_threshold: 0.92        # fits if est <= vram*0.92, tight if <= vram
+  offload_threshold: 1.6       # partial-offload viable if est <= vram*1.6

@@ -1,0 +1,83 @@
+# The viral loop: anyone runs the Colab notebook or bench_gguf.py, opens the prefilled issue,
+# CI validates the JSON (schema + physical sanity bounds) and merges it via PR with credit.
+# Submissions are DATA ONLY — parsed, never executed.
+name: community-submission
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  ingest:
+    if: contains(github.event.issue.labels.*.name, 'benchmark-submission')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install jsonschema pyyaml
+      - name: Extract, validate, sanity-check
+        id: validate
+        env:
+          BODY: ${{ github.event.issue.body }}
+          SUBMITTER: ${{ github.event.issue.user.login }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib, re, sys, jsonschema, yaml
+          body, submitter = os.environ["BODY"], os.environ["SUBMITTER"]
+          m = re.search(r"```json\s*(\{.*?\})\s*```", body, re.S)
+          assert m, "no ```json block found in issue body"
+          r = json.loads(m.group(1))
+          schema = json.loads(pathlib.Path("data/schema/benchmark.schema.json").read_text())
+          jsonschema.validate(r, schema)
+
+          # physical sanity bounds (anti-troll, anti-typo)
+          hw = yaml.safe_load(pathlib.Path("data/hardware.yaml").read_text())
+          gpus = {g["id"]: g for g in hw["gpus"]}
+          g = gpus.get(r["gpu"].get("profile_id") or "")
+          tps, vram = r["metrics"]["gen_tps"], r["metrics"].get("peak_vram_gb", 0)
+          assert 0.05 <= tps <= 400, f"gen_tps {tps} outside plausible range"
+          if g and g["vram_gb"]:
+              assert vram <= g["vram_gb"] * 1.05, f"peak VRAM {vram} exceeds {g['name']}"
+          assert r["provenance"]["source"] in ("community-colab", "community-local"), "wrong source"
+          r["provenance"]["submitter"] = submitter          # trust the platform, not the payload
+
+          dest = pathlib.Path("data/benchmarks") / \
+                 f"{r['run']['date']}_{r['model_id']}_{r['gpu'].get('profile_id') or 'community'}_{submitter}.json"
+          dest.write_text(json.dumps(r, indent=2))
+          print(f"file={dest}", file=open(os.environ["GITHUB_OUTPUT"], "a"))
+          print("✓", dest)
+          PY
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: community/${{ github.event.issue.number }}
+          title: "bench(community): ${{ github.event.issue.title }}"
+          commit-message: "bench(community): result from @${{ github.event.issue.user.login }} (#${{ github.event.issue.number }})"
+          body: "Validated community benchmark from #${{ github.event.issue.number }}. Merging adds @${{ github.event.issue.user.login }} to the contributors wall."
+          labels: community, benchmark
+          delete-branch: true
+      - name: Thank the contributor
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "✅ Your result passed schema + sanity validation — a PR is open. Once merged, your GPU and handle appear on the FitLab page. Thanks for feeding the sensor network! 🛰️"
+            });
+      - name: Explain a rejected submission
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "❌ Validation failed — check that the issue contains one ```json``` block produced unmodified by `bench_gguf.py` / the Colab notebook. Details in the [action log](" + context.serverUrl + "/" + context.repo.owner + "/" + context.repo.repo + "/actions/runs/" + context.runId + ")."
+            });

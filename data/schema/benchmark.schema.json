@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/OWNER/llm-fitlab/data/schema/benchmark.schema.json",
+  "title": "FitLab benchmark result",
+  "type": "object",
+  "required": ["schema_version", "model_id", "runtime", "gpu", "quant", "metrics", "run", "provenance"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "model_id": { "type": "string", "description": "registry slug, e.g. qwen3-8b" },
+    "ollama_tag": { "type": "string" },
+    "runtime": {
+      "type": "object",
+      "required": ["engine", "version"],
+      "properties": {
+        "engine": { "type": "string", "enum": ["ollama", "llama.cpp", "vllm", "transformers"] },
+        "version": { "type": "string" }
+      }
+    },
+    "gpu": {
+      "type": "object",
+      "required": ["name", "vram_gb"],
+      "properties": {
+        "name": { "type": "string", "description": "as reported by nvidia-smi, or 'cpu'" },
+        "vram_gb": { "type": "number" },
+        "driver": { "type": "string" },
+        "cuda": { "type": "string" },
+        "profile_id": { "type": ["string", "null"], "description": "matching data/hardware.yaml id if known" }
+      }
+    },
+    "quant": { "type": "string", "description": "e.g. Q4_K_M, MXFP4, F16" },
+    "context": { "type": "integer", "default": 4096 },
+    "metrics": {
+      "type": "object",
+      "required": ["gen_tps"],
+      "properties": {
+        "load_s": { "type": "number" },
+        "ttft_ms": { "type": "number", "description": "time to first token (prompt eval)" },
+        "prompt_tps": { "type": "number" },
+        "gen_tps": { "type": "number", "description": "generation tokens/sec, median of runs" },
+        "gen_tps_runs": { "type": "array", "items": { "type": "number" } },
+        "peak_vram_gb": { "type": "number" },
+        "output_tokens": { "type": "integer" }
+      }
+    },
+    "run": {
+      "type": "object",
+      "required": ["date", "prompt_id", "repetitions"],
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "prompt_id": { "type": "string", "description": "fixed prompt from scripts/prompts.py so runs are comparable" },
+        "repetitions": { "type": "integer", "minimum": 1 },
+        "duration_s": { "type": "number" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["source"],
+      "properties": {
+        "source": { "type": "string", "enum": ["ci-kaggle", "ci-actions-cpu", "community-colab", "community-local", "maintainer"] },
+        "submitter": { "type": "string", "description": "GitHub handle for community results" },
+        "environment": { "type": "string", "description": "e.g. colab-free, kaggle, local" },
+        "run_url": { "type": "string" }
+      }
+    }
+  }
+}

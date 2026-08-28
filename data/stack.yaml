@@ -1,0 +1,114 @@
+# The PLUGS lane: components re-verified weekly at their LATEST released version.
+# discovery: how CI finds "latest" (pypi | github_release | ollama).
+# probe: which test in scripts/compat_probe.py exercises it.
+schema_version: "1.0"
+components:
+  # ---- runtime layer ----
+  - id: ollama
+    name: Ollama
+    discovery: github_release          # ollama/ollama
+    repo: ollama/ollama
+    probe: ollama_serve                # install, serve, /api/version, pull tiny model, generate
+    role: runtime
+
+  - id: ollabridge
+    name: OllaBridge
+    discovery: pypi
+    package: ollabridge
+    repo: ruslanmv/ollabridge
+    probe: ollabridge_gateway          # start gateway, GET /v1/models, chat.completions via openai SDK
+    role: gateway
+    notes: "OpenAI-compatible endpoint at :11435/v1; the hub every framework probe routes through."
+
+  - id: homepilot
+    name: HomePilot
+    discovery: github_release
+    repo: ruslanmv/HomePilot
+    probe: requirements_resolve        # pip-resolve backend/requirements.txt against this week's stack (no GPU services in CI)
+    role: application
+    notes: "Full stack needs Docker+GPU; CI verifies dependency resolvability + Ollama tag availability of its recommended models."
+
+  - id: gitpilot
+    name: GitPilot
+    discovery: github_release
+    repo: ruslanmv/gitpilot
+    probe: requirements_resolve
+    role: application
+
+  - id: matrixlab
+    name: MatrixLab
+    discovery: pypi
+    package: agent-matrix-lab
+    repo: agent-matrix/matrixlab
+    probe: import_only                 # import matrixlab; CLI --version. Full sandbox path is the maintainer docker-compose lane.
+    role: sandbox
+
+  - id: daypilot
+    name: DayPilot
+    discovery: pypi
+    package: daypilot                  # TODO(owner): confirm the intended package/repo; slot kept configurable
+    probe: import_only
+    role: application
+    enabled: false
+
+  # ---- agent-framework layer (probed end-to-end through OllaBridge) ----
+  - id: langgraph
+    name: LangGraph
+    discovery: pypi
+    package: langgraph
+    extras: [langchain-openai]
+    probe: agent_via_gateway
+    role: framework
+
+  - id: langchain
+    name: LangChain
+    discovery: pypi
+    package: langchain
+    extras: [langchain-openai]
+    probe: agent_via_gateway
+    role: framework
+
+  - id: crewai
+    name: CrewAI
+    discovery: pypi
+    package: crewai
+    probe: agent_via_gateway
+    role: framework
+
+  - id: langflow
+    name: Langflow
+    discovery: pypi
+    package: langflow
+    probe: import_only                 # heavy app; import + version is the weekly signal, full flow test monthly
+    role: framework
+
+  - id: langfuse
+    name: Langfuse
+    discovery: pypi
+    package: langfuse
+    probe: tracing_decorator           # @observe around a gateway call; verifies SDK works with the chain (no server needed)
+    role: observability
+
+  - id: deepagents
+    name: DeepAgents
+    discovery: pypi
+    package: deepagents
+    probe: agent_via_gateway
+    role: framework
+
+  # ---- top-10 PyPI baseline (must co-install cleanly with everything above) ----
+  - { id: torch,           name: PyTorch,         discovery: pypi, package: torch,           probe: import_only, role: baseline }
+  - { id: transformers,    name: Transformers,    discovery: pypi, package: transformers,    probe: import_only, role: baseline }
+  - { id: openai,          name: openai (SDK),    discovery: pypi, package: openai,          probe: import_only, role: baseline }
+  - { id: huggingface-hub, name: huggingface_hub, discovery: pypi, package: huggingface_hub, probe: import_only, role: baseline }
+  - { id: fastapi,         name: FastAPI,         discovery: pypi, package: fastapi,         probe: import_only, role: baseline }
+  - { id: pydantic,        name: Pydantic,        discovery: pypi, package: pydantic,        probe: import_only, role: baseline }
+  - { id: numpy,           name: NumPy,           discovery: pypi, package: numpy,           probe: import_only, role: baseline }
+  - { id: pandas,          name: pandas,          discovery: pypi, package: pandas,          probe: import_only, role: baseline }
+  - { id: httpx,           name: HTTPX,           discovery: pypi, package: httpx,           probe: import_only, role: baseline }
+  - { id: requests,        name: Requests,        discovery: pypi, package: requests,        probe: import_only, role: baseline }
+
+# The tiny model used for real end-to-end probes on CPU runners (~0.6 GB at Q4)
+probe_model:
+  ollama_tag: "qwen3:0.6b"
+  fallback: "smollm2:360m"

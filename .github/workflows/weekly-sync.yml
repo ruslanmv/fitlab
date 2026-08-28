@@ -1,0 +1,53 @@
+# Weekly Hugging Face registry refresh → review PR. If HF is down, the last-good registry stands.
+name: weekly-sync
+
+on:
+  schedule:
+    - cron: "41 4 * * 3"          # Wednesdays 04:41 UTC (mid-week, after Monday's benchmark lands)
+  workflow_dispatch:
+
+concurrency:
+  group: weekly-sync
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install pyyaml jsonschema
+      - name: Pull top models per HF pipeline tag, run FITS filter, rebuild registry
+        run: python scripts/sync_hf.py
+          cp data/registry.json src/fitlab/data/seed_registry.json
+      - name: Validate every registry entry against the schema
+        run: |
+          python - <<'PY'
+          import json, pathlib, jsonschema
+          reg = json.loads(pathlib.Path("data/registry.json").read_text())
+          schema = json.loads(pathlib.Path("data/schema/model.schema.json").read_text())
+          bad = 0
+          for mid, m in reg["models"].items():
+              try:
+                  jsonschema.validate(m, schema)
+              except jsonschema.ValidationError as e:
+                  bad += 1; print(f"::warning::{mid}: {e.message}")
+          assert bad == 0, f"{bad} invalid entries"
+          print(f"✓ {len(reg['models'])} entries valid")
+          PY
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: bot/weekly-sync
+          title: "data: weekly Hugging Face registry sync"
+          commit-message: "data: weekly HF sync (auto)"
+          body: |
+            Weekly registry refresh from the Hugging Face API.
+            Review checklist: new entries plausible? any surprising `stale` markings? rank shifts explained by the score components?
+          labels: bot, registry
+          delete-branch: true

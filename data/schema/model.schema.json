@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/OWNER/llm-fitlab/data/schema/model.schema.json",
+  "title": "FitLab model registry entry",
+  "type": "object",
+  "required": ["schema_version", "id", "hf_id", "category", "params_b", "arch", "status"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$", "description": "stable slug, e.g. qwen3-14b" },
+    "hf_id": { "type": "string", "description": "Hugging Face repo id, e.g. Qwen/Qwen3-14B" },
+    "ollama_tag": { "type": ["string", "null"], "description": "e.g. qwen3:14b; null if not on Ollama library" },
+    "category": {
+      "type": "string",
+      "enum": ["text-generation", "image-text-to-text", "automatic-speech-recognition", "text-to-speech", "sentence-similarity", "text-to-image"]
+    },
+    "params_b": { "type": "number", "exclusiveMinimum": 0, "description": "total parameters, billions" },
+    "active_params_b": { "type": ["number", "null"], "description": "active params for MoE; null = dense" },
+    "arch": {
+      "type": "object",
+      "required": ["n_layers", "n_kv_heads", "head_dim"],
+      "properties": {
+        "n_layers": { "type": "integer", "minimum": 1 },
+        "n_kv_heads": { "type": "integer", "minimum": 1 },
+        "head_dim": { "type": "integer", "minimum": 16 },
+        "hidden_size": { "type": "integer" },
+        "max_context": { "type": "integer" }
+      }
+    },
+    "license": { "type": "string" },
+    "capabilities": { "type": "array", "items": { "type": "string" }, "description": "e.g. tools, vision, reasoning, coding, multilingual" },
+    "status": { "type": "string", "enum": ["seed", "auto", "verified", "stale"] },
+    "hf_stats": {
+      "type": "object",
+      "properties": {
+        "downloads_30d": { "type": "integer" },
+        "likes": { "type": "integer" },
+        "trending_score": { "type": "number" },
+        "fetched_at": { "type": "string", "format": "date" }
+      }
+    },
+    "fits": {
+      "type": "object",
+      "description": "per-GPU verdicts computed by estimate_vram.py, keyed by gpu id then quant",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "required": ["verdict", "est_vram_gb", "source"],
+          "properties": {
+            "verdict": { "type": "string", "enum": ["fits", "tight", "offload", "no"] },
+            "est_vram_gb": { "type": "number" },
+            "context": { "type": "integer" },
+            "source": { "type": "string", "enum": ["estimated", "measured"] }
+          }
+        }
+      }
+    },
+    "plugs": {
+      "type": "object",
+      "description": "component id -> last verified result",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["ok", "component_version", "checked_at"],
+        "properties": {
+          "ok": { "type": "boolean" },
+          "component_version": { "type": "string" },
+          "checked_at": { "type": "string", "format": "date" },
+          "run_url": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "notes": { "type": "string" }
+  }
+}

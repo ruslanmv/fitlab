@@ -1,0 +1,56 @@
+# Build on PRs that touch the package; publish to PyPI on GitHub release.
+# Publishing uses PyPI Trusted Publishing (OIDC) — add this repo as a trusted
+# publisher for the `fitlab` project on pypi.org (workflow: publish-pypi.yml,
+# environment: pypi). No API token needed.
+name: publish-pypi
+
+on:
+  release:
+    types: [published]
+  pull_request:
+    paths: ["src/**", "pyproject.toml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Keep bundled seed registry fresh
+        run: cp data/registry.json src/fitlab/data/seed_registry.json
+      - name: Build sdist + wheel
+        run: pipx run build
+      - name: Check metadata
+        run: pipx run twine check dist/*
+      - name: Smoke test the wheel
+        run: |
+          pip install dist/*.whl
+          fitlab --version
+          fitlab check --gpu rtx3060-12 --limit 5
+          fitlab bench --model qwen3:0.6b --dry-run
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/fitlab
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
