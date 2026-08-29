@@ -19,7 +19,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 import sys; sys.path.insert(0, str(ROOT / "scripts"))
-from estimate_vram import estimate, BPW                                    # noqa: E402
+from estimate_vram import estimate                                          # noqa: E402
 
 HF = "https://huggingface.co/api"
 RANKING_VERSION = "1.1"

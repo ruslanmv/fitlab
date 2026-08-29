@@ -1,3 +1,7 @@
-# maintainer tooling (the PLUGS stack under test is installed unpinned by CI on purpose)
+# Dependencies are declared in pyproject.toml. Prefer:
+#   make install          (uv-managed .venv with everything)
+#   pip install -e ".[dev]"
+# This file is kept so existing `pip install -r requirements.txt` flows keep working,
+# and mirrors the `maintainer` extra. The PLUGS stack under test stays unpinned on purpose.
 pyyaml>=6.0
 jsonschema>=4.21
