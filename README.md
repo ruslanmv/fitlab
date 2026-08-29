@@ -79,11 +79,19 @@ FitLab is published to PyPI from tagged GitHub releases via
 pip install fitlab
 ```
 
-Until the first release lands on PyPI, install from source:
+Until the first release lands on PyPI, install from source. The Makefile bootstraps
+[uv](https://docs.astral.sh/uv/), creates `./.venv` and installs everything:
 
 ```bash
 git clone https://github.com/ruslanmv/fitlab && cd fitlab
-pip install .
+make install
+make run
+```
+
+Or without make, using any tool that reads `pyproject.toml`:
+
+```bash
+pip install .                     # or: uv sync
 fitlab --version
 ```
 
@@ -296,21 +304,61 @@ unavailable the CPU lane still lands a datapoint.
 
 ## Development
 
+The repository is driven by a Makefile backed by [uv](https://docs.astral.sh/uv/). From a clean
+clone, two commands give you a working environment and a running CLI — uv is bootstrapped
+automatically if it is not already installed:
+
 ```bash
 git clone https://github.com/ruslanmv/fitlab && cd fitlab
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt      # maintainer tooling
-pip install -e .                     # the fitlab CLI, editable
+make install          # creates ./.venv and installs fitlab + all tooling
+make run              # launches the fit-check wizard
 ```
 
-Run each engine directly:
+`make run` depends on `make install`, so `make run` alone is enough on a fresh clone. Run
+`make help` to list every target.
+
+| Target | What it does |
+|---|---|
+| `make install` | Create `./.venv` and install the package plus the `dev` extra (`uv sync --extra dev`) |
+| `make run` | Launch the interactive wizard |
+| `make detect` / `make check` / `make bench` / `make update` | The corresponding `fitlab` subcommands |
+| `make registry` | Rebuild `data/registry.json` from Hugging Face (FITS + sync) |
+| `make estimate` | Full FITS verdict matrix across seed models × reference GPUs × quantizations |
+| `make probe` | Run the PLUGS end-to-end stack probes |
+| `make validate` | Schema-validate every document in `data/` |
+| `make lint` / `make format` | Ruff check / safe auto-fix |
+| `make smoke` | Exercise the CLI end to end without downloading a model |
+| `make test` | `lint` + `validate` + `smoke` |
+| `make build` | Build sdist and wheel into `dist/`, then `twine check` them |
+| `make site` | Serve the static site on `http://127.0.0.1:8000` |
+| `make clean` / `make distclean` | Remove artifacts / also remove `./.venv` |
+
+Targets accept overrides on the command line:
+
+```bash
+make check GPU=t4-16 CATEGORY=colab-free LIMIT=5
+make bench MODEL=qwen3:14b REPS=5
+```
+
+Available variables: `GPU`, `QUANT`, `CTX`, `CATEGORY`, `LIMIT`, `MODEL`, `REPS`, `OUT`.
+
+In a checkout, the Makefile points `FITLAB_REGISTRY_URL` at the repository's own
+`data/registry.json`, so every target reads the registry you are editing and works offline.
+Override it to exercise a remote fetch:
+
+```bash
+make run FITLAB_REGISTRY_URL=https://example.com/fitlab/registry.json
+```
+
+Dependency groups live in `pyproject.toml`: the `maintainer` extra carries what the `scripts/`
+engines need (`pyyaml`, `jsonschema`), and `dev` adds `ruff`, `build` and `twine` on top. `uv.lock`
+is committed, so `make install` resolves to identical versions on every machine.
+
+The engines can also be invoked directly, without make:
 
 ```bash
 # FITS — verdict for one model on one GPU
 python scripts/estimate_vram.py --model Qwen/Qwen3-14B --gpu rtx3060-12 --quant Q4_K_M
-
-# FITS — full verdict matrix across seed models × reference GPUs × quantizations
-python scripts/estimate_vram.py --all
 
 # Registry refresh from Hugging Face (writes data/registry.json locally)
 python scripts/sync_hf.py
@@ -320,10 +368,15 @@ python scripts/bench_gguf.py --model qwen3:8b --out data/benchmarks/
 
 # PLUGS — end-to-end stack probes (CPU is sufficient)
 python scripts/compat_probe.py --report data/compat_report.json
+
+# Schema validation
+python scripts/validate_data.py
 ```
 
-`compat_probe.py` exits with the number of failed non-baseline components, so CI fails honestly
-rather than reporting a green matrix built on skipped probes.
+`compat_probe.py` and `validate_data.py` both exit with the number of failures, so CI fails
+honestly rather than reporting a green matrix built on skipped probes.
+
+There is no unit-test suite yet; `make test` runs linting, schema validation and a CLI smoke test.
 
 The published site is static and reads `data/*.json` directly; serve `site/` through GitHub Pages
 or any static host.

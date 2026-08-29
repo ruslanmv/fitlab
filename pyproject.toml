@@ -7,7 +7,7 @@ name = "fitlab"
 version = "0.1.0"
 description = "Will it run on my setup? Fit-check + benchmark wizard for local LLMs on your GPU — weekly-updated model registry."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
 authors = [{ name = "Ruslan Magana Vsevolodovna" }]
 keywords = ["llm", "ollama", "benchmark", "vram", "gpu", "local-ai", "colab"]
@@ -17,16 +17,50 @@ classifiers = [
   "Intended Audience :: Developers",
   "License :: OSI Approved :: Apache Software License",
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = ["rich>=13"]
 
+[project.optional-dependencies]
+# Maintainer tooling: the FITS/RUNS/PLUGS scripts under scripts/ and data validation.
+# The PLUGS stack under test is deliberately NOT pinned here — CI installs it unpinned
+# at its latest release, because testing the latest is the product.
+maintainer = [
+  "pyyaml>=6.0",
+  "jsonschema>=4.21",
+]
+dev = [
+  "fitlab[maintainer]",
+  "ruff>=0.6",
+  "build>=1.2",
+  "twine>=5.1",
+]
+
 [project.urls]
-Homepage = "https://github.com/OWNER/llm-fitlab"
-"Live radar" = "https://OWNER.github.io/llm-fitlab/"
+Homepage = "https://github.com/ruslanmv/fitlab"
+Source = "https://github.com/ruslanmv/fitlab"
+Issues = "https://github.com/ruslanmv/fitlab/issues"
 
 [project.scripts]
 fitlab = "fitlab.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/fitlab"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/fitlab", "README.md", "LICENSE"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+src = ["src", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+# The scripts deliberately use compact grouped imports and one-line statements;
+# linting is here to catch real defects (unused names, undefined refs), not restyle them.
+ignore = ["E401", "E402", "E501", "E702", "E731"]

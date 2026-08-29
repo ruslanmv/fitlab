@@ -1,5 +1,15 @@
+# Environments and caches
 .venv/
 __pycache__/
+.ruff_cache/
+*.egg-info/
+
+# Build output
+build/
+dist/
+
+# Local run output
+fitlab-results/
 kernel/
 out/
 results/

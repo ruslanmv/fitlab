@@ -1,6 +1,5 @@
 """Detect the user's GPU (NVIDIA / Apple Silicon / CPU) and map it to a FitLab profile."""
 import platform
-import re
 import subprocess
 
 
