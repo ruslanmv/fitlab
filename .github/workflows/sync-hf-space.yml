@@ -39,6 +39,24 @@ jobs:
             exit 1
           fi
 
+      - name: Validate Space metadata
+        run: |
+          set -euo pipefail
+          SHORT_DESC=$(sed -n 's/^short_description:[[:space:]]*//p' huggingface-space/README.md | head -n 1)
+          SHORT_DESC=${SHORT_DESC#\"}
+          SHORT_DESC=${SHORT_DESC%\"}
+          SHORT_DESC=${SHORT_DESC#\'}
+          SHORT_DESC=${SHORT_DESC%\'}
+          if [ -z "$SHORT_DESC" ]; then
+            echo "::error::Missing short_description in huggingface-space/README.md"
+            exit 1
+          fi
+          if [ "${#SHORT_DESC}" -gt 60 ]; then
+            echo "::error::Hugging Face short_description must be 60 characters or fewer (got ${#SHORT_DESC})."
+            exit 1
+          fi
+          echo "Space metadata OK: short_description is ${#SHORT_DESC}/60 characters."
+
       - name: Build static Space deploy tree
         run: |
           set -euo pipefail
