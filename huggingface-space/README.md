@@ -9,7 +9,7 @@ fullWidth: true
 header: mini
 pinned: false
 license: apache-2.0
-short_description: Ollama LLM fit, runtime and software compatibility leaderboard
+short_description: Ollama model fit, runtime and compatibility leaderboard
 ---
 
 # LLM FitLab Leaderboard
