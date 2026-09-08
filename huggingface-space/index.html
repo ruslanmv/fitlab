@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM FitLab — Ollama Leaderboard</title>
+<meta name="description" content="Compare Ollama-ready LLMs by hardware fit, runtime benchmarks, software use cases, pros, constraints and evaluation coverage.">
+<meta name="theme-color" content="#07100b">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#06100b;--bg2:#0a1710;--panel:#0d1d14;--panel2:#11261a;
+  --line:#244332;--line2:#315942;--text:#ecf8f0;--muted:#9ab3a3;--dim:#678071;
+  --green:#59e391;--green2:#31b86d;--amber:#f7c65d;--orange:#f59f5b;--red:#ff7e7e;
+  --blue:#75a7ff;--cyan:#66d9d1;--shadow:0 22px 70px rgba(0,0,0,.35);
+  --radius:18px;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:
+  radial-gradient(900px 480px at 80% -100px,rgba(89,227,145,.12),transparent 65%),
+  radial-gradient(760px 380px at 0 20%,rgba(102,217,209,.05),transparent 70%),
+  var(--bg);color:var(--text);font-family:var(--sans);line-height:1.45
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.shell{max-width:1500px;margin:auto;padding:0 28px}
+.top{
+  position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(49,89,66,.7);
+  background:rgba(6,16,11,.83);backdrop-filter:blur(16px)
+}
+.top .shell{display:flex;align-items:center;gap:18px;min-height:66px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.02em}
+.brandmark{width:34px;height:34px;border-radius:11px;border:1px solid var(--line2);display:grid;place-items:center;background:#0b1c12;box-shadow:inset 0 0 24px rgba(89,227,145,.08)}
+.brandmark:before{content:"∑";font-family:var(--mono);color:var(--green);font-weight:900}
+.brand small{display:block;color:var(--muted);font:600 10px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.toplinks{margin-left:auto;display:flex;gap:10px;align-items:center}
+.linkbtn,.ghostbtn{border:1px solid var(--line);border-radius:10px;padding:8px 11px;background:#0a1710;color:var(--muted);text-decoration:none;font:600 12px var(--mono)}
+.linkbtn:hover,.ghostbtn:hover{color:var(--text);border-color:var(--line2)}
+.status{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font:600 11px var(--mono)}
+.status i{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px currentColor}
+.status.ok i{background:var(--green)}
+.hero{padding:70px 0 30px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);gap:36px;align-items:end}
+.kicker{font:700 12px var(--mono);color:var(--green);text-transform:uppercase;letter-spacing:.12em}
+h1{font-size:clamp(42px,6vw,78px);line-height:.96;letter-spacing:-.055em;margin:12px 0 18px;max-width:12ch}
+.hero p{font-size:18px;color:var(--muted);max-width:800px;margin:0}
+.hero strong{color:var(--text)}
+.hero-card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(89,227,145,.04),transparent),var(--panel);padding:22px;box-shadow:var(--shadow)}
+.hero-card h3{margin:0 0 10px;font-size:15px}
+.hero-card p{font-size:13px}
+.formula{font:600 12px var(--mono);color:var(--muted);padding:13px;border:1px solid var(--line);background:#08140d;border-radius:12px;margin-top:15px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:8px 0 22px}
+.stat{border:1px solid var(--line);border-radius:14px;padding:16px;background:rgba(13,29,20,.72)}
+.stat b{display:block;font-size:28px;letter-spacing:-.035em}
+.stat span{font:600 10px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.09em}
+.toolbar{
+  position:sticky;top:66px;z-index:15;display:grid;grid-template-columns:1.2fr repeat(3,minmax(120px,.45fr)) auto;
+  gap:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(13,29,20,.92);backdrop-filter:blur(14px);box-shadow:0 12px 45px rgba(0,0,0,.24)
+}
+.control{min-width:0}
+.control label{display:block;font:700 9px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.09em;margin:0 0 5px 2px}
+.control input,.control select{
+  width:100%;border:1px solid var(--line);border-radius:10px;background:#07130d;color:var(--text);padding:10px 11px;outline:none
+}
+.control input:focus,.control select:focus{border-color:var(--green2);box-shadow:0 0 0 3px rgba(89,227,145,.08)}
+.toggles{display:flex;gap:8px;align-items:end;padding-bottom:1px}
+.toggle{display:flex;align-items:center;gap:7px;white-space:nowrap;border:1px solid var(--line);background:#07130d;border-radius:10px;padding:10px;color:var(--muted);font:600 11px var(--mono)}
+.toggle input{accent-color:var(--green)}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:42px 0 14px}
+.section-head h2{margin:0;font-size:25px;letter-spacing:-.025em}
+.section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.result-count{font:600 11px var(--mono);color:var(--dim)}
+.tablewrap{border:1px solid var(--line);border-radius:18px;overflow:auto;background:var(--panel);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:1260px}
+th{position:sticky;top:0;background:#0b1911;color:var(--dim);font:700 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);z-index:2}
+td{padding:14px 12px;border-bottom:1px solid rgba(36,67,50,.72);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(89,227,145,.025)}
+.rank{font:800 14px var(--mono);color:var(--dim)}
+.model a{font-weight:750;text-decoration:none;display:block;max-width:285px;overflow-wrap:anywhere}
+.model a:hover{color:var(--green)}
+.meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.tag{border:1px solid var(--line);border-radius:999px;padding:2px 6px;color:var(--muted);font:600 9px var(--mono)}
+.score b{font:800 17px var(--mono)}
+.score span{display:block;font:600 9px var(--mono);color:var(--dim)}
+.fit{min-width:180px}
+.fit-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.badge{display:inline-flex;align-items:center;border-radius:999px;border:1px solid;padding:3px 7px;font:800 9px var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.fits{color:var(--green);border-color:rgba(89,227,145,.55);background:rgba(89,227,145,.07)}
+.tight{color:var(--amber);border-color:rgba(247,198,93,.5);background:rgba(247,198,93,.07)}
+.offload{color:var(--orange);border-color:rgba(245,159,91,.5);background:rgba(245,159,91,.07)}
+.no{color:var(--red);border-color:rgba(255,126,126,.55);background:rgba(255,126,126,.07)}
+.membar{height:7px;background:#07130d;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin:8px 0 5px}
+.membar i{display:block;height:100%;background:linear-gradient(90deg,var(--green2),var(--green));border-radius:99px}
+.membar i.over{background:linear-gradient(90deg,var(--orange),var(--red))}
+.micro{color:var(--dim);font:600 9px var(--mono)}
+.speed b{display:block;font:800 15px var(--mono)}
+.speed .measured{color:var(--green)}
+.profile{max-width:230px}
+.profile b{font-size:12px}
+.profile p,.trade p{margin:5px 0 0;color:var(--muted);font-size:11px;line-height:1.4}
+.trade{max-width:260px}
+.trade strong{color:var(--green);font-size:10px}
+.trade .limit strong{color:var(--amber)}
+.command{display:flex;flex-direction:column;gap:7px}
+.command code{font:600 10px var(--mono);color:var(--muted);white-space:nowrap}
+.copy,.compare{border:1px solid var(--line);border-radius:9px;background:#08150e;color:var(--muted);padding:7px 9px;font:700 10px var(--mono)}
+.copy:hover,.compare:hover,.compare.on{border-color:var(--green2);color:var(--text)}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.panes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:38px 0}
+.pane{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:20px}
+.pane h3{margin:0 0 7px;font-size:17px}
+.pane p{margin:0;color:var(--muted);font-size:13px}
+.coverage{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.cover{border:1px solid var(--line);border-radius:12px;background:#08150e;padding:13px}
+.cover b{display:block;font-size:12px}
+.cover span{color:var(--dim);font:600 10px var(--mono)}
+.compat{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.compat .c{display:flex;gap:6px;align-items:center;border:1px solid var(--line);padding:7px 9px;border-radius:999px;font:600 10px var(--mono);color:var(--muted)}
+.compat .c i{width:7px;height:7px;border-radius:50%;background:var(--dim)}
+.compat .c.ok i{background:var(--green)}
+.compat .c.bad i{background:var(--red)}
+.comparebar{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:20px;z-index:30;width:min(900px,calc(100% - 32px));
+  display:none;align-items:center;gap:10px;border:1px solid var(--line2);background:rgba(8,20,13,.96);backdrop-filter:blur(16px);
+  border-radius:16px;padding:12px 14px;box-shadow:var(--shadow)
+}
+.comparebar.show{display:flex}
+.comparebar .items{display:flex;gap:7px;flex:1;min-width:0;overflow:auto}
+.comparebar .chip{border:1px solid var(--line);border-radius:999px;padding:7px 9px;white-space:nowrap;font:700 10px var(--mono);color:var(--muted)}
+.comparebar button.primary{border:0;border-radius:10px;background:var(--green);color:#06100b;padding:10px 13px;font-weight:800}
+dialog{width:min(1000px,94vw);border:1px solid var(--line2);border-radius:18px;background:#09150e;color:var(--text);padding:0;box-shadow:var(--shadow)}
+dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(4px)}
+.dialog-head{display:flex;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+.dialog-head h3{margin:0}
+.dialog-head button{margin-left:auto;border:1px solid var(--line);border-radius:9px;background:#08140d;color:var(--muted);padding:7px 10px}
+.comparegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+.comparecard{background:#09150e;padding:20px}
+.comparecard h4{margin:0 0 10px;overflow-wrap:anywhere}
+.comparecard dl{display:grid;grid-template-columns:1fr auto;gap:8px 12px;margin:0}
+.comparecard dt{color:var(--muted);font-size:12px}
+.comparecard dd{margin:0;font:700 11px var(--mono)}
+footer{padding:35px 0 80px;color:var(--dim);font-size:12px}
+footer .shell{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:1050px){
+  .hero{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}
+  .toolbar{grid-template-columns:1fr 1fr 1fr}.toggles{grid-column:1/-1}
+  .panes{grid-template-columns:1fr}.comparegrid{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .shell{padding:0 16px}.toplinks .linkbtn{display:none}.hero{padding-top:45px}
+  .stats{grid-template-columns:1fr 1fr}.toolbar{position:static;grid-template-columns:1fr 1fr}
+  .control.search{grid-column:1/-1}.coverage{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="shell">
+    <div class="brand"><span class="brandmark"></span><span>LLM FitLab<small>Ollama runtime leaderboard</small></span></div>
+    <div class="toplinks">
+      <span id="dataStatus" class="status"><i></i><span>loading registry</span></span>
+      <a class="linkbtn" href="https://github.com/ruslanmv/fitlab" target="_blank" rel="noopener">GitHub</a>
+      <a class="linkbtn" href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>
+    </div>
+  </div>
+</header>
+
+<main class="shell">
+  <section class="hero">
+    <div>
+      <div class="kicker">Fit • Run • Integrate • Know the limits</div>
+      <h1>The practical Ollama model leaderboard.</h1>
+      <p>Choose a rig and compare supported LLMs by <strong>VRAM fit</strong>, <strong>runtime speed</strong>, Ollama availability, software use case, strengths and limitations. Measured results are marked explicitly; everything else stays labeled as an estimate.</p>
+    </div>
+    <aside class="hero-card">
+      <h3>What the FitLab score means</h3>
+      <p>This is a deployment-readiness score, not an intelligence benchmark. It combines hardware fit, model-capability proxy, Hugging Face momentum, speed, and current stack compatibility.</p>
+      <div class="formula">30% fit + 30% capability + 25% HF momentum + 10% speed + 5% plugs</div>
+    </aside>
+  </section>
+
+  <div class="stats">
+    <div class="stat"><b id="statModels">—</b><span>registry models</span></div>
+    <div class="stat"><b id="statOllama">—</b><span>Ollama ready</span></div>
+    <div class="stat"><b id="statMeasured">—</b><span>measured pairs</span></div>
+    <div class="stat"><b id="statUpdated">—</b><span>registry updated</span></div>
+  </div>
+
+  <section class="toolbar" aria-label="Leaderboard controls">
+    <div class="control search"><label for="search">Search</label><input id="search" placeholder="model, capability, license…"></div>
+    <div class="control"><label for="gpu">Hardware</label><select id="gpu"></select></div>
+    <div class="control"><label for="quant">Quant</label><select id="quant"><option>Q4_K_M</option><option>Q8_0</option></select></div>
+    <div class="control"><label for="ctx">Context</label><select id="ctx"><option value="4096">4K</option><option value="8192" selected>8K</option><option value="16384">16K</option><option value="32768">32K</option></select></div>
+    <div class="toggles">
+      <label class="toggle"><input id="ollamaOnly" type="checkbox" checked> Ollama only</label>
+      <label class="toggle"><input id="measuredOnly" type="checkbox"> measured only</label>
+    </div>
+  </section>
+
+  <div class="section-head">
+    <div><h2>Leaderboard</h2><p>Ranked by the registry score; runtime values recompute for your selected rig.</p></div>
+    <div id="resultCount" class="result-count"></div>
+  </div>
+
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th>#</th><th>Model</th><th>FitLab score</th><th>Your fit</th><th>Runtime</th>
+        <th>Software profile</th><th>Pros / limits</th><th>Ollama</th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div id="empty" class="empty" hidden>No models match these filters.</div>
+  </div>
+
+  <section class="panes">
+    <div class="pane">
+      <h3>Evaluation coverage</h3>
+      <p>FitLab currently evaluates deployment behavior and software compatibility. It does <strong>not</strong> yet publish task-quality scores such as coding pass rate, MMLU-style accuracy, hallucination rate, or long-context retrieval accuracy. The UI keeps that gap visible instead of presenting estimated runtime data as model quality.</p>
+      <div class="coverage">
+        <div class="cover"><b>Hardware fit</b><span>LIVE CALCULATION</span></div>
+        <div class="cover"><b>Runtime speed</b><span>MEASURED + ESTIMATED</span></div>
+        <div class="cover"><b>Task quality</b><span>NOT YET COLLECTED</span></div>
+      </div>
+    </div>
+    <div class="pane">
+      <h3>Software compatibility</h3>
+      <p>Weekly PLUGS probes verify the latest agent stack end-to-end. A green status means that component passed the recorded weekly probe, not that every feature of every model is guaranteed.</p>
+      <div id="compat" class="compat"></div>
+    </div>
+  </section>
+</main>
+
+<div id="comparebar" class="comparebar">
+  <div id="compareItems" class="items"></div>
+  <button id="openCompare" class="primary">Compare</button>
+  <button id="clearCompare" class="ghostbtn">Clear</button>
+</div>
+
+<dialog id="compareDialog">
+  <div class="dialog-head"><h3>Model comparison</h3><button id="closeCompare">Close</button></div>
+  <div id="compareGrid" class="comparegrid"></div>
+</dialog>
+
+<footer>
+  <div class="shell">
+    <span>LLM FitLab · runtime evidence over marketing claims</span>
+    <span id="footData">Registry source: loading…</span>
+  </div>
+</footer>
+
+<script>
+const DATA_SOURCES=["./registry.json","https://raw.githubusercontent.com/ruslanmv/fitlab/master/site/registry.json"];
+const BPW={Q4_K_M:4.85,Q8_0:8.5};
+const DEF={weights_overhead:1.03,kv_bytes:2,runtime_overhead:0.9,tight:0.92,offload:1.6};
+const GPUS=[
+ {id:"rtx3060-12",name:"RTX 3060 · 12 GB",vram:12,bw:360},
+ {id:"t4-16",name:"T4 · 15 GB usable",vram:15,bw:320},
+ {id:"rtx4070-12",name:"RTX 4070 · 12 GB",vram:12,bw:504},
+ {id:"rtx4060ti-16",name:"RTX 4060 Ti · 16 GB",vram:16,bw:288},
+ {id:"apple-m-16",name:"Apple M-series · 16 GB unified",vram:11,bw:120}
+];
+const FALLBACK={
+ generated_at:"fallback",
+ ranking_version:"1.1",
+ categories:{
+   "local-12gb":{title:"Local 12 GB",top:[
+     {id:"qwen3-8b",score:.5765},{id:"granite-33-8b",score:.5760},
+     {id:"llama-31-8b",score:.5753},{id:"qwen3-14b",score:.5220}
+   ]}
+ },
+ models:{
+  "qwen3-8b":{hf_id:"Qwen/Qwen3-8B",ollama_tag:"qwen3:8b",params_b:8.2,arch:{n_layers:36,n_kv_heads:8,head_dim:128},capabilities:["reasoning","tools","multilingual"],license:"apache-2.0"},
+  "granite-33-8b":{hf_id:"ibm-granite/granite-3.3-8b-instruct",ollama_tag:"granite3.3:8b",params_b:8.1,arch:{n_layers:40,n_kv_heads:8,head_dim:128},capabilities:["tools","enterprise"],license:"apache-2.0"},
+  "llama-31-8b":{hf_id:"meta-llama/Llama-3.1-8B-Instruct",ollama_tag:"llama3.1:8b",params_b:8,arch:{n_layers:32,n_kv_heads:8,head_dim:128},capabilities:["tools","multilingual"],license:"llama3.1"},
+  "qwen3-14b":{hf_id:"Qwen/Qwen3-14B",ollama_tag:"qwen3:14b",params_b:14.8,arch:{n_layers:40,n_kv_heads:8,head_dim:128},capabilities:["reasoning","tools","coding"],license:"apache-2.0"}
+ },
+ benchmarks_latest:{},compat:{}
+};
+
+let REG=FALLBACK, dataSource="embedded fallback", selected=new Set();
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const fmt=n=>Number.isFinite(n)?(n>=10?n.toFixed(1):n.toFixed(2)):"—";
+
+function fit(m,q,ctx,g){
+  if(!m.arch||!m.params_b)return null;
+  const bpw=BPW[q];
+  const w=m.params_b*bpw/8*DEF.weights_overhead;
+  const kv=2*m.arch.n_layers*m.arch.n_kv_heads*m.arch.head_dim*ctx*DEF.kv_bytes/1e9;
+  const est=w+kv+DEF.runtime_overhead;
+  let verdict="no";
+  if(est<=g.vram*DEF.tight)verdict="fits";
+  else if(est<=g.vram)verdict="tight";
+  else if(est<=g.vram*DEF.offload)verdict="offload";
+  const act=m.active_params_b||m.params_b;
+  const tps=Math.round(g.bw*1e9/(act*1e9*bpw/8+kv*1e9/ctx*64)*.62*10)/10;
+  return{w,kv,est,verdict,tps};
+}
+function measuredFor(id,gpu){return (REG.benchmarks_latest||{})[`${id}|${gpu.id}`]||null}
+
+function modelProfile(m,f){
+  const caps=new Set(m.capabilities||[]);
+  let title="General local assistant", why="Good default for chat, summarization and local workflows.";
+  if(caps.has("coding")){title="Coding & developer workflows";why="Best aligned to code generation, refactoring and repository assistance."}
+  else if(caps.has("vision")||caps.has("ocr")){title="Vision / document workflows";why="Useful where prompts include images, OCR or visual understanding."}
+  else if(caps.has("reasoning")){title="Reasoning-heavy workflows";why="Suited to planning, analysis and multi-step tasks where latency is acceptable."}
+  else if(caps.has("tools")){title="Agents & tool calling";why="Strong fit for OpenAI-compatible agent frameworks and structured tool workflows."}
+  else if((m.params_b||99)<=4){title="Lightweight local automation";why="Small footprint favors background utilities, routing and low-cost local tasks."}
+  return{title,why};
+}
+function trades(m,f){
+  const caps=new Set(m.capabilities||[]), pros=[], limits=[];
+  if(m.ollama_tag)pros.push("Ollama-ready");
+  if(caps.has("tools"))pros.push("tool-use metadata");
+  if(caps.has("coding"))pros.push("coding-oriented");
+  if(caps.has("vision"))pros.push("vision capable");
+  if(caps.has("reasoning"))pros.push("reasoning-oriented");
+  if((m.params_b||99)<=8)pros.push("moderate footprint");
+  if(["apache-2.0","mit"].includes(String(m.license||"").toLowerCase()))pros.push("permissive license");
+  if(!m.ollama_tag)limits.push("no registry Ollama tag");
+  if((m.params_b||0)>12)limits.push("heavier memory demand");
+  if(caps.has("reasoning"))limits.push("reasoning can increase latency");
+  if(caps.has("vision"))limits.push("requires multimodal client path");
+  if(f?.verdict==="offload")limits.push("GPU offload required on this rig");
+  if(f?.verdict==="no")limits.push("does not fit selected budget");
+  if(m.license&&!["apache-2.0","mit"].includes(String(m.license).toLowerCase()))limits.push("review model license terms");
+  return{pros:pros.slice(0,3),limits:limits.slice(0,3)}
+}
+function flattenRanks(){
+  const seen=new Map();
+  for(const [cid,cat] of Object.entries(REG.categories||{})){
+    for(const [idx,t] of (cat.top||[]).entries()){
+      const prev=seen.get(t.id);
+      if(!prev||t.score>prev.score)seen.set(t.id,{id:t.id,score:t.score,rank:idx+1,category:cid});
+    }
+  }
+  for(const id of Object.keys(REG.models||{}))if(!seen.has(id))seen.set(id,{id,score:0,rank:999,category:"registry"});
+  return [...seen.values()].sort((a,b)=>b.score-a.score||a.rank-b.rank);
+}
+function runtimeLabel(id,m,f,g){
+  const meas=measuredFor(id,g);
+  if(meas)return{value:meas.gen_tps,label:"tok/s measured",cls:"measured",detail:`${meas.date||""} · ${meas.source||"benchmark"}`};
+  return{value:f?.verdict==="no"?null:f?.tps,label:f?.verdict==="no"?"no fit":"tok/s estimated",cls:"",detail:"memory-bandwidth model"};
+}
+function renderStats(){
+  const models=Object.values(REG.models||{});
+  $("statModels").textContent=models.length;
+  $("statOllama").textContent=models.filter(m=>m.ollama_tag).length;
+  $("statMeasured").textContent=Object.keys(REG.benchmarks_latest||{}).length;
+  $("statUpdated").textContent=REG.generated_at||"—";
+}
+function renderCompat(){
+  const host=$("compat"), compat=REG.compat||{};
+  host.innerHTML="";
+  const names={ollama:"Ollama",ollabridge:"OllaBridge",homepilot:"HomePilot",gitpilot:"GitPilot",matrixlab:"MatrixLab",langgraph:"LangGraph",langchain:"LangChain",crewai:"CrewAI",langflow:"Langflow",langfuse:"Langfuse",deepagents:"DeepAgents"};
+  const ids=Object.keys(compat).length?Object.keys(compat):Object.keys(names);
+  for(const id of ids){
+    const r=compat[id], d=document.createElement("span");
+    d.className="c "+(r?(r.ok?"ok":"bad"):"");
+    d.innerHTML=`<i></i>${esc(names[id]||id)}${r?.component_version?` · ${esc(r.component_version)}`:""}`;
+    host.appendChild(d);
+  }
+}
+function currentGpu(){return GPUS.find(g=>g.id===$("gpu").value)||GPUS[0]}
+function renderRows(){
+  const q=$("quant").value,ctx=+$("ctx").value,g=currentGpu(),needle=$("search").value.trim().toLowerCase();
+  const ollamaOnly=$("ollamaOnly").checked, measuredOnly=$("measuredOnly").checked;
+  const ranked=flattenRanks(), out=[];
+  for(const r of ranked){
+    const m=REG.models[r.id]; if(!m||!m.arch)continue;
+    const hay=[m.hf_id,m.ollama_tag,m.license,...(m.capabilities||[])].join(" ").toLowerCase();
+    if(needle&&!hay.includes(needle))continue;
+    if(ollamaOnly&&!m.ollama_tag)continue;
+    if(measuredOnly&&!measuredFor(r.id,g))continue;
+    out.push({r,m,f:fit(m,q,ctx,g)});
+  }
+  $("resultCount").textContent=`${out.length} models · ${g.name} · ${q} · ${ctx/1024}K`;
+  $("empty").hidden=!!out.length;
+  const host=$("rows");host.innerHTML="";
+  out.forEach(({r,m,f},idx)=>{
+    const speed=runtimeLabel(r.id,m,f,g), profile=modelProfile(m,f), trd=trades(m,f);
+    const pct=Math.min((f.est/g.vram)*100,100), over=f.est>g.vram;
+    const caps=(m.capabilities||[]).slice(0,3).map(c=>`<span class="tag">${esc(c)}</span>`).join("");
+    const pro=trd.pros.join(" · ")||"metadata limited", lim=trd.limits.join(" · ")||"no major registry constraint";
+    const cmd=m.ollama_tag?`ollama run ${m.ollama_tag}`:"not listed in Ollama registry";
+    const measured=measuredFor(r.id,g);
+    const row=document.createElement("tr");
+    row.innerHTML=`
+      <td><span class="rank">${String(idx+1).padStart(2,"0")}</span></td>
+      <td class="model">
+        <a href="https://huggingface.co/${esc(m.hf_id)}" target="_blank" rel="noopener">${esc(m.hf_id)}</a>
+        <div class="meta"><span class="tag">${esc(m.params_b)}B</span>${m.license?`<span class="tag">${esc(m.license)}</span>`:""}${caps}</div>
+      </td>
+      <td class="score"><b>${r.score?Math.round(r.score*1000)/10:"—"}</b><span>${r.score?"fitlab / 100":"unranked registry model"}</span></td>
+      <td class="fit">
+        <div class="fit-top"><span class="badge ${f.verdict}">${f.verdict}</span><span class="micro">${fmt(f.est)} / ${g.vram} GB</span></div>
+        <div class="membar"><i class="${over?"over":""}" style="width:${pct}%"></i></div>
+        <div class="micro">weights ${fmt(f.w)} · KV ${fmt(f.kv)} · runtime ${DEF.runtime_overhead} GB</div>
+      </td>
+      <td class="speed"><b class="${speed.cls}">${speed.value==null?"—":fmt(speed.value)}</b><span class="micro">${esc(speed.label)}</span><div class="micro">${esc(speed.detail)}</div></td>
+      <td class="profile"><b>${esc(profile.title)}</b><p>${esc(profile.why)}</p></td>
+      <td class="trade"><p><strong>PROS</strong> ${esc(pro)}</p><p class="limit"><strong>LIMITS</strong> ${esc(lim)}</p><p class="micro">quality eval: not collected</p></td>
+      <td class="command"><code>${esc(cmd)}</code>
+        ${m.ollama_tag?`<button class="copy" data-copy="${esc(cmd)}">Copy command</button>`:""}
+        <button class="compare ${selected.has(r.id)?"on":""}" data-compare="${esc(r.id)}">${selected.has(r.id)?"Selected":"Compare"}</button>
+      </td>`;
+    host.appendChild(row);
+  });
+  host.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{
+    await navigator.clipboard.writeText(b.dataset.copy);const old=b.textContent;b.textContent="Copied ✓";setTimeout(()=>b.textContent=old,1100)
+  });
+  host.querySelectorAll("[data-compare]").forEach(b=>b.onclick=()=>toggleCompare(b.dataset.compare));
+}
+function toggleCompare(id){
+  if(selected.has(id))selected.delete(id);
+  else if(selected.size<3)selected.add(id);
+  renderRows();renderCompareBar();
+}
+function renderCompareBar(){
+  const bar=$("comparebar"),items=$("compareItems");items.innerHTML="";
+  for(const id of selected){
+    const m=REG.models[id],s=document.createElement("span");s.className="chip";s.textContent=m?.hf_id?.split("/").pop()||id;items.appendChild(s)
+  }
+  bar.classList.toggle("show",selected.size>0);
+  $("openCompare").disabled=selected.size<2;
+  $("openCompare").textContent=selected.size<2?"Select 2–3":"Compare";
+}
+function openCompare(){
+  if(selected.size<2)return;
+  const g=currentGpu(),q=$("quant").value,ctx=+$("ctx").value,grid=$("compareGrid");grid.innerHTML="";
+  for(const id of selected){
+    const m=REG.models[id],f=fit(m,q,ctx,g),s=runtimeLabel(id,m,f,g),p=modelProfile(m,f),t=trades(m,f);
+    const card=document.createElement("article");card.className="comparecard";
+    card.innerHTML=`<h4>${esc(m.hf_id)}</h4><dl>
+      <dt>Ollama</dt><dd>${esc(m.ollama_tag||"not listed")}</dd>
+      <dt>Parameters</dt><dd>${esc(m.params_b)}B</dd>
+      <dt>Selected fit</dt><dd>${esc(f.verdict)} · ${fmt(f.est)} GB</dd>
+      <dt>Runtime</dt><dd>${s.value==null?"—":fmt(s.value)} ${esc(s.label)}</dd>
+      <dt>Best profile</dt><dd>${esc(p.title)}</dd>
+      <dt>Pros</dt><dd>${esc(t.pros.join(", ")||"—")}</dd>
+      <dt>Limits</dt><dd>${esc(t.limits.join(", ")||"—")}</dd>
+      <dt>Quality eval</dt><dd>not collected</dd>
+    </dl>`;
+    grid.appendChild(card)
+  }
+  $("compareDialog").showModal();
+}
+async function loadRegistry(){
+  for(const url of DATA_SOURCES){
+    try{
+      const res=await fetch(url,{cache:"no-store"});if(!res.ok)throw new Error(res.status);
+      const j=await res.json();if(!j.models||!Object.keys(j.models).length)throw new Error("empty registry");
+      REG=j;dataSource=url;return true
+    }catch(e){}
+  }
+  return false
+}
+function setup(){
+  $("gpu").innerHTML=GPUS.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join("");
+  $("gpu").value="rtx3060-12";
+  ["search","gpu","quant","ctx","ollamaOnly","measuredOnly"].forEach(id=>$(id).addEventListener(id==="search"?"input":"change",renderRows));
+  $("openCompare").onclick=openCompare;
+  $("clearCompare").onclick=()=>{selected.clear();renderRows();renderCompareBar()};
+  $("closeCompare").onclick=()=>$("compareDialog").close();
+}
+async function boot(){
+  setup();
+  const live=await loadRegistry();
+  $("dataStatus").classList.toggle("ok",live);
+  $("dataStatus").querySelector("span").textContent=live?`registry ${REG.generated_at||"live"}`:"fallback data";
+  $("footData").textContent=`Registry source: ${dataSource}`;
+  renderStats();renderCompat();renderRows();renderCompareBar();
+}
+boot();
+</script>
+</body>
+</html>
