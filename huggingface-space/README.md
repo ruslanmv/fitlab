@@ -14,23 +14,33 @@ short_description: Ollama model fit, runtime and compatibility leaderboard
 
 # LLM FitLab Leaderboard
 
-Premium static leaderboard for the FitLab registry.
+Pick a GPU, see which Ollama models fit, how fast they run, and how to launch
+them with **Ollama**, **OllaBridge** or **HomePilot**.
 
-It compares Ollama-supported and Hugging Face models by:
+| Column | Meaning |
+| --- | --- |
+| Score | Deployment readiness — `30% fit + 30% capability + 25% HF momentum + 10% speed + 5% stack` |
+| Fit | Live VRAM estimate for the selected rig, quant and context |
+| Speed | Measured tok/s where a benchmark exists, otherwise a labelled estimate |
+| Stack | `OL` Ollama · `OB` OllaBridge · `HP` HomePilot |
 
-- FitLab rank and ranking score
-- estimated VRAM fit for a selected rig / quantization / context
-- measured runtime speed when a matching benchmark exists
-- clearly labeled estimated speed otherwise
-- Ollama availability and one-click run commands
-- software-oriented use profiles, strengths, and limitations
-- agent-stack compatibility from the weekly PLUGS probe
-- evaluation coverage, including an explicit warning that task-quality benchmarks are not yet part of the registry
+Task-quality scores (MMLU, pass@1, hallucination rate) are **not** collected —
+the page says so rather than dressing runtime numbers up as model quality.
 
-The app tries `./registry.json` first and falls back to the public registry on GitHub. This makes it easy to deploy either as a standalone Hugging Face Space or together with a copied registry snapshot.
+Filters, sort and rig selection are stored in the URL, so any view is shareable.
+
+## Data
+
+The page loads `./registry.json` and falls back to
+[`site/registry.json`](https://github.com/ruslanmv/fitlab/blob/master/site/registry.json)
+on GitHub. The registry is refreshed weekly by the `weekly-sync` workflow and
+redeployed here by `sync-hf-space`.
 
 ## Deploy
 
-Create a Hugging Face **Static** Space and copy this directory to the Space repository root. No server-side compute is required.
+Copy this directory plus `site/registry.json` (as `registry.json`) into a
+Hugging Face **Static** Space. No server-side compute required.
 
-For a fully self-contained snapshot, also copy `site/registry.json` from the FitLab repository to `registry.json` in the Space root.
+> Deploys commit on top of the Space's existing history. Re-initialising the
+> repo on each push makes the Hub treat the Space as newly created and re-show
+> its "Get started with your new Static Space!" onboarding card to the owner.

@@ -38,7 +38,7 @@ REPS     ?= 3
 OUT      ?= fitlab-results
 
 .PHONY: help uv install dev run wizard detect check bench update \
-        registry estimate probe validate lint format smoke test build site clean distclean
+        registry catalog estimate probe validate lint format smoke test build site clean distclean
 
 help: ## Show this help
 	@awk 'BEGIN { FS = ":.*##" } \
@@ -91,6 +91,9 @@ update: install ## Force-refresh the model registry, bypassing the 24h cache
 
 registry: install ## FITS + HF sync: rebuild data/registry.json
 	@$(PY) scripts/sync_hf.py
+
+catalog: install ## Refresh data/ollama_catalog.json from the Ollama library
+	@$(PY) scripts/ollama_catalog.py
 
 estimate: install ## FITS verdict matrix across seed models x reference GPUs x quants
 	@$(PY) scripts/estimate_vram.py --all

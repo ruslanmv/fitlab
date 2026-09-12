@@ -7,6 +7,10 @@ on:
       - "huggingface-space/**"
       - "site/registry.json"
       - ".github/workflows/sync-hf-space.yml"
+  schedule:
+    # Thursdays 06:20 UTC — after weekly-sync lands, so the Space always serves
+    # the current registry even when no source file changed.
+    - cron: "20 6 * * 4"
   workflow_dispatch: {}
 
 permissions:
@@ -16,9 +20,11 @@ concurrency:
   group: hf-space-sync-fitlab
   cancel-in-progress: false
 
+# Repository secrets win so a fork or a renamed Space needs no workflow edit; the
+# literals are the fallback for a checkout that has neither set.
 env:
-  HF_USERNAME: ruslanmv
-  SPACE_NAME: fitlab
+  HF_USERNAME: ${{ secrets.HF_USERNAME || 'ruslanmv' }}
+  SPACE_NAME: ${{ secrets.SPACE_NAME || 'fitlab' }}
 
 jobs:
   sync-to-hub:
@@ -43,10 +49,8 @@ jobs:
         run: |
           set -euo pipefail
           SHORT_DESC=$(sed -n 's/^short_description:[[:space:]]*//p' huggingface-space/README.md | head -n 1)
-          SHORT_DESC=${SHORT_DESC#\"}
-          SHORT_DESC=${SHORT_DESC%\"}
-          SHORT_DESC=${SHORT_DESC#\'}
-          SHORT_DESC=${SHORT_DESC%\'}
+          SHORT_DESC=${SHORT_DESC#\"}; SHORT_DESC=${SHORT_DESC%\"}
+          SHORT_DESC=${SHORT_DESC#\'}; SHORT_DESC=${SHORT_DESC%\'}
           if [ -z "$SHORT_DESC" ]; then
             echo "::error::Missing short_description in huggingface-space/README.md"
             exit 1
@@ -55,45 +59,84 @@ jobs:
             echo "::error::Hugging Face short_description must be 60 characters or fewer (got ${#SHORT_DESC})."
             exit 1
           fi
+          if ! grep -q '<title>' huggingface-space/index.html; then
+            echo "::error::huggingface-space/index.html has no <title> — refusing to deploy a broken page."
+            exit 1
+          fi
           echo "Space metadata OK: short_description is ${#SHORT_DESC}/60 characters."
 
-      - name: Build static Space deploy tree
-        run: |
-          set -euo pipefail
-          DEPLOY_DIR="$RUNNER_TEMP/hf-space"
-          rm -rf "$DEPLOY_DIR"
-          mkdir -p "$DEPLOY_DIR"
-
-          # Static Space metadata + premium leaderboard app.
-          cp huggingface-space/README.md "$DEPLOY_DIR/README.md"
-          cp huggingface-space/index.html "$DEPLOY_DIR/index.html"
-
-          # Ship the current registry snapshot so the Space is self-contained.
-          cp site/registry.json "$DEPLOY_DIR/registry.json"
-
-          echo "Deploy tree:"
-          find "$DEPLOY_DIR" -maxdepth 1 -type f -printf '%f\n' | sort
-
-      - name: Push static leaderboard to Hugging Face Space
+      # The Space repo is cloned and committed on top of its existing history.
+      # Re-initialising it (git init + push --force) makes every deploy look like
+      # a brand-new repository, which is what makes Hugging Face re-display the
+      # "Get started with your new Static Space!" onboarding card to the owner
+      # after every sync. Preserving history keeps that card dismissed for good
+      # and gives the Space a real, reviewable deploy log.
+      - name: Clone the existing Space
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           set -euo pipefail
-          DEPLOY_DIR="$RUNNER_TEMP/hf-space"
-          REMOTE_URL="https://${HF_USERNAME}:${HF_TOKEN}@huggingface.co/spaces/${HF_USERNAME}/${SPACE_NAME}"
+          WORK="$RUNNER_TEMP/space"
+          rm -rf "$WORK"
+          if ! git clone --quiet "https://${HF_USERNAME}:${HF_TOKEN}@huggingface.co/spaces/${HF_USERNAME}/${SPACE_NAME}" "$WORK"; then
+            echo "::error::Could not clone https://huggingface.co/spaces/${HF_USERNAME}/${SPACE_NAME} — check the Space exists and HF_TOKEN has write access."
+            exit 1
+          fi
+          echo "Cloned Space with $(git -C "$WORK" rev-list --count HEAD 2>/dev/null || echo 0) existing commit(s)."
 
-          cd "$DEPLOY_DIR"
-          git init -b main
+      - name: Stage the static leaderboard
+        run: |
+          set -euo pipefail
+          WORK="$RUNNER_TEMP/space"
+
+          # Drop previously deployed files (but never the git metadata) so removals propagate.
+          find "$WORK" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+
+          cp huggingface-space/README.md "$WORK/README.md"
+          cp huggingface-space/index.html "$WORK/index.html"
+          # Ship the current registry snapshot so the Space is self-contained.
+          cp site/registry.json "$WORK/registry.json"
+
+          echo "Deploy tree:"
+          find "$WORK" -mindepth 1 -maxdepth 1 ! -name .git -printf '  %f\n' | sort
+
+      - name: Commit and push
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          set -euo pipefail
+          WORK="$RUNNER_TEMP/space"
+          cd "$WORK"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Deploy FitLab leaderboard from ${GITHUB_SHA::8}"
-
-          echo "Pushing static leaderboard → https://huggingface.co/spaces/${HF_USERNAME}/${SPACE_NAME}"
-          git push --force "$REMOTE_URL" main
+          if git diff --cached --quiet; then
+            echo "Space already matches ${GITHUB_SHA::8} — nothing to deploy."
+            echo "NOOP=1" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          git commit -q -m "Deploy FitLab leaderboard from ${GITHUB_SHA::8}"
+          for attempt in 1 2 3 4; do
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "push failed (attempt $attempt) — refreshing and retrying"
+            git pull --rebase origin main || true
+            sleep $((2 ** attempt))
+          done
+          echo "::error::Could not push to the Hugging Face Space after 4 attempts."
+          exit 1
 
       - name: Deployment summary
         run: |
-          echo "### ✅ Hugging Face Space synced" >> "$GITHUB_STEP_SUMMARY"
-          echo "Target: https://huggingface.co/spaces/${HF_USERNAME}/${SPACE_NAME}" >> "$GITHUB_STEP_SUMMARY"
-          echo "Source: \`huggingface-space/\` + \`site/registry.json\`" >> "$GITHUB_STEP_SUMMARY"
+          {
+            if [ "${NOOP:-0}" = "1" ]; then
+              echo "### ⏭️ Hugging Face Space already up to date"
+            else
+              echo "### ✅ Hugging Face Space synced"
+            fi
+            echo ""
+            echo "- Target: https://huggingface.co/spaces/${HF_USERNAME}/${SPACE_NAME}"
+            echo "- Source: \`huggingface-space/\` + \`site/registry.json\`"
+            echo "- History preserved (no force push)."
+          } >> "$GITHUB_STEP_SUMMARY"

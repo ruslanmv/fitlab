@@ -3,478 +3,720 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LLM FitLab — Ollama Leaderboard</title>
-<meta name="description" content="Compare Ollama-ready LLMs by hardware fit, runtime benchmarks, software use cases, pros, constraints and evaluation coverage.">
+<title>LLM FitLab — Ollama model leaderboard</title>
+<meta name="description" content="Pick your GPU and see which Ollama models fit, how fast they run, and how to launch them with Ollama, OllaBridge or HomePilot.">
+<meta name="color-scheme" content="dark light">
 <meta name="theme-color" content="#07100b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230c1512'/%3E%3Ctext x='16' y='23' font-family='monospace' font-size='20' font-weight='700' fill='%234ade80' text-anchor='middle'%3E%E2%88%91%3C/text%3E%3C/svg%3E">
 <style>
 :root{
-  color-scheme:dark;
-  --bg:#06100b;--bg2:#0a1710;--panel:#0d1d14;--panel2:#11261a;
-  --line:#244332;--line2:#315942;--text:#ecf8f0;--muted:#9ab3a3;--dim:#678071;
-  --green:#59e391;--green2:#31b86d;--amber:#f7c65d;--orange:#f59f5b;--red:#ff7e7e;
-  --blue:#75a7ff;--cyan:#66d9d1;--shadow:0 22px 70px rgba(0,0,0,.35);
-  --radius:18px;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
-  --sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --bg:#070d0a; --surface:#0c1512; --surface2:#101b16; --raised:#16241d;
+  --line:#1e2f27; --line2:#2b4437;
+  --text:#e8f1ec; --muted:#93a99e; --dim:#6b8377;
+  --accent:#4ade80; --accent2:#22a35c; --accent-soft:rgba(74,222,128,.10);
+  --ok:#4ade80; --warn:#fbbf24; --alert:#fb923c; --bad:#f87171; --info:#7dd3fc;
+  --r:10px; --r-lg:14px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 28px rgba(0,0,0,.22);
+}
+@media (prefers-color-scheme:light){
+  :root{
+    --bg:#f6f8f7; --surface:#fff; --surface2:#fafcfb; --raised:#f0f4f2;
+    --line:#e0e7e3; --line2:#c9d6cf;
+    --text:#0f1a15; --muted:#5d6f66; --dim:#7d8f86;
+    --accent:#15803d; --accent2:#166534; --accent-soft:rgba(21,128,61,.08);
+    --ok:#15803d; --warn:#b45309; --alert:#c2410c; --bad:#b91c1c; --info:#0369a1;
+    --shadow:0 1px 2px rgba(16,32,24,.06),0 8px 24px rgba(16,32,24,.06);
+  }
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{
-  margin:0;background:
-  radial-gradient(900px 480px at 80% -100px,rgba(89,227,145,.12),transparent 65%),
-  radial-gradient(760px 380px at 0 20%,rgba(102,217,209,.05),transparent 70%),
-  var(--bg);color:var(--text);font-family:var(--sans);line-height:1.45
+  margin:0;background:var(--bg);color:var(--text);
+  font:400 14px/1.5 var(--sans);
+  -webkit-font-smoothing:antialiased;
 }
-button,input,select{font:inherit}
+button,input,select{font:inherit;color:inherit}
 button{cursor:pointer}
 a{color:inherit}
-.shell{max-width:1500px;margin:auto;padding:0 28px}
-.top{
-  position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(49,89,66,.7);
-  background:rgba(6,16,11,.83);backdrop-filter:blur(16px)
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.shell{max-width:1360px;margin:0 auto;padding:0 24px}
+
+/* ---------- top bar ---------- */
+.top{position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .shell{display:flex;align-items:center;gap:16px;height:56px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.01em}
+.mark{width:26px;height:26px;border-radius:8px;border:1px solid var(--line2);display:grid;place-items:center;background:var(--surface);font:700 13px var(--mono);color:var(--accent)}
+.top nav{margin-left:auto;display:flex;align-items:center;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 11px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font:500 12px var(--mono);text-decoration:none;white-space:nowrap}
+.pill:hover{color:var(--text);border-color:var(--line2)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--warn)}
+.pill.live .dot{background:var(--ok)}
+.pill.stale .dot{background:var(--warn)}
+
+/* ---------- page head ---------- */
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap;padding:34px 0 20px}
+h1{margin:0;font-size:26px;line-height:1.2;letter-spacing:-.02em;font-weight:650}
+.head p{margin:6px 0 0;color:var(--muted);font-size:14px;max-width:56ch}
+.stats{display:flex;gap:26px;margin:0}
+.stats div{min-width:74px}
+.stats dt{font:500 10px/1 var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.07em}
+.stats dd{margin:6px 0 0;font:600 19px/1 var(--mono);letter-spacing:-.02em}
+
+/* ---------- filters ---------- */
+.filters{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);padding:12px;box-shadow:var(--shadow)}
+.frow{display:grid;grid-template-columns:minmax(200px,1.6fr) repeat(4,minmax(112px,.8fr)) auto;gap:8px;align-items:end}
+.field{min-width:0}
+.field label{display:block;font:500 10px/1 var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin:0 0 6px 1px}
+.field input,.field select{width:100%;height:36px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface2);padding:0 10px;outline:none}
+.field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:calc(100% - 15px) 16px,calc(100% - 10px) 16px;background-size:5px 5px;background-repeat:no-repeat;padding-right:28px}
+.field input:focus,.field select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px var(--accent-soft)}
+.field input::placeholder{color:var(--dim)}
+#reset{height:36px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface2);color:var(--muted);font:500 12px var(--mono)}
+#reset:hover{color:var(--text);border-color:var(--line2)}
+
+.more{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.more summary{cursor:pointer;display:flex;align-items:center;gap:8px;list-style:none;font:500 10px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.07em}
+.more summary::-webkit-details-marker{display:none}
+.more summary:before{content:"▸";font-size:11px}
+.more[open] summary:before{content:"▾"}
+.more summary b{border-radius:999px;background:var(--accent-soft);color:var(--accent);padding:1px 7px;font:600 10px var(--mono);letter-spacing:0}
+.more summary b:empty{display:none}
+.facets{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:10px}
+.facet{display:flex;align-items:center;gap:6px;min-width:0;max-width:100%}
+.facet>span{font:500 10px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.07em;margin-right:2px}
+.seg{display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:2px;gap:2px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:0 0 auto;border:0;background:none;border-radius:999px;padding:4px 10px;color:var(--muted);font:500 12px var(--sans);line-height:1.4;white-space:nowrap}
+.seg button:hover{color:var(--text)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px var(--line2)}
+
+/* ---------- table ---------- */
+.tbar{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:22px 0 10px}
+.tbar b{font-size:15px;font-weight:600}
+.tbar .ctx{font:500 12px var(--mono);color:var(--dim)}
+.tablewrap{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:900px}
+th{
+  position:sticky;top:56px;z-index:5;background:var(--surface);text-align:left;
+  font:500 10px var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--dim);
+  padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap
 }
-.top .shell{display:flex;align-items:center;gap:18px;min-height:66px}
-.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.02em}
-.brandmark{width:34px;height:34px;border-radius:11px;border:1px solid var(--line2);display:grid;place-items:center;background:#0b1c12;box-shadow:inset 0 0 24px rgba(89,227,145,.08)}
-.brandmark:before{content:"∑";font-family:var(--mono);color:var(--green);font-weight:900}
-.brand small{display:block;color:var(--muted);font:600 10px var(--mono);letter-spacing:.08em;text-transform:uppercase}
-.toplinks{margin-left:auto;display:flex;gap:10px;align-items:center}
-.linkbtn,.ghostbtn{border:1px solid var(--line);border-radius:10px;padding:8px 11px;background:#0a1710;color:var(--muted);text-decoration:none;font:600 12px var(--mono)}
-.linkbtn:hover,.ghostbtn:hover{color:var(--text);border-color:var(--line2)}
-.status{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font:600 11px var(--mono)}
-.status i{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 12px currentColor}
-.status.ok i{background:var(--green)}
-.hero{padding:70px 0 30px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr);gap:36px;align-items:end}
-.kicker{font:700 12px var(--mono);color:var(--green);text-transform:uppercase;letter-spacing:.12em}
-h1{font-size:clamp(42px,6vw,78px);line-height:.96;letter-spacing:-.055em;margin:12px 0 18px;max-width:12ch}
-.hero p{font-size:18px;color:var(--muted);max-width:800px;margin:0}
-.hero strong{color:var(--text)}
-.hero-card{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,rgba(89,227,145,.04),transparent),var(--panel);padding:22px;box-shadow:var(--shadow)}
-.hero-card h3{margin:0 0 10px;font-size:15px}
-.hero-card p{font-size:13px}
-.formula{font:600 12px var(--mono);color:var(--muted);padding:13px;border:1px solid var(--line);background:#08140d;border-radius:12px;margin-top:15px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:8px 0 22px}
-.stat{border:1px solid var(--line);border-radius:14px;padding:16px;background:rgba(13,29,20,.72)}
-.stat b{display:block;font-size:28px;letter-spacing:-.035em}
-.stat span{font:600 10px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.09em}
-.toolbar{
-  position:sticky;top:66px;z-index:15;display:grid;grid-template-columns:1.2fr repeat(3,minmax(120px,.45fr)) auto;
-  gap:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(13,29,20,.92);backdrop-filter:blur(14px);box-shadow:0 12px 45px rgba(0,0,0,.24)
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover{color:var(--text)}
+th[aria-sort]:not([aria-sort="none"]){color:var(--accent)}
+th .arrow{opacity:0;margin-left:4px}
+th[aria-sort]:not([aria-sort="none"]) .arrow{opacity:1}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+tbody tr.row:hover{background:var(--surface2)}
+tbody tr.row.open{background:var(--raised)}
+tr.row td:first-child,th:first-child{padding-left:16px}
+tr.row td:last-child,th:last-child{padding-right:16px}
+.num{font:600 12px var(--mono);color:var(--dim);width:34px}
+.name{display:flex;align-items:center;gap:10px;min-width:0}
+.name .txt{min-width:0}
+.name .id{font-weight:600;letter-spacing:-.01em;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:280px}
+.name .sub{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:var(--muted);font:500 10px var(--mono);white-space:nowrap}
+.chip.tag{color:var(--info);border-color:color-mix(in srgb,var(--info) 35%,transparent)}
+.score{font:600 15px var(--mono);letter-spacing:-.02em}
+.score small{display:block;font:500 10px var(--mono);color:var(--dim);letter-spacing:0}
+.fitcell{min-width:150px}
+.badge{display:inline-block;border-radius:5px;padding:2px 7px;font:600 10px var(--mono);text-transform:uppercase;letter-spacing:.04em;border:1px solid}
+.b-fits{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent);background:color-mix(in srgb,var(--ok) 9%,transparent)}
+.b-tight{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,transparent);background:color-mix(in srgb,var(--warn) 9%,transparent)}
+.b-offload{color:var(--alert);border-color:color-mix(in srgb,var(--alert) 40%,transparent);background:color-mix(in srgb,var(--alert) 9%,transparent)}
+.b-no{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,transparent);background:color-mix(in srgb,var(--bad) 9%,transparent)}
+.bar{height:4px;border-radius:99px;background:var(--raised);overflow:hidden;margin-top:7px;max-width:150px}
+.bar i{display:block;height:100%;background:var(--accent2);border-radius:99px}
+.bar i.over{background:var(--alert)}
+.mini{font:500 10px var(--mono);color:var(--dim);margin-top:5px}
+.spd{font:600 14px var(--mono)}
+.spd.measured{color:var(--ok)}
+.spd.dim{color:var(--dim)}
+.spd small{display:block;font:500 10px var(--mono);color:var(--dim)}
+.stack{display:flex;gap:4px}
+.sq{opacity:.45;width:22px;height:22px;border-radius:6px;border:1px solid var(--line);display:grid;place-items:center;font:600 9px var(--mono);color:var(--dim);background:var(--surface2)}
+.sq.on{opacity:1;color:var(--accent);border-color:var(--line2);background:var(--accent-soft)}
+.actions{display:flex;gap:6px;justify-content:flex-end}
+.iconbtn{border:1px solid var(--line);border-radius:8px;background:var(--surface2);color:var(--muted);height:28px;padding:0 9px;font:500 11px var(--mono);white-space:nowrap}
+.iconbtn:hover{color:var(--text);border-color:var(--line2)}
+.iconbtn.on{color:var(--accent);border-color:var(--line2);background:var(--accent-soft)}
+
+/* ---------- detail drawer ---------- */
+tr.detail>td{padding:0;border-bottom:1px solid var(--line);background:var(--surface2)}
+.drawer{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:24px;padding:18px 16px}
+.drawer h4{margin:0 0 8px;font:500 10px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.07em}
+.drawer .lead{font-weight:600;margin:0 0 4px}
+.drawer .why{margin:0 0 14px;color:var(--muted);font-size:13px}
+.pl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.pl .chip.pro{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 32%,transparent)}
+.pl .chip.lim{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 32%,transparent)}
+.snips{display:grid;gap:8px}
+.snip{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);overflow:hidden}
+.snip header{display:flex;align-items:center;gap:8px;padding:7px 10px;border-bottom:1px solid var(--line)}
+.snip header b{font:600 11px var(--mono);letter-spacing:.02em}
+.snip header span{color:var(--dim);font:500 10px var(--mono)}
+.snip header button{margin-left:auto;border:1px solid var(--line);border-radius:6px;background:var(--surface2);color:var(--muted);font:500 10px var(--mono);padding:3px 8px}
+.snip header button:hover{color:var(--text)}
+.snip pre{margin:0;padding:9px 10px;overflow-x:auto;font:500 11.5px/1.65 var(--mono);color:var(--muted)}
+
+.empty{padding:52px 20px;text-align:center;color:var(--muted)}
+.empty button{margin-top:12px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface2);padding:8px 14px;font:500 12px var(--mono);color:var(--muted)}
+
+/* ---------- footer info ---------- */
+.info{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0 0}
+.card{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);padding:16px}
+.card h3{margin:0 0 10px;font-size:14px;font-weight:600}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px;margin:0}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;font:500 11px var(--mono);text-align:right}
+.kv dd.yes{color:var(--ok)} .kv dd.nope{color:var(--dim)}
+.compat{display:flex;flex-wrap:wrap;gap:6px}
+.compat span{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font:500 11px var(--mono);color:var(--muted)}
+.compat span i{width:6px;height:6px;border-radius:50%;background:var(--dim)}
+.compat span.ok i{background:var(--ok)} .compat span.bad i{background:var(--bad)}
+details.note{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+details.note summary{cursor:pointer;font:500 12px var(--mono);color:var(--muted);list-style:none}
+details.note summary::-webkit-details-marker{display:none}
+details.note summary:before{content:"+ ";color:var(--dim)}
+details.note[open] summary:before{content:"− "}
+details.note p{margin:8px 0 0;color:var(--muted);font-size:13px}
+details.note code{font:500 11px var(--mono);color:var(--text)}
+
+footer{margin-top:28px;padding:16px 0 48px;border-top:1px solid var(--line);color:var(--dim);font:500 11px var(--mono)}
+footer .shell{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ---------- compare ---------- */
+.cmpbar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:40;width:min(720px,calc(100% - 32px));display:none;align-items:center;gap:10px;border:1px solid var(--line2);border-radius:var(--r-lg);background:var(--surface);padding:10px 12px;box-shadow:var(--shadow)}
+.cmpbar.show{display:flex}
+.cmpbar .items{display:flex;gap:6px;flex:1;min-width:0;overflow-x:auto}
+.cmpbar .primary{border:0;border-radius:8px;background:var(--accent);color:#06100b;padding:8px 14px;font-weight:600;font-size:13px}
+.cmpbar .primary:disabled{opacity:.45;cursor:not-allowed}
+dialog{width:min(920px,94vw);border:1px solid var(--line2);border-radius:var(--r-lg);background:var(--surface);color:var(--text);padding:0;box-shadow:var(--shadow)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.dhead{display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+.dhead h3{margin:0;font-size:15px}
+.dhead button{margin-left:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface2);color:var(--muted);padding:5px 10px;font:500 12px var(--mono)}
+.cmpgrid{display:grid;gap:1px;background:var(--line)}
+.cmpcard{background:var(--surface);padding:16px}
+.cmpcard h4{margin:0 0 10px;font-size:13px;overflow-wrap:anywhere}
+
+/* Below the table's min-width the wrapper scrolls, which would make the sticky
+   header stick to the wrapper instead of the page — so it goes static there. */
+@media(max-width:1000px){
+  .tablewrap{overflow-x:auto}
+  th{position:static}
+  .frow{grid-template-columns:1fr 1fr 1fr}
+  .field.q{grid-column:1/-1}
+  #reset{grid-column:1/-1}
+  .drawer{grid-template-columns:1fr}
+  .info{grid-template-columns:1fr}
 }
-.control{min-width:0}
-.control label{display:block;font:700 9px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.09em;margin:0 0 5px 2px}
-.control input,.control select{
-  width:100%;border:1px solid var(--line);border-radius:10px;background:#07130d;color:var(--text);padding:10px 11px;outline:none
-}
-.control input:focus,.control select:focus{border-color:var(--green2);box-shadow:0 0 0 3px rgba(89,227,145,.08)}
-.toggles{display:flex;gap:8px;align-items:end;padding-bottom:1px}
-.toggle{display:flex;align-items:center;gap:7px;white-space:nowrap;border:1px solid var(--line);background:#07130d;border-radius:10px;padding:10px;color:var(--muted);font:600 11px var(--mono)}
-.toggle input{accent-color:var(--green)}
-.section-head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin:42px 0 14px}
-.section-head h2{margin:0;font-size:25px;letter-spacing:-.025em}
-.section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}
-.result-count{font:600 11px var(--mono);color:var(--dim)}
-.tablewrap{border:1px solid var(--line);border-radius:18px;overflow:auto;background:var(--panel);box-shadow:var(--shadow)}
-table{border-collapse:collapse;width:100%;min-width:1260px}
-th{position:sticky;top:0;background:#0b1911;color:var(--dim);font:700 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);z-index:2}
-td{padding:14px 12px;border-bottom:1px solid rgba(36,67,50,.72);vertical-align:top}
-tr:last-child td{border-bottom:0}
-tbody tr:hover{background:rgba(89,227,145,.025)}
-.rank{font:800 14px var(--mono);color:var(--dim)}
-.model a{font-weight:750;text-decoration:none;display:block;max-width:285px;overflow-wrap:anywhere}
-.model a:hover{color:var(--green)}
-.meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
-.tag{border:1px solid var(--line);border-radius:999px;padding:2px 6px;color:var(--muted);font:600 9px var(--mono)}
-.score b{font:800 17px var(--mono)}
-.score span{display:block;font:600 9px var(--mono);color:var(--dim)}
-.fit{min-width:180px}
-.fit-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.badge{display:inline-flex;align-items:center;border-radius:999px;border:1px solid;padding:3px 7px;font:800 9px var(--mono);text-transform:uppercase;letter-spacing:.06em}
-.fits{color:var(--green);border-color:rgba(89,227,145,.55);background:rgba(89,227,145,.07)}
-.tight{color:var(--amber);border-color:rgba(247,198,93,.5);background:rgba(247,198,93,.07)}
-.offload{color:var(--orange);border-color:rgba(245,159,91,.5);background:rgba(245,159,91,.07)}
-.no{color:var(--red);border-color:rgba(255,126,126,.55);background:rgba(255,126,126,.07)}
-.membar{height:7px;background:#07130d;border:1px solid var(--line);border-radius:99px;overflow:hidden;margin:8px 0 5px}
-.membar i{display:block;height:100%;background:linear-gradient(90deg,var(--green2),var(--green));border-radius:99px}
-.membar i.over{background:linear-gradient(90deg,var(--orange),var(--red))}
-.micro{color:var(--dim);font:600 9px var(--mono)}
-.speed b{display:block;font:800 15px var(--mono)}
-.speed .measured{color:var(--green)}
-.profile{max-width:230px}
-.profile b{font-size:12px}
-.profile p,.trade p{margin:5px 0 0;color:var(--muted);font-size:11px;line-height:1.4}
-.trade{max-width:260px}
-.trade strong{color:var(--green);font-size:10px}
-.trade .limit strong{color:var(--amber)}
-.command{display:flex;flex-direction:column;gap:7px}
-.command code{font:600 10px var(--mono);color:var(--muted);white-space:nowrap}
-.copy,.compare{border:1px solid var(--line);border-radius:9px;background:#08150e;color:var(--muted);padding:7px 9px;font:700 10px var(--mono)}
-.copy:hover,.compare:hover,.compare.on{border-color:var(--green2);color:var(--text)}
-.empty{padding:40px;text-align:center;color:var(--muted)}
-.panes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:38px 0}
-.pane{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:20px}
-.pane h3{margin:0 0 7px;font-size:17px}
-.pane p{margin:0;color:var(--muted);font-size:13px}
-.coverage{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-.cover{border:1px solid var(--line);border-radius:12px;background:#08150e;padding:13px}
-.cover b{display:block;font-size:12px}
-.cover span{color:var(--dim);font:600 10px var(--mono)}
-.compat{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
-.compat .c{display:flex;gap:6px;align-items:center;border:1px solid var(--line);padding:7px 9px;border-radius:999px;font:600 10px var(--mono);color:var(--muted)}
-.compat .c i{width:7px;height:7px;border-radius:50%;background:var(--dim)}
-.compat .c.ok i{background:var(--green)}
-.compat .c.bad i{background:var(--red)}
-.comparebar{
-  position:fixed;left:50%;transform:translateX(-50%);bottom:20px;z-index:30;width:min(900px,calc(100% - 32px));
-  display:none;align-items:center;gap:10px;border:1px solid var(--line2);background:rgba(8,20,13,.96);backdrop-filter:blur(16px);
-  border-radius:16px;padding:12px 14px;box-shadow:var(--shadow)
-}
-.comparebar.show{display:flex}
-.comparebar .items{display:flex;gap:7px;flex:1;min-width:0;overflow:auto}
-.comparebar .chip{border:1px solid var(--line);border-radius:999px;padding:7px 9px;white-space:nowrap;font:700 10px var(--mono);color:var(--muted)}
-.comparebar button.primary{border:0;border-radius:10px;background:var(--green);color:#06100b;padding:10px 13px;font-weight:800}
-dialog{width:min(1000px,94vw);border:1px solid var(--line2);border-radius:18px;background:#09150e;color:var(--text);padding:0;box-shadow:var(--shadow)}
-dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(4px)}
-.dialog-head{display:flex;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
-.dialog-head h3{margin:0}
-.dialog-head button{margin-left:auto;border:1px solid var(--line);border-radius:9px;background:#08140d;color:var(--muted);padding:7px 10px}
-.comparegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
-.comparecard{background:#09150e;padding:20px}
-.comparecard h4{margin:0 0 10px;overflow-wrap:anywhere}
-.comparecard dl{display:grid;grid-template-columns:1fr auto;gap:8px 12px;margin:0}
-.comparecard dt{color:var(--muted);font-size:12px}
-.comparecard dd{margin:0;font:700 11px var(--mono)}
-footer{padding:35px 0 80px;color:var(--dim);font-size:12px}
-footer .shell{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-@media(max-width:1050px){
-  .hero{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}
-  .toolbar{grid-template-columns:1fr 1fr 1fr}.toggles{grid-column:1/-1}
-  .panes{grid-template-columns:1fr}.comparegrid{grid-template-columns:1fr}
-}
-@media(max-width:680px){
-  .shell{padding:0 16px}.toplinks .linkbtn{display:none}.hero{padding-top:45px}
-  .stats{grid-template-columns:1fr 1fr}.toolbar{position:static;grid-template-columns:1fr 1fr}
-  .control.search{grid-column:1/-1}.coverage{grid-template-columns:1fr}
+@media(max-width:640px){
+  .shell{padding:0 14px}
+  .head{padding:24px 0 16px}
+  .stats{gap:18px}
+  .frow{grid-template-columns:1fr 1fr}
+  .facets{gap:10px}
+  .facet{flex:1 1 100%}
+  .top nav .pill.hide-sm{display:none}
 }
 </style>
 </head>
 <body>
+
 <header class="top">
   <div class="shell">
-    <div class="brand"><span class="brandmark"></span><span>LLM FitLab<small>Ollama runtime leaderboard</small></span></div>
-    <div class="toplinks">
-      <span id="dataStatus" class="status"><i></i><span>loading registry</span></span>
-      <a class="linkbtn" href="https://github.com/ruslanmv/fitlab" target="_blank" rel="noopener">GitHub</a>
-      <a class="linkbtn" href="https://huggingface.co/models" target="_blank" rel="noopener">Hugging Face</a>
-    </div>
+    <span class="brand"><span class="mark">∑</span>LLM FitLab</span>
+    <nav>
+      <span id="status" class="pill"><i class="dot"></i><span>loading</span></span>
+      <a class="pill hide-sm" href="https://github.com/ruslanmv/fitlab" target="_blank" rel="noopener">GitHub</a>
+    </nav>
   </div>
 </header>
 
 <main class="shell">
-  <section class="hero">
+  <section class="head">
     <div>
-      <div class="kicker">Fit • Run • Integrate • Know the limits</div>
-      <h1>The practical Ollama model leaderboard.</h1>
-      <p>Choose a rig and compare supported LLMs by <strong>VRAM fit</strong>, <strong>runtime speed</strong>, Ollama availability, software use case, strengths and limitations. Measured results are marked explicitly; everything else stays labeled as an estimate.</p>
+      <h1>Ollama model leaderboard</h1>
+      <p>Pick your GPU — see what fits, how fast it runs, and how to launch it with Ollama, OllaBridge or HomePilot.</p>
     </div>
-    <aside class="hero-card">
-      <h3>What the FitLab score means</h3>
-      <p>This is a deployment-readiness score, not an intelligence benchmark. It combines hardware fit, model-capability proxy, Hugging Face momentum, speed, and current stack compatibility.</p>
-      <div class="formula">30% fit + 30% capability + 25% HF momentum + 10% speed + 5% plugs</div>
-    </aside>
+    <dl class="stats">
+      <div><dt>Models</dt><dd id="sModels">—</dd></div>
+      <div><dt>Ollama</dt><dd id="sOllama">—</dd></div>
+      <div><dt>Measured</dt><dd id="sMeasured">—</dd></div>
+      <div><dt>Updated</dt><dd id="sUpdated">—</dd></div>
+    </dl>
   </section>
 
-  <div class="stats">
-    <div class="stat"><b id="statModels">—</b><span>registry models</span></div>
-    <div class="stat"><b id="statOllama">—</b><span>Ollama ready</span></div>
-    <div class="stat"><b id="statMeasured">—</b><span>measured pairs</span></div>
-    <div class="stat"><b id="statUpdated">—</b><span>registry updated</span></div>
-  </div>
-
-  <section class="toolbar" aria-label="Leaderboard controls">
-    <div class="control search"><label for="search">Search</label><input id="search" placeholder="model, capability, license…"></div>
-    <div class="control"><label for="gpu">Hardware</label><select id="gpu"></select></div>
-    <div class="control"><label for="quant">Quant</label><select id="quant"><option>Q4_K_M</option><option>Q8_0</option></select></div>
-    <div class="control"><label for="ctx">Context</label><select id="ctx"><option value="4096">4K</option><option value="8192" selected>8K</option><option value="16384">16K</option><option value="32768">32K</option></select></div>
-    <div class="toggles">
-      <label class="toggle"><input id="ollamaOnly" type="checkbox" checked> Ollama only</label>
-      <label class="toggle"><input id="measuredOnly" type="checkbox"> measured only</label>
+  <section class="filters" aria-label="Filters">
+    <div class="frow">
+      <div class="field q"><label for="q">Search</label><input id="q" type="search" placeholder="model, tag, license…" autocomplete="off"></div>
+      <div class="field"><label for="gpu">Hardware</label><select id="gpu"></select></div>
+      <div class="field"><label for="quant">Quant</label><select id="quant"><option>Q4_K_M</option><option>Q8_0</option></select></div>
+      <div class="field"><label for="ctx">Context</label><select id="ctx"><option value="4096">4K</option><option value="8192">8K</option><option value="16384">16K</option><option value="32768">32K</option></select></div>
+      <div class="field"><label for="sort">Sort by</label><select id="sort">
+        <option value="score">FitLab score</option>
+        <option value="headroom">Best fit</option>
+        <option value="speed">Fastest</option>
+        <option value="small">Smallest</option>
+        <option value="large">Largest</option>
+        <option value="name">Name A–Z</option>
+      </select></div>
+      <button id="reset" type="button">Reset</button>
     </div>
+    <details class="more" id="more">
+      <summary><span>Filters</span><b id="activeCount"></b></summary>
+      <div class="facets" id="facets"></div>
+    </details>
   </section>
 
-  <div class="section-head">
-    <div><h2>Leaderboard</h2><p>Ranked by the registry score; runtime values recompute for your selected rig.</p></div>
-    <div id="resultCount" class="result-count"></div>
+  <div class="tbar">
+    <b id="count">—</b>
+    <span class="ctx" id="ctxLine"></span>
   </div>
 
   <div class="tablewrap">
     <table>
       <thead><tr>
-        <th>#</th><th>Model</th><th>FitLab score</th><th>Your fit</th><th>Runtime</th>
-        <th>Software profile</th><th>Pros / limits</th><th>Ollama</th>
+        <th>#</th>
+        <th class="sortable" data-sort="name" aria-sort="none">Model<span class="arrow">↓</span></th>
+        <th class="sortable" data-sort="score" aria-sort="none">Score<span class="arrow">↓</span></th>
+        <th class="sortable" data-sort="headroom" aria-sort="none">Fit<span class="arrow">↓</span></th>
+        <th class="sortable" data-sort="speed" aria-sort="none">Speed<span class="arrow">↓</span></th>
+        <th>Stack</th>
+        <th></th>
       </tr></thead>
       <tbody id="rows"></tbody>
     </table>
-    <div id="empty" class="empty" hidden>No models match these filters.</div>
+    <div id="empty" class="empty" hidden><span id="emptyMsg">No models match these filters.</span><br><button type="button" id="resetEmpty">Clear filters</button></div>
   </div>
 
-  <section class="panes">
-    <div class="pane">
-      <h3>Evaluation coverage</h3>
-      <p>FitLab currently evaluates deployment behavior and software compatibility. It does <strong>not</strong> yet publish task-quality scores such as coding pass rate, MMLU-style accuracy, hallucination rate, or long-context retrieval accuracy. The UI keeps that gap visible instead of presenting estimated runtime data as model quality.</p>
-      <div class="coverage">
-        <div class="cover"><b>Hardware fit</b><span>LIVE CALCULATION</span></div>
-        <div class="cover"><b>Runtime speed</b><span>MEASURED + ESTIMATED</span></div>
-        <div class="cover"><b>Task quality</b><span>NOT YET COLLECTED</span></div>
-      </div>
+  <section class="info">
+    <div class="card">
+      <h3>What the score measures</h3>
+      <dl class="kv">
+        <dt>Hardware fit</dt><dd class="yes">live</dd>
+        <dt>Runtime speed</dt><dd class="yes">measured + estimated</dd>
+        <dt>Task quality (MMLU, pass@1…)</dt><dd class="nope">not collected</dd>
+      </dl>
+      <details class="note"><summary>Score formula &amp; caveats</summary>
+        <p><code>30% fit + 30% capability + 25% HF momentum + 10% speed + 5% stack</code></p>
+        <p>Deployment readiness, not intelligence. Speed is measured only where a benchmark exists for that model × GPU pair; everything else is a bandwidth estimate and labelled as such.</p>
+        <p id="calNote"></p>
+      </details>
     </div>
-    <div class="pane">
-      <h3>Software compatibility</h3>
-      <p>Weekly PLUGS probes verify the latest agent stack end-to-end. A green status means that component passed the recorded weekly probe, not that every feature of every model is guaranteed.</p>
-      <div id="compat" class="compat"></div>
+    <div class="card">
+      <h3>Weekly stack probe</h3>
+      <div class="compat" id="compat"></div>
+      <details class="note"><summary>How compatibility is decided</summary>
+        <p>Green means the component passed last week's end-to-end PLUGS probe at its latest release. Per-model stack badges are derived from registry metadata: <code>OL</code> an Ollama tag exists, <code>OB</code> OllaBridge serves it over OpenAI-compatible HTTP, <code>HP</code> HomePilot can use it as a chat model.</p>
+      </details>
     </div>
   </section>
 </main>
 
-<div id="comparebar" class="comparebar">
-  <div id="compareItems" class="items"></div>
-  <button id="openCompare" class="primary">Compare</button>
-  <button id="clearCompare" class="ghostbtn">Clear</button>
+<div id="cmpbar" class="cmpbar">
+  <div id="cmpItems" class="items"></div>
+  <button id="cmpOpen" class="primary" type="button">Compare</button>
+  <button id="cmpClear" class="iconbtn" type="button">Clear</button>
 </div>
 
-<dialog id="compareDialog">
-  <div class="dialog-head"><h3>Model comparison</h3><button id="closeCompare">Close</button></div>
-  <div id="compareGrid" class="comparegrid"></div>
+<dialog id="cmpDialog">
+  <div class="dhead"><h3>Comparison</h3><button id="cmpClose" type="button">Close</button></div>
+  <div id="cmpGrid" class="cmpgrid"></div>
 </dialog>
 
-<footer>
-  <div class="shell">
-    <span>LLM FitLab · runtime evidence over marketing claims</span>
-    <span id="footData">Registry source: loading…</span>
-  </div>
-</footer>
+<footer><div class="shell">
+  <span>LLM FitLab · runtime evidence over marketing claims</span>
+  <span id="src">—</span>
+</div></footer>
 
 <script>
-const DATA_SOURCES=["./registry.json","https://raw.githubusercontent.com/ruslanmv/fitlab/master/site/registry.json"];
+"use strict";
+// Freshest first: the branch the weekly sync publishes to itself, then the reviewed
+// copy on master, then whatever snapshot was deployed with this page.
+const SOURCES=[
+  "https://raw.githubusercontent.com/ruslanmv/fitlab/registry-latest/site/registry.json",
+  "https://raw.githubusercontent.com/ruslanmv/fitlab/master/site/registry.json",
+  "./registry.json"
+];
 const BPW={Q4_K_M:4.85,Q8_0:8.5};
 const DEF={weights_overhead:1.03,kv_bytes:2,runtime_overhead:0.9,tight:0.92,offload:1.6};
 const GPUS=[
- {id:"rtx3060-12",name:"RTX 3060 · 12 GB",vram:12,bw:360},
- {id:"t4-16",name:"T4 · 15 GB usable",vram:15,bw:320},
- {id:"rtx4070-12",name:"RTX 4070 · 12 GB",vram:12,bw:504},
- {id:"rtx4060ti-16",name:"RTX 4060 Ti · 16 GB",vram:16,bw:288},
- {id:"apple-m-16",name:"Apple M-series · 16 GB unified",vram:11,bw:120}
+  {id:"rtx3060-12",name:"RTX 3060 · 12 GB",vram:12,bw:360},
+  {id:"rtx4070-12",name:"RTX 4070 · 12 GB",vram:12,bw:504},
+  {id:"rtx4060ti-16",name:"RTX 4060 Ti · 16 GB",vram:16,bw:288},
+  {id:"t4-16",name:"T4 · 15 GB (Colab free)",vram:15,bw:320},
+  {id:"p100-16",name:"P100 · 16 GB (Kaggle)",vram:16,bw:732},
+  {id:"l4-24",name:"L4 · 22.5 GB",vram:22.5,bw:300},
+  {id:"apple-m-16",name:"Apple M · 16 GB unified",vram:11,bw:120},
+  {id:"cpu-only",name:"CPU only",vram:0,bw:50}
 ];
-const FALLBACK={
- generated_at:"fallback",
- ranking_version:"1.1",
- categories:{
-   "local-12gb":{title:"Local 12 GB",top:[
-     {id:"qwen3-8b",score:.5765},{id:"granite-33-8b",score:.5760},
-     {id:"llama-31-8b",score:.5753},{id:"qwen3-14b",score:.5220}
-   ]}
- },
- models:{
-  "qwen3-8b":{hf_id:"Qwen/Qwen3-8B",ollama_tag:"qwen3:8b",params_b:8.2,arch:{n_layers:36,n_kv_heads:8,head_dim:128},capabilities:["reasoning","tools","multilingual"],license:"apache-2.0"},
-  "granite-33-8b":{hf_id:"ibm-granite/granite-3.3-8b-instruct",ollama_tag:"granite3.3:8b",params_b:8.1,arch:{n_layers:40,n_kv_heads:8,head_dim:128},capabilities:["tools","enterprise"],license:"apache-2.0"},
-  "llama-31-8b":{hf_id:"meta-llama/Llama-3.1-8B-Instruct",ollama_tag:"llama3.1:8b",params_b:8,arch:{n_layers:32,n_kv_heads:8,head_dim:128},capabilities:["tools","multilingual"],license:"llama3.1"},
-  "qwen3-14b":{hf_id:"Qwen/Qwen3-14B",ollama_tag:"qwen3:14b",params_b:14.8,arch:{n_layers:40,n_kv_heads:8,head_dim:128},capabilities:["reasoning","tools","coding"],license:"apache-2.0"}
- },
- benchmarks_latest:{},compat:{}
-};
+// Scores are computed against the reference GPUs; every other rig borrows the closer one.
+const REF_GPU_FOR={"rtx3060-12":"rtx3060-12","rtx4070-12":"rtx3060-12","apple-m-16":"rtx3060-12",
+  "cpu-only":"rtx3060-12","t4-16":"t4-16","rtx4060ti-16":"t4-16","l4-24":"t4-16","p100-16":"t4-16"};
+const STACK_NAMES={ollama:"Ollama",ollabridge:"OllaBridge",homepilot:"HomePilot",gitpilot:"GitPilot",matrixlab:"MatrixLab",langgraph:"LangGraph",langchain:"LangChain",crewai:"CrewAI",langflow:"Langflow",langfuse:"Langfuse",deepagents:"DeepAgents"};
 
-let REG=FALLBACK, dataSource="embedded fallback", selected=new Set();
+const FACETS=[
+  {id:"fit",  label:"Fit",     options:[["all","All"],["fits","Fits"],["tight","Fits or tight"],["any","Runnable"]]},
+  {id:"size", label:"Size",    options:[["all","All"],["xs","≤4B"],["s","4–9B"],["m","9–16B"],["l",">16B"]]},
+  {id:"task", label:"Task",    options:[["all","All"],["chat","Chat"],["coding","Coding"],["reasoning","Reasoning"],["vision","Vision"],["tools","Tools"],["embeddings","Embeddings"]]},
+  {id:"stack",label:"Runs on", options:[["all","Any"],["ollama","Ollama"],["ollabridge","OllaBridge"],["homepilot","HomePilot"]]},
+  {id:"data", label:"Data",    options:[["all","All"],["measured","Measured only"]]},
+  {id:"lic",  label:"License", options:[["all","All"],["permissive","Permissive"]]}
+];
+const DEFAULTS={q:"",gpu:"rtx3060-12",quant:"Q4_K_M",ctx:"8192",sort:"score",fit:"all",size:"all",task:"all",stack:"ollama",data:"all",lic:"all"};
+const PERMISSIVE=new Set(["apache-2.0","mit","bsd-3-clause","cc-by-4.0"]);
+
+let REG={models:{},categories:{},benchmarks_latest:{},compat:{}};
+let source="—", state={...DEFAULTS}, expanded=new Set(), picked=new Set();
+
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-const fmt=n=>Number.isFinite(n)?(n>=10?n.toFixed(1):n.toFixed(2)):"—";
+const num=n=>Number.isFinite(n)?(n>=100?Math.round(n):n>=10?n.toFixed(1):n.toFixed(2)):"—";
 
-function fit(m,q,ctx,g){
+/* ---------- model math ---------- */
+function fitOf(m,quant,ctx,g){
   if(!m.arch||!m.params_b)return null;
-  const bpw=BPW[q];
-  const w=m.params_b*bpw/8*DEF.weights_overhead;
+  const bpw=BPW[quant]||BPW.Q4_K_M;
+  const weights=m.params_b*bpw/8*DEF.weights_overhead;
   const kv=2*m.arch.n_layers*m.arch.n_kv_heads*m.arch.head_dim*ctx*DEF.kv_bytes/1e9;
-  const est=w+kv+DEF.runtime_overhead;
+  const est=weights+kv+DEF.runtime_overhead;
   let verdict="no";
-  if(est<=g.vram*DEF.tight)verdict="fits";
+  if(g.vram<=0)verdict="offload";
+  else if(est<=g.vram*DEF.tight)verdict="fits";
   else if(est<=g.vram)verdict="tight";
   else if(est<=g.vram*DEF.offload)verdict="offload";
-  const act=m.active_params_b||m.params_b;
-  const tps=Math.round(g.bw*1e9/(act*1e9*bpw/8+kv*1e9/ctx*64)*.62*10)/10;
-  return{w,kv,est,verdict,tps};
+  const active=m.active_params_b||m.params_b;
+  const tps=Math.round(g.bw*1e9/(active*1e9*bpw/8+kv*1e9/ctx*64)*0.62*10)/10;
+  return {weights,kv,est,verdict,tps,headroom:g.vram>0?(g.vram-est)/g.vram:-1};
 }
-function measuredFor(id,gpu){return (REG.benchmarks_latest||{})[`${id}|${gpu.id}`]||null}
+const measuredFor=(id,g)=>(REG.benchmarks_latest||{})[id+"|"+g.id]||null;
+const capsOf=m=>new Set(m.capabilities||[]);
+const isEmbedding=m=>capsOf(m).has("embeddings")||m.category==="sentence-similarity"||m.category==="feature-extraction";
 
-function modelProfile(m,f){
-  const caps=new Set(m.capabilities||[]);
-  let title="General local assistant", why="Good default for chat, summarization and local workflows.";
-  if(caps.has("coding")){title="Coding & developer workflows";why="Best aligned to code generation, refactoring and repository assistance."}
-  else if(caps.has("vision")||caps.has("ocr")){title="Vision / document workflows";why="Useful where prompts include images, OCR or visual understanding."}
-  else if(caps.has("reasoning")){title="Reasoning-heavy workflows";why="Suited to planning, analysis and multi-step tasks where latency is acceptable."}
-  else if(caps.has("tools")){title="Agents & tool calling";why="Strong fit for OpenAI-compatible agent frameworks and structured tool workflows."}
-  else if((m.params_b||99)<=4){title="Lightweight local automation";why="Small footprint favors background utilities, routing and low-cost local tasks."}
-  return{title,why};
+function stacksOf(m){
+  const ollama=!!m.ollama_tag;
+  return {ollama, ollabridge:ollama, homepilot:ollama&&!isEmbedding(m)};
 }
-function trades(m,f){
-  const caps=new Set(m.capabilities||[]), pros=[], limits=[];
+function profileOf(m){
+  const c=capsOf(m);
+  if(isEmbedding(m))       return {t:"Retrieval & embeddings",w:"Indexing and semantic search — not a chat model."};
+  if(c.has("coding"))      return {t:"Coding & developer tooling",w:"Code generation, refactoring and repository assistance."};
+  if(c.has("vision"))      return {t:"Vision & document workflows",w:"Prompts that include images, screenshots or scans."};
+  if(c.has("reasoning"))   return {t:"Reasoning & planning",w:"Multi-step analysis where extra latency is acceptable."};
+  if(c.has("tools"))       return {t:"Agents & tool calling",w:"OpenAI-compatible agent frameworks and structured output."};
+  if((m.params_b||99)<=4)  return {t:"Lightweight automation",w:"Routing, classification and background utilities."};
+  return {t:"General assistant",w:"Chat, summarization and everyday local workflows."};
+}
+function tradesOf(m,f){
+  const c=capsOf(m), pros=[], limits=[];
   if(m.ollama_tag)pros.push("Ollama-ready");
-  if(caps.has("tools"))pros.push("tool-use metadata");
-  if(caps.has("coding"))pros.push("coding-oriented");
-  if(caps.has("vision"))pros.push("vision capable");
-  if(caps.has("reasoning"))pros.push("reasoning-oriented");
-  if((m.params_b||99)<=8)pros.push("moderate footprint");
-  if(["apache-2.0","mit"].includes(String(m.license||"").toLowerCase()))pros.push("permissive license");
-  if(!m.ollama_tag)limits.push("no registry Ollama tag");
-  if((m.params_b||0)>12)limits.push("heavier memory demand");
-  if(caps.has("reasoning"))limits.push("reasoning can increase latency");
-  if(caps.has("vision"))limits.push("requires multimodal client path");
-  if(f?.verdict==="offload")limits.push("GPU offload required on this rig");
-  if(f?.verdict==="no")limits.push("does not fit selected budget");
-  if(m.license&&!["apache-2.0","mit"].includes(String(m.license).toLowerCase()))limits.push("review model license terms");
-  return{pros:pros.slice(0,3),limits:limits.slice(0,3)}
+  if(c.has("tools"))pros.push("tool calling");
+  if(c.has("coding"))pros.push("code-tuned");
+  if(c.has("vision"))pros.push("multimodal");
+  if(c.has("reasoning"))pros.push("reasoning-tuned");
+  if((m.params_b||99)<=8)pros.push("small footprint");
+  if(PERMISSIVE.has(String(m.license||"").toLowerCase()))pros.push("permissive license");
+  if(!m.ollama_tag)limits.push("no Ollama tag");
+  if((m.params_b||0)>12)limits.push("heavy on 12 GB");
+  if(c.has("reasoning"))limits.push("higher latency");
+  if(isEmbedding(m))limits.push("no chat endpoint");
+  if(f&&f.verdict==="offload")limits.push("needs CPU offload here");
+  if(f&&f.verdict==="no")limits.push("does not fit this rig");
+  if(m.license&&!PERMISSIVE.has(String(m.license).toLowerCase()))limits.push("check license terms");
+  return {pros:pros.slice(0,4),limits:limits.slice(0,4)};
 }
-function flattenRanks(){
-  const seen=new Map();
-  for(const [cid,cat] of Object.entries(REG.categories||{})){
-    for(const [idx,t] of (cat.top||[]).entries()){
-      const prev=seen.get(t.id);
-      if(!prev||t.score>prev.score)seen.set(t.id,{id:t.id,score:t.score,rank:idx+1,category:cid});
-    }
+function scoreIndex(){
+  // Prefer the per-model score for the selected rig; fall back to the category Top-10
+  // tables, which only ever covered ~30 of the registry's models.
+  const best=new Map(), gid=state.gpu;
+  for(const [id,m] of Object.entries(REG.models||{})){
+    const s=m.scores&&(m.scores[gid]??m.scores[REF_GPU_FOR[gid]]);
+    if(Number.isFinite(s))best.set(id,s);
   }
-  for(const id of Object.keys(REG.models||{}))if(!seen.has(id))seen.set(id,{id,score:0,rank:999,category:"registry"});
-  return [...seen.values()].sort((a,b)=>b.score-a.score||a.rank-b.rank);
+  for(const cat of Object.values(REG.categories||{}))
+    for(const t of cat.top||[]) if(!best.has(t.id)||t.score>best.get(t.id)) best.set(t.id,t.score);
+  return best;
 }
-function runtimeLabel(id,m,f,g){
-  const meas=measuredFor(id,g);
-  if(meas)return{value:meas.gen_tps,label:"tok/s measured",cls:"measured",detail:`${meas.date||""} · ${meas.source||"benchmark"}`};
-  return{value:f?.verdict==="no"?null:f?.tps,label:f?.verdict==="no"?"no fit":"tok/s estimated",cls:"",detail:"memory-bandwidth model"};
+
+/* ---------- url state ---------- */
+function readUrl(){
+  const p=new URLSearchParams(location.search);
+  for(const k of Object.keys(DEFAULTS)) if(p.has(k)) state[k]=p.get(k);
+}
+function writeUrl(){
+  const p=new URLSearchParams();
+  for(const [k,v] of Object.entries(state)) if(v!==DEFAULTS[k]) p.set(k,v);
+  const qs=p.toString();
+  history.replaceState(null,"",qs?location.pathname+"?"+qs:location.pathname);
+}
+
+/* ---------- filtering ---------- */
+const gpuNow=()=>GPUS.find(g=>g.id===state.gpu)||GPUS[0];
+
+function sizeBucket(b){return b<=4?"xs":b<=9?"s":b<=16?"m":"l"}
+function matchesTask(m,task){
+  if(task==="all")return true;
+  const c=capsOf(m);
+  if(task==="embeddings")return isEmbedding(m);
+  if(task==="chat")return !isEmbedding(m);
+  return c.has(task);
+}
+function collect(){
+  const g=gpuNow(), ctx=+state.ctx, scores=scoreIndex(), needle=state.q.trim().toLowerCase();
+  const out=[];
+  for(const [id,m] of Object.entries(REG.models||{})){
+    if(!m.arch)continue;
+    if(m.status==="stale")continue;
+    const f=fitOf(m,state.quant,ctx,g); if(!f)continue;
+    const st=stacksOf(m);
+    if(needle&&![m.hf_id,m.ollama_tag,m.license,id,...(m.capabilities||[])].join(" ").toLowerCase().includes(needle))continue;
+    if(state.stack!=="all"&&!st[state.stack])continue;
+    if(state.fit==="fits"&&f.verdict!=="fits")continue;
+    if(state.fit==="tight"&&!["fits","tight"].includes(f.verdict))continue;
+    if(state.fit==="any"&&f.verdict==="no")continue;
+    if(state.size!=="all"&&sizeBucket(m.params_b||0)!==state.size)continue;
+    if(!matchesTask(m,state.task))continue;
+    if(state.lic==="permissive"&&!PERMISSIVE.has(String(m.license||"").toLowerCase()))continue;
+    const meas=measuredFor(id,g);
+    if(state.data==="measured"&&!meas)continue;
+    out.push({id,m,f,st,meas,score:scores.get(id)||0});
+  }
+  const speed=r=>r.meas?r.meas.gen_tps:(r.f.verdict==="no"?-1:r.f.tps);
+  const by={
+    score:(a,b)=>b.score-a.score||speed(b)-speed(a),
+    headroom:(a,b)=>b.f.headroom-a.f.headroom,
+    speed:(a,b)=>speed(b)-speed(a),
+    small:(a,b)=>(a.m.params_b||0)-(b.m.params_b||0),
+    large:(a,b)=>(b.m.params_b||0)-(a.m.params_b||0),
+    name:(a,b)=>String(a.m.hf_id).localeCompare(String(b.m.hf_id))
+  };
+  return out.sort(by[state.sort]||by.score);
+}
+
+/* ---------- rendering ---------- */
+function renderFacets(){
+  $("facets").innerHTML=FACETS.map(f=>
+    `<div class="facet"><span>${f.label}</span><div class="seg" role="group" aria-label="${f.label}">`+
+    f.options.map(([v,l])=>`<button type="button" data-facet="${f.id}" data-value="${v}" aria-pressed="${state[f.id]===v}">${l}</button>`).join("")+
+    `</div></div>`).join("");
+  $("facets").querySelectorAll("[data-facet]").forEach(b=>b.onclick=()=>{
+    state[b.dataset.facet]=b.dataset.value; expanded.clear(); sync(); });
+}
+function snippets(m){
+  const tag=m.ollama_tag;
+  if(!tag)return [];
+  return [
+    {n:"Ollama",s:"local runtime",code:`ollama run ${tag}`},
+    {n:"OllaBridge",s:"OpenAI-compatible :11435",code:`ollabridge start\ncurl http://localhost:11435/v1/chat/completions \\\n  -H "Authorization: Bearer $OLLABRIDGE_API_KEY" \\\n  -d '{"model":"${tag}","messages":[{"role":"user","content":"hi"}]}'`},
+    {n:"HomePilot",s:".env",code:`DEFAULT_PROVIDER=ollama\nOLLAMA_MODEL=${tag}`}
+  ];
+}
+function drawer(r){
+  const p=profileOf(r.m), t=tradesOf(r.m,r.f), g=gpuNow();
+  const snips=snippets(r.m).map(s=>
+    `<div class="snip"><header><b>${s.n}</b><span>${esc(s.s)}</span><button type="button" data-copy="${esc(s.code)}">Copy</button></header><pre>${esc(s.code)}</pre></div>`
+  ).join("")||`<div class="snip"><pre>Not published to the Ollama registry.</pre></div>`;
+  return `<div class="drawer">
+    <div>
+      <h4>Best for</h4>
+      <p class="lead">${esc(p.t)}</p>
+      <p class="why">${esc(p.w)}</p>
+      <h4>Strengths</h4>
+      <div class="pl">${t.pros.map(x=>`<span class="chip pro">${esc(x)}</span>`).join("")||'<span class="chip">metadata limited</span>'}</div>
+      <h4>Limits</h4>
+      <div class="pl">${t.limits.map(x=>`<span class="chip lim">${esc(x)}</span>`).join("")||'<span class="chip">none recorded</span>'}</div>
+      <p class="mini">weights ${num(r.f.weights)} GB · KV ${num(r.f.kv)} GB · runtime ${DEF.runtime_overhead} GB · budget ${g.vram} GB</p>
+    </div>
+    <div><h4>Run it</h4><div class="snips">${snips}</div></div>
+  </div>`;
+}
+function renderRows(){
+  const rows=collect(), g=gpuNow(), host=$("rows");
+  $("count").textContent=`${rows.length} model${rows.length===1?"":"s"}`;
+  $("ctxLine").textContent=`${g.name} · ${state.quant} · ${(+state.ctx)/1024}K context`;
+  $("empty").hidden=rows.length>0;
+  const noData=!Object.keys(REG.models||{}).length;
+  $("emptyMsg").textContent=
+    noData?"Registry unavailable — reload to try again.":
+    state.data==="measured"?`No benchmark has been run on ${g.name} yet — every other rig, and the estimates, are still here.`:
+    "No models match these filters.";
+  $("resetEmpty").hidden=noData;
+  host.innerHTML="";
+  rows.forEach((r,i)=>{
+    const over=r.f.est>g.vram&&g.vram>0;
+    const pct=g.vram>0?Math.min(r.f.est/g.vram*100,100):100;
+    const caps=(r.m.capabilities||[]).slice(0,2).map(c=>`<span class="chip tag">${esc(c)}</span>`).join("");
+    const spd=r.meas?{v:r.meas.gen_tps,l:"tok/s measured",c:"measured"}
+      :isEmbedding(r.m)?{v:null,l:"n/a · embeddings",c:"dim"}
+      :r.f.verdict==="no"?{v:null,l:"no fit",c:""}
+      :r.f.verdict==="offload"?{v:r.f.tps,l:"tok/s if resident",c:"dim"}
+      :{v:r.f.tps,l:"tok/s est.",c:""};
+    const open=expanded.has(r.id);
+    const tr=document.createElement("tr");
+    tr.className="row"+(open?" open":"");
+    tr.innerHTML=`
+      <td class="num">${String(i+1).padStart(2,"0")}</td>
+      <td><div class="name"><div class="txt">
+        <span class="id" title="${esc(r.m.hf_id)}">${esc(r.m.hf_id)}</span>
+        <span class="sub"><span class="chip">${esc(r.m.params_b)}B</span>${r.m.license?`<span class="chip">${esc(r.m.license)}</span>`:""}${caps}</span>
+      </div></div></td>
+      <td><span class="score">${r.score?(Math.round(r.score*1000)/10).toFixed(1):"—"}<small>${r.score?"of 100":"unranked"}</small></span></td>
+      <td class="fitcell">
+        <span class="badge b-${r.f.verdict}">${r.f.verdict}</span>
+        <div class="bar"><i class="${over?"over":""}" style="width:${pct}%"></i></div>
+        <div class="mini">${num(r.f.est)} / ${g.vram} GB</div>
+      </td>
+      <td><span class="spd ${spd.c}">${spd.v==null?"—":num(spd.v)}<small>${spd.l}</small></span></td>
+      <td><div class="stack">
+        <span class="sq ${r.st.ollama?"on":""}" title="Ollama">OL</span>
+        <span class="sq ${r.st.ollabridge?"on":""}" title="OllaBridge">OB</span>
+        <span class="sq ${r.st.homepilot?"on":""}" title="HomePilot">HP</span>
+      </div></td>
+      <td><div class="actions">
+        <button type="button" class="iconbtn ${picked.has(r.id)?"on":""}" data-pick="${esc(r.id)}">${picked.has(r.id)?"Picked":"Compare"}</button>
+        <button type="button" class="iconbtn" data-toggle="${esc(r.id)}" aria-expanded="${open}">${open?"Hide":"Details"}</button>
+      </div></td>`;
+    host.appendChild(tr);
+    if(open){
+      const d=document.createElement("tr");
+      d.className="detail";
+      d.innerHTML=`<td colspan="7">${drawer(r)}</td>`;
+      host.appendChild(d);
+    }
+  });
+  host.querySelectorAll("[data-toggle]").forEach(b=>b.onclick=()=>{
+    const id=b.dataset.toggle; expanded.has(id)?expanded.delete(id):expanded.add(id); renderRows(); });
+  host.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>togglePick(b.dataset.pick));
+  host.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{
+    try{ await navigator.clipboard.writeText(b.dataset.copy); const o=b.textContent; b.textContent="Copied"; setTimeout(()=>b.textContent=o,1200);}catch(e){}
+  });
+  document.querySelectorAll("th[data-sort]").forEach(th=>{
+    const on=th.dataset.sort===state.sort;
+    th.setAttribute("aria-sort",on?(state.sort==="name"?"ascending":"descending"):"none");
+  });
 }
 function renderStats(){
-  const models=Object.values(REG.models||{});
-  $("statModels").textContent=models.length;
-  $("statOllama").textContent=models.filter(m=>m.ollama_tag).length;
-  $("statMeasured").textContent=Object.keys(REG.benchmarks_latest||{}).length;
-  $("statUpdated").textContent=REG.generated_at||"—";
+  const ms=Object.values(REG.models||{});
+  $("sModels").textContent=ms.length;
+  $("sOllama").textContent=ms.filter(m=>m.ollama_tag).length;
+  $("sMeasured").textContent=Object.keys(REG.benchmarks_latest||{}).length;
+  $("sUpdated").textContent=REG.generated_at||"—";
+}
+function renderCalibration(){
+  const c=REG.calibration;
+  const el=$("calNote"); if(!el)return;
+  if(!c||!c.estimate_over_measured){
+    el.textContent="No model × GPU pair has been benchmarked yet, so every speed on this page is an estimate.";
+    return;
+  }
+  const n=c.measured_pairs;
+  el.textContent=`Across the ${n} benchmarked pair${n===1?"":"s"}, the estimate has run `+
+    `${c.estimate_over_measured}× the measured rate — read estimated speeds as an optimistic ceiling, `+
+    `not a forecast.`;
 }
 function renderCompat(){
-  const host=$("compat"), compat=REG.compat||{};
-  host.innerHTML="";
-  const names={ollama:"Ollama",ollabridge:"OllaBridge",homepilot:"HomePilot",gitpilot:"GitPilot",matrixlab:"MatrixLab",langgraph:"LangGraph",langchain:"LangChain",crewai:"CrewAI",langflow:"Langflow",langfuse:"Langfuse",deepagents:"DeepAgents"};
-  const ids=Object.keys(compat).length?Object.keys(compat):Object.keys(names);
-  for(const id of ids){
-    const r=compat[id], d=document.createElement("span");
-    d.className="c "+(r?(r.ok?"ok":"bad"):"");
-    d.innerHTML=`<i></i>${esc(names[id]||id)}${r?.component_version?` · ${esc(r.component_version)}`:""}`;
-    host.appendChild(d);
-  }
+  const c=REG.compat||{}, ids=Object.keys(c).length?Object.keys(c):["ollama","ollabridge","homepilot","langgraph","langchain","crewai","langfuse"];
+  $("compat").innerHTML=ids.map(id=>{
+    const r=c[id];
+    return `<span class="${r?(r.ok?"ok":"bad"):""}"><i></i>${esc(STACK_NAMES[id]||id)}${r&&r.component_version?" · "+esc(r.component_version):""}</span>`;
+  }).join("");
 }
-function currentGpu(){return GPUS.find(g=>g.id===$("gpu").value)||GPUS[0]}
-function renderRows(){
-  const q=$("quant").value,ctx=+$("ctx").value,g=currentGpu(),needle=$("search").value.trim().toLowerCase();
-  const ollamaOnly=$("ollamaOnly").checked, measuredOnly=$("measuredOnly").checked;
-  const ranked=flattenRanks(), out=[];
-  for(const r of ranked){
-    const m=REG.models[r.id]; if(!m||!m.arch)continue;
-    const hay=[m.hf_id,m.ollama_tag,m.license,...(m.capabilities||[])].join(" ").toLowerCase();
-    if(needle&&!hay.includes(needle))continue;
-    if(ollamaOnly&&!m.ollama_tag)continue;
-    if(measuredOnly&&!measuredFor(r.id,g))continue;
-    out.push({r,m,f:fit(m,q,ctx,g)});
-  }
-  $("resultCount").textContent=`${out.length} models · ${g.name} · ${q} · ${ctx/1024}K`;
-  $("empty").hidden=!!out.length;
-  const host=$("rows");host.innerHTML="";
-  out.forEach(({r,m,f},idx)=>{
-    const speed=runtimeLabel(r.id,m,f,g), profile=modelProfile(m,f), trd=trades(m,f);
-    const pct=Math.min((f.est/g.vram)*100,100), over=f.est>g.vram;
-    const caps=(m.capabilities||[]).slice(0,3).map(c=>`<span class="tag">${esc(c)}</span>`).join("");
-    const pro=trd.pros.join(" · ")||"metadata limited", lim=trd.limits.join(" · ")||"no major registry constraint";
-    const cmd=m.ollama_tag?`ollama run ${m.ollama_tag}`:"not listed in Ollama registry";
-    const measured=measuredFor(r.id,g);
-    const row=document.createElement("tr");
-    row.innerHTML=`
-      <td><span class="rank">${String(idx+1).padStart(2,"0")}</span></td>
-      <td class="model">
-        <a href="https://huggingface.co/${esc(m.hf_id)}" target="_blank" rel="noopener">${esc(m.hf_id)}</a>
-        <div class="meta"><span class="tag">${esc(m.params_b)}B</span>${m.license?`<span class="tag">${esc(m.license)}</span>`:""}${caps}</div>
-      </td>
-      <td class="score"><b>${r.score?Math.round(r.score*1000)/10:"—"}</b><span>${r.score?"fitlab / 100":"unranked registry model"}</span></td>
-      <td class="fit">
-        <div class="fit-top"><span class="badge ${f.verdict}">${f.verdict}</span><span class="micro">${fmt(f.est)} / ${g.vram} GB</span></div>
-        <div class="membar"><i class="${over?"over":""}" style="width:${pct}%"></i></div>
-        <div class="micro">weights ${fmt(f.w)} · KV ${fmt(f.kv)} · runtime ${DEF.runtime_overhead} GB</div>
-      </td>
-      <td class="speed"><b class="${speed.cls}">${speed.value==null?"—":fmt(speed.value)}</b><span class="micro">${esc(speed.label)}</span><div class="micro">${esc(speed.detail)}</div></td>
-      <td class="profile"><b>${esc(profile.title)}</b><p>${esc(profile.why)}</p></td>
-      <td class="trade"><p><strong>PROS</strong> ${esc(pro)}</p><p class="limit"><strong>LIMITS</strong> ${esc(lim)}</p><p class="micro">quality eval: not collected</p></td>
-      <td class="command"><code>${esc(cmd)}</code>
-        ${m.ollama_tag?`<button class="copy" data-copy="${esc(cmd)}">Copy command</button>`:""}
-        <button class="compare ${selected.has(r.id)?"on":""}" data-compare="${esc(r.id)}">${selected.has(r.id)?"Selected":"Compare"}</button>
-      </td>`;
-    host.appendChild(row);
-  });
-  host.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{
-    await navigator.clipboard.writeText(b.dataset.copy);const old=b.textContent;b.textContent="Copied ✓";setTimeout(()=>b.textContent=old,1100)
-  });
-  host.querySelectorAll("[data-compare]").forEach(b=>b.onclick=()=>toggleCompare(b.dataset.compare));
+
+/* ---------- compare ---------- */
+function togglePick(id){
+  if(picked.has(id))picked.delete(id); else if(picked.size<3)picked.add(id);
+  renderRows(); renderCmpBar();
 }
-function toggleCompare(id){
-  if(selected.has(id))selected.delete(id);
-  else if(selected.size<3)selected.add(id);
-  renderRows();renderCompareBar();
-}
-function renderCompareBar(){
-  const bar=$("comparebar"),items=$("compareItems");items.innerHTML="";
-  for(const id of selected){
-    const m=REG.models[id],s=document.createElement("span");s.className="chip";s.textContent=m?.hf_id?.split("/").pop()||id;items.appendChild(s)
-  }
-  bar.classList.toggle("show",selected.size>0);
-  $("openCompare").disabled=selected.size<2;
-  $("openCompare").textContent=selected.size<2?"Select 2–3":"Compare";
+function renderCmpBar(){
+  const bar=$("cmpbar");
+  $("cmpItems").innerHTML=[...picked].map(id=>`<span class="chip">${esc((REG.models[id]||{}).hf_id||id)}</span>`).join("");
+  bar.classList.toggle("show",picked.size>0);
+  $("cmpOpen").disabled=picked.size<2;
+  $("cmpOpen").textContent=picked.size<2?"Pick 2–3":"Compare";
 }
 function openCompare(){
-  if(selected.size<2)return;
-  const g=currentGpu(),q=$("quant").value,ctx=+$("ctx").value,grid=$("compareGrid");grid.innerHTML="";
-  for(const id of selected){
-    const m=REG.models[id],f=fit(m,q,ctx,g),s=runtimeLabel(id,m,f,g),p=modelProfile(m,f),t=trades(m,f);
-    const card=document.createElement("article");card.className="comparecard";
-    card.innerHTML=`<h4>${esc(m.hf_id)}</h4><dl>
-      <dt>Ollama</dt><dd>${esc(m.ollama_tag||"not listed")}</dd>
+  if(picked.size<2)return;
+  const g=gpuNow(), ctx=+state.ctx, grid=$("cmpGrid");
+  grid.style.gridTemplateColumns=`repeat(${Math.min(picked.size,3)},1fr)`;
+  grid.innerHTML=[...picked].map(id=>{
+    const m=REG.models[id], f=fitOf(m,state.quant,ctx,g), meas=measuredFor(id,g), p=profileOf(m), t=tradesOf(m,f), st=stacksOf(m);
+    return `<article class="cmpcard"><h4>${esc(m.hf_id)}</h4><dl class="kv">
+      <dt>Ollama tag</dt><dd>${esc(m.ollama_tag||"—")}</dd>
       <dt>Parameters</dt><dd>${esc(m.params_b)}B</dd>
-      <dt>Selected fit</dt><dd>${esc(f.verdict)} · ${fmt(f.est)} GB</dd>
-      <dt>Runtime</dt><dd>${s.value==null?"—":fmt(s.value)} ${esc(s.label)}</dd>
-      <dt>Best profile</dt><dd>${esc(p.title)}</dd>
-      <dt>Pros</dt><dd>${esc(t.pros.join(", ")||"—")}</dd>
+      <dt>Fit</dt><dd>${esc(f.verdict)} · ${num(f.est)} GB</dd>
+      <dt>Speed</dt><dd>${meas?num(meas.gen_tps)+" measured":(f.verdict==="no"?"—":num(f.tps)+" est.")}</dd>
+      <dt>Best for</dt><dd>${esc(p.t)}</dd>
+      <dt>License</dt><dd>${esc(m.license||"—")}</dd>
+      <dt>Stack</dt><dd>${[st.ollama&&"OL",st.ollabridge&&"OB",st.homepilot&&"HP"].filter(Boolean).join(" ")||"—"}</dd>
       <dt>Limits</dt><dd>${esc(t.limits.join(", ")||"—")}</dd>
-      <dt>Quality eval</dt><dd>not collected</dd>
-    </dl>`;
-    grid.appendChild(card)
-  }
-  $("compareDialog").showModal();
+    </dl></article>`;
+  }).join("");
+  $("cmpDialog").showModal();
 }
-async function loadRegistry(){
-  for(const url of DATA_SOURCES){
+
+/* ---------- wiring ---------- */
+function activeFilters(){ return FACETS.filter(f=>state[f.id]!==DEFAULTS[f.id]).length; }
+function sync(){
+  writeUrl(); renderFacets(); renderRows();
+  const n=activeFilters();
+  $("activeCount").textContent=n?n+" active":"";
+}
+function pushState(){
+  ["q","gpu","quant","ctx","sort"].forEach(k=>{ state[k]=$(k==="q"?"q":k).value; });
+  expanded.clear(); sync();
+}
+function applyToInputs(){
+  $("q").value=state.q; $("gpu").value=state.gpu; $("quant").value=state.quant;
+  $("ctx").value=state.ctx; $("sort").value=state.sort;
+}
+function resetAll(){ state={...DEFAULTS}; expanded.clear(); picked.clear(); applyToInputs(); renderCmpBar(); sync(); }
+
+async function load(){
+  for(const url of SOURCES){
     try{
-      const res=await fetch(url,{cache:"no-store"});if(!res.ok)throw new Error(res.status);
-      const j=await res.json();if(!j.models||!Object.keys(j.models).length)throw new Error("empty registry");
-      REG=j;dataSource=url;return true
+      const res=await fetch(url,{cache:"no-store"});
+      if(!res.ok)throw 0;
+      const j=await res.json();
+      if(!j.models||!Object.keys(j.models).length)throw 0;
+      REG=j; source=url; return true;
     }catch(e){}
   }
-  return false
+  return false;
 }
-function setup(){
-  $("gpu").innerHTML=GPUS.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join("");
-  $("gpu").value="rtx3060-12";
-  ["search","gpu","quant","ctx","ollamaOnly","measuredOnly"].forEach(id=>$(id).addEventListener(id==="search"?"input":"change",renderRows));
-  $("openCompare").onclick=openCompare;
-  $("clearCompare").onclick=()=>{selected.clear();renderRows();renderCompareBar()};
-  $("closeCompare").onclick=()=>$("compareDialog").close();
+function sourceLabel(url){
+  if(url.includes("/registry-latest/"))return "registry-latest · auto-published weekly";
+  if(url.includes("/master/"))return "master · reviewed copy";
+  return "bundled snapshot";
+}
+function ageDays(iso){
+  const t=Date.parse(iso); return Number.isFinite(t)?Math.floor((Date.now()-t)/864e5):null;
 }
 async function boot(){
-  setup();
-  const live=await loadRegistry();
-  $("dataStatus").classList.toggle("ok",live);
-  $("dataStatus").querySelector("span").textContent=live?`registry ${REG.generated_at||"live"}`:"fallback data";
-  $("footData").textContent=`Registry source: ${dataSource}`;
-  renderStats();renderCompat();renderRows();renderCompareBar();
+  $("gpu").innerHTML=GPUS.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join("");
+  readUrl();
+  if(!GPUS.some(g=>g.id===state.gpu))state.gpu=DEFAULTS.gpu;
+  applyToInputs();
+  $("more").open=window.matchMedia("(min-width:1000px)").matches||activeFilters()>0;
+  ["q","gpu","quant","ctx","sort"].forEach(id=>$(id).addEventListener(id==="q"?"input":"change",pushState));
+  document.querySelectorAll("th[data-sort]").forEach(th=>th.onclick=()=>{ state.sort=th.dataset.sort; $("sort").value=state.sort; expanded.clear(); sync(); });
+  $("reset").onclick=resetAll; $("resetEmpty").onclick=resetAll;
+  $("cmpOpen").onclick=openCompare;
+  $("cmpClear").onclick=()=>{picked.clear();renderRows();renderCmpBar();};
+  $("cmpClose").onclick=()=>$("cmpDialog").close();
+
+  const live=await load();
+  $("status").classList.toggle("live",live);
+  const age=live?ageDays(REG.generated_at):null;
+  $("status").classList.toggle("stale",age!==null&&age>14);
+  $("status").querySelector("span").textContent=
+    !live?"registry unavailable":age===null?"registry live":age>14?`registry ${age}d old`:`registry ${REG.generated_at}`;
+  $("src").textContent=live?sourceLabel(source):"no data source";
+  renderStats(); renderCompat(); renderCalibration(); sync(); renderCmpBar();
 }
 boot();
 </script>
