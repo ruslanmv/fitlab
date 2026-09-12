@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "model_id": "qwen3-14b",
+  "ollama_tag": "qwen3:14b",
+  "runtime": {
+    "engine": "ollama",
+    "version": "0.34.0"
+  },
+  "gpu": {
+    "name": "Tesla P100-PCIE-16GB",
+    "vram_gb": 16.0,
+    "driver": "580.159.04",
+    "cuda": "",
+    "profile_id": "p100-16"
+  },
+  "quant": "Q4_K_M",
+  "context": 4096,
+  "metrics": {
+    "load_s": 5.72,
+    "ttft_ms": 48.7,
+    "prompt_tps": 883.4,
+    "gen_tps": 21.6,
+    "gen_tps_runs": [
+      21.59,
+      21.6,
+      21.6
+    ],
+    "peak_vram_gb": 9.44,
+    "output_tokens": 768
+  },
+  "run": {
+    "date": "2026-09-12",
+    "prompt_id": "fitlab-v1-256",
+    "repetitions": 3,
+    "duration_s": 121.3
+  },
+  "provenance": {
+    "source": "ci-kaggle",
+    "submitter": "",
+    "environment": "kaggle",
+    "run_url": "https://github.com/ruslanmv/fitlab/actions/runs/34701172238"
+  }
+}
