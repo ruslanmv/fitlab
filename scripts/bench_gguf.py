@@ -9,7 +9,7 @@ Usage:
   python scripts/bench_gguf.py --model qwen3:8b --out data/benchmarks/ [--reps 3] [--source ci-kaggle]
 """
 from __future__ import annotations
-import argparse, datetime, json, os, shutil, statistics, subprocess, threading, time
+import argparse, datetime, json, os, re, shutil, statistics, subprocess, threading, time
 from pathlib import Path
 from urllib import request
 
@@ -19,8 +19,21 @@ PROMPT = ("You are benchmarking. Write a precise 400-word technical explanation 
           "KV-cache memory grows with context length in transformer decoding, with one worked example.")
 
 
-def sh(cmd: str, check=True, **kw):
-    return subprocess.run(cmd, shell=True, check=check, text=True, capture_output=True, **kw)
+def sh(cmd: str, check=True, quiet=False, **kw):
+    """Run a shell command, and say why when it fails.
+
+    With capture_output and check both on, a CalledProcessError carries the stderr but
+    nothing prints it — a Kaggle run died on `curl … | sh` for three seconds' worth of
+    output that never reached the log.
+    """
+    r = subprocess.run(cmd, shell=True, text=True, capture_output=True, **kw)
+    if r.returncode != 0:
+        detail = (r.stderr or r.stdout or "").strip()
+        if detail and not quiet:
+            print(f"! `{cmd}` exited {r.returncode}:\n{detail}")
+        if check:
+            raise subprocess.CalledProcessError(r.returncode, cmd, r.stdout, r.stderr)
+    return r
 
 
 def api(path: str, payload: dict | None = None, timeout=600):
@@ -30,28 +43,59 @@ def api(path: str, payload: dict | None = None, timeout=600):
         return json.loads(r.read())
 
 
+def ensure_zstd() -> None:
+    """Ollama's installer unpacks a zstd archive and aborts if the tool is missing.
+
+    Kaggle's GPU image does not ship zstd, so `curl … | sh` exits 1 after two seconds with
+    "This version requires zstd for extraction" — which is what kept the free-T4 lane from
+    ever producing a datapoint.
+    """
+    if shutil.which("zstd"):
+        return
+    print("→ installing zstd (required by the Ollama installer)")
+    for cmd in ("apt-get install -y -qq zstd",
+                "sudo apt-get install -y -qq zstd",
+                "apt-get update -qq && apt-get install -y -qq zstd",
+                "sudo apt-get update -qq && sudo apt-get install -y -qq zstd"):
+        if sh(cmd, check=False).returncode == 0 and shutil.which("zstd"):
+            return
+    print("! could not install zstd; the Ollama installer will probably fail")
+
+
 def ensure_ollama() -> str:
     if not shutil.which("ollama"):
-        print("→ installing Ollama"); sh("curl -fsSL https://ollama.com/install.sh | sh")
+        ensure_zstd()
+        print("→ installing Ollama")
+        sh("curl -fsSL https://ollama.com/install.sh | sh")
+        if not shutil.which("ollama"):
+            raise RuntimeError("Ollama installer completed but no `ollama` on PATH")
     try:
         return api("/api/version")["version"]
     except Exception:
-        subprocess.Popen(["ollama", "serve"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        for _ in range(60):
+        log = Path(os.environ.get("FITLAB_LOG_DIR", ".")) / "ollama-serve.log"
+        with log.open("w") as fh:
+            proc = subprocess.Popen(["ollama", "serve"], stdout=fh, stderr=subprocess.STDOUT)
+        for _ in range(90):
             time.sleep(1)
             try:
                 return api("/api/version")["version"]
             except Exception:
-                pass
-        raise RuntimeError("Ollama did not start")
+                if proc.poll() is not None:
+                    break
+        tail = log.read_text()[-2000:] if log.exists() else "(no output)"
+        raise RuntimeError(f"Ollama did not start (serve exited {proc.poll()}):\n{tail}")
 
 
 def gpu_info() -> dict:
-    q = sh("nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader,nounits", check=False)
+    q = sh("nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader,nounits",
+           check=False, quiet=True)
     if q.returncode != 0 or not q.stdout.strip():
         return {"name": "cpu", "vram_gb": 0, "driver": "", "cuda": "", "profile_id": "cpu-only"}
     name, mem, drv = [s.strip() for s in q.stdout.strip().splitlines()[0].split(",")]
-    cuda = sh("nvidia-smi --query-gpu=cuda_version --format=csv,noheader", check=False).stdout.strip()
+    cuda = sh("nvidia-smi --query-gpu=cuda_version --format=csv,noheader",
+              check=False, quiet=True).stdout.strip()
+    if not re.fullmatch(r"\d+(\.\d+)*", cuda):                  # driver rejected the query
+        cuda = ""
     prof = {"Tesla T4": "t4-16", "Tesla P100-PCIE-16GB": "p100-16",
             "NVIDIA GeForce RTX 3060": "rtx3060-12", "NVIDIA GeForce RTX 4070": "rtx4070-12",
             "NVIDIA GeForce RTX 4060 Ti": "rtx4060ti-16", "NVIDIA L4": "l4-24"}.get(name)
@@ -63,10 +107,37 @@ class VramPeak(threading.Thread):
         super().__init__(daemon=True); self.peak = 0.0; self.stop = threading.Event()
     def run(self):
         while not self.stop.is_set():
-            q = sh("nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits", check=False)
+            q = sh("nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits",
+                   check=False, quiet=True)
             if q.returncode == 0 and q.stdout.strip():
                 self.peak = max(self.peak, int(q.stdout.strip().splitlines()[0]) / 1024)
             time.sleep(0.5)
+
+
+def registry_model_id(ollama_tag: str) -> str:
+    """Registry slug for an Ollama tag.
+
+    Mangling the tag ("qwen3:0.6b" -> "qwen3-06b") produced ids that match no registry
+    entry, so the measured result never joined and never reached the leaderboard. Look the
+    tag up in the registry instead, and only fall back to a slug that at least keeps the
+    dots ("qwen3-0.6b"), which is the shape sync_hf.py generates.
+    """
+    for candidate in (Path(__file__).resolve().parents[1] / "data/registry.json",
+                      Path("data/registry.json")):
+        try:
+            models = json.loads(candidate.read_text())["models"]
+        except (OSError, KeyError, json.JSONDecodeError):
+            continue
+        for mid, m in models.items():
+            if m.get("ollama_tag") == ollama_tag:
+                return mid
+        base = ollama_tag.split(":")[0]
+        hits = [mid for mid, m in models.items()
+                if (m.get("ollama_tag") or "").split(":")[0] == base]
+        if len(hits) == 1:
+            return hits[0]
+        break
+    return ollama_tag.replace(":", "-")
 
 
 def main() -> int:
@@ -78,6 +149,9 @@ def main() -> int:
     ap.add_argument("--source", default="maintainer",
                     choices=["ci-kaggle", "ci-actions-cpu", "community-colab", "community-local", "maintainer"])
     ap.add_argument("--submitter", default=os.environ.get("GITHUB_ACTOR", ""))
+    ap.add_argument("--model-id", default=None,
+                    help="registry slug to attribute this result to; looked up from the "
+                         "registry by Ollama tag when omitted")
     args = ap.parse_args()
 
     version = ensure_ollama()
@@ -109,7 +183,7 @@ def main() -> int:
 
     result = {
         "schema_version": "1.0",
-        "model_id": args.model.replace(":", "-").replace(".", ""),
+        "model_id": args.model_id or registry_model_id(args.model),
         "ollama_tag": args.model,
         "runtime": {"engine": "ollama", "version": version},
         "gpu": gpu,

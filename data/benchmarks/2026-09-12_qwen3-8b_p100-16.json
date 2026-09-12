@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "model_id": "qwen3-8b",
+  "ollama_tag": "qwen3:8b",
+  "runtime": {
+    "engine": "ollama",
+    "version": "0.34.0"
+  },
+  "gpu": {
+    "name": "Tesla P100-PCIE-16GB",
+    "vram_gb": 16.0,
+    "driver": "580.159.04",
+    "cuda": "",
+    "profile_id": "p100-16"
+  },
+  "quant": "Q4_K_M",
+  "context": 4096,
+  "metrics": {
+    "load_s": 4.02,
+    "ttft_ms": 29.2,
+    "prompt_tps": 1471.9,
+    "gen_tps": 37.28,
+    "gen_tps_runs": [
+      37.28,
+      37.29,
+      37.28
+    ],
+    "peak_vram_gb": 5.58,
+    "output_tokens": 768
+  },
+  "run": {
+    "date": "2026-09-12",
+    "prompt_id": "fitlab-v1-256",
+    "repetitions": 3,
+    "duration_s": 73.1
+  },
+  "provenance": {
+    "source": "ci-kaggle",
+    "submitter": "ruslanmv",
+    "environment": "kaggle",
+    "run_url": "https://www.kaggle.com/code/ruslanmv/llm-fitlab-weekly"
+  }
+}

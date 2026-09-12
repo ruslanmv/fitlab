@@ -6,13 +6,15 @@ Goal: a reference page any AI engineer can trust for "what runs on my 12 GB GPU 
 
 The site never contains facts. All facts live in `data/` as schema-versioned JSON/YAML; the page is a dumb renderer of `data/registry.json`. This is the same pattern as ml-tooling/best-of and ruslanmv/Best-of-the-Best, and it is the single biggest survival factor: when Hugging Face changes, only `scripts/sync_hf.py` changes — the page, the schema, and three years of benchmark history are untouched.
 
-Rules that follow from it: automation writes through pull requests (review gate + full audit trail), `data/benchmarks/` is append-only (one JSON per run, named `YYYY-MM-DD_<model>_<gpu>.json`), `registry.json` is always regenerable from seeds + HF API + benchmark files, and every JSON carries `schema_version` so old data remains parseable forever.
+Rules that follow from it: automation writes through pull requests (review gate + full audit trail) **and** publishes the rebuilt registry directly to the `registry-latest` branch, because a review gate that nobody can open is a freeze — every weekly-sync run between 2026-08-31 and 2026-09-09 pushed fresh data and then failed at PR creation with *"GitHub Actions is not permitted to create or approve pull requests"*, leaving the published registry stuck at its seed date. Data refresh is not code; the branch publishes itself, the PR carries it into `master` once that repository setting is enabled. `data/benchmarks/` is append-only (one JSON per run, named `YYYY-MM-DD_<model>_<gpu>.json`), `registry.json` is always regenerable from seeds + HF API + benchmark files, and every JSON carries `schema_version` so old data remains parseable forever.
 
 ## 2. The three lanes
 
 **FITS (deterministic).** VRAM is arithmetic, not opinion: `weights(params × bits/8) + KV cache(2 × layers × kv_heads × head_dim × ctx × bytes) + runtime overhead`. `scripts/estimate_vram.py` computes a verdict per (model, quant, context, GPU): `fits / tight / offload / no`. This runs for *every* model in the registry on every sync — it is the filter that turns "top models on HF" into "top models for a 12 GB card". Estimates are labeled `estimated` until a real benchmark upgrades them to `measured`.
 
-**RUNS (measured, weekly).** One model per week gets a real benchmark: load time, time-to-first-token, generation tokens/sec, peak VRAM (nvidia-smi polling). The rotation is `week_number % len(queue)` over the registry, so every model eventually gets measured and re-measured. Engine: Ollama's `/api/generate` timing fields (`eval_count/eval_duration`), because Ollama is the runtime the target audience actually uses — benchmark what people run, not what benchmarks best.
+**RUNS (measured, weekly).** A result is attributed by *registry id*, passed explicitly from the rotation (`--model-id`) and, for older files, resolved through `ollama_tag`. Deriving it by mangling the tag (`qwen3:0.6b` → `qwen3-06b`) matched no registry slug for 9 of 17 tagged models, so those measurements were collected and then silently dropped on join; `scripts/validate_data.py` now fails the build on an unattributable result. One model per week gets a real benchmark: load time, time-to-first-token, generation tokens/sec, peak VRAM (nvidia-smi polling). The rotation is `week_number % len(queue)` over the registry, so every model eventually gets measured and re-measured. Engine: Ollama's `/api/generate` timing fields (`eval_count/eval_duration`), because Ollama is the runtime the target audience actually uses — benchmark what people run, not what benchmarks best.
+
+**RUNNABLE (verified, weekly).** `scripts/ollama_catalog.py` scrapes the Ollama library index and every model's tag page into `data/ollama_catalog.json`, and resolves a Hugging Face repo id to a concrete `name:tag` — accepting only tags that are actually in the fetched catalogue. Auto-discovered models previously entered the registry with `ollama_tag: null` and were therefore invisible under the leaderboard's default "runs on Ollama" filter, which meant the weekly sync could never surface a new runnable model; hand-written seed tags were never re-checked and two of them (`smollm3`, `ministral-8b`) had silently stopped existing. Both directions are now gated by `validate_data.py`.
 
 **PLUGS (verified, weekly).** A CPU-only CI job installs the *latest released* versions of the stack and runs a genuine request chain: `LangGraph/CrewAI/LangFlow/DeepAgents → OllaBridge (:11435/v1) → Ollama → qwen3:0.6b`. A 0.6 B model at Q4 needs ~0.6 GB RAM, so this real end-to-end test is free on a standard GitHub Actions runner. Each cell of the compat matrix records the exact version pair that passed and the run URL — "✅ langgraph 0.6.x ↔ ollabridge 1.x on 2026-08-24" is a claim with evidence, unlike every hand-maintained compat table on the internet.
 
@@ -39,7 +41,7 @@ The requirement was "run a weekly benchmark on free Colab GPU from GitHub Action
 
 Each category's Top-10 is a scored sort, never an LLM's opinion:
 `score = 0.30·fit (verdict on the category's reference GPU) + 0.30·capability (log params — the strongest model that fits should win, not the fastest tiny one) + 0.25·hf_momentum (log downloads_30d, normalized) + 0.10·speed (measured tok/s, or bandwidth-model estimate discounted 0.5×) + 0.05·plugs (fraction of stack probes passing)`.
-The formula lives in `scripts/build_registry.py` with a `ranking_version`; changing weights bumps the version and is visible in the PR diff. Categories mirror HF pipeline tags 1:1 (text-generation, image-text-to-text, automatic-speech-recognition, text-to-speech, sentence-similarity, text-to-image) so new HF categories are a config line, not a redesign.
+The formula lives in `scripts/sync_hf.py` with a `ranking_version`; changing weights bumps the version and is visible in the PR diff. Categories mirror HF pipeline tags 1:1 (text-generation, image-text-to-text, automatic-speech-recognition, text-to-speech, sentence-similarity, text-to-image) so new HF categories are a config line, not a redesign.
 
 ## 6. Stability engineering checklist
 
@@ -58,7 +60,7 @@ Quality-eval lane (small MMLU-Pro/IFEval slice on the weekly GPU run), per-model
 
 `pip install fitlab` ships the same math and the same benchmark as CI, as a wizard:
 detect the local GPU (NVIDIA via nvidia-smi, Apple Silicon via sysctl, CPU fallback),
-fetch the **weekly registry at runtime** (24 h cache → bundled seed), let the user pick
+fetch the **weekly registry at runtime** (`registry-latest` → `master` → 24 h cache → bundled seed; the placeholder URL this shipped with, `OWNER/llm-fitlab@main`, 404s, so every installed copy silently served the bundled seed), let the user pick
 models, then run the identical Ollama benchmark (`fitlab-v1-256` prompt, 3 seeded reps)
 producing schema-valid JSON plus a prefilled community-submission URL. The bundled seed
 is refreshed by the weekly-sync PR, so every release carries current data, and installed

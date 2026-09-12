@@ -41,6 +41,7 @@ produced by a script, validated against a JSON Schema, and merged through a revi
 - [Running FitLab inside an organization](#running-fitlab-inside-an-organization)
 - [Data contract](#data-contract)
 - [How the numbers are produced](#how-the-numbers-are-produced)
+- [Secrets](#secrets)
 - [Automation](#automation)
 - [Development](#development)
 - [Contributing](#contributing)
@@ -185,18 +186,21 @@ All configuration is by environment variable — no config file, no implicit sta
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `FITLAB_REGISTRY_URL` | Public `registry.json` on the default branch | Point the CLI at a different registry — an internal mirror, a pinned commit, or a `file://` path |
+| `FITLAB_REGISTRY_URL` | `registry-latest`, then `master` | Point the CLI at a different registry — an internal mirror, a pinned commit, or a `file://` path. Set, it is tried first and the defaults still follow. |
 | `FITLAB_CACHE` | `~/.cache/fitlab` | Cache directory for the fetched registry (24-hour TTL) |
-| `FITLAB_REPO` | `OWNER/llm-fitlab` | Repository used to build benchmark submission links |
+| `FITLAB_REPO` | `ruslanmv/fitlab` | Repository used to build benchmark submission links |
 | `OLLABRIDGE_URL` | `http://127.0.0.1:11435/v1` | Gateway endpoint used by the PLUGS compatibility probes |
 | `KAGGLE_USERNAME`, `KAGGLE_KEY` | unset | Required only by the weekly GPU benchmark workflow |
 
 Network behaviour is deliberately narrow and predictable:
 
-- `check`, `detect` and the wizard's fit stage perform **one** HTTPS GET for the registry.
+- `check`, `detect` and the wizard's fit stage perform one HTTPS GET per published ref until one
+  answers (normally the first).
 - Nothing is uploaded. Benchmark results are written to local disk; sharing is a manual step.
 - With no network, the CLI degrades in a defined order: fresh cache → stale cache → bundled seed,
-  and the active source is printed on every run.
+  and the active source is printed on every run. Until 2026-09 the default URL was an unreplaced
+  placeholder (`OWNER/llm-fitlab@main`) that 404s, so every installed copy quietly served the
+  bundled seed and reported `bundled-seed`; if you see that on a networked machine, upgrade.
 
 ## Running FitLab inside an organization
 
@@ -239,6 +243,7 @@ client. Both read the same documents.
 ```
 data/
   registry.json              generated — the published source of truth (do not hand-edit)
+  ollama_catalog.json        generated — the Ollama library index, every model and tag
   models.seed.yaml           human-curated seeds and editorial notes
   hardware.yaml              GPU profiles: VRAM, bandwidth, architecture capability flags
   stack.yaml                 ecosystem components and version-discovery rules
@@ -249,7 +254,28 @@ data/
 ```
 
 `registry.json` top-level keys: `schema_version`, `generated_at`, `ranking_version`, `models`,
-`categories`, `benchmarks_latest`, `compat`.
+`categories`, `benchmarks_latest`, `compat`, `calibration`.
+
+`calibration` records how the bandwidth estimate compares with the measurements collected so
+far, rather than tuning the constant to fit them. As of 2026-09-12 it reads **2.45×** over two
+pairs (`qwen3:0.6b` on an Actions CPU runner, `qwen3:8b` on a Kaggle P100) — the estimate is a
+consistently optimistic ceiling, and the leaderboard says so. Two points is not a refit; it is
+a warning label that gets sharper each week.
+
+### Where the published registry lives
+
+| Ref | Written by | Use it for |
+|---|---|---|
+| [`registry-latest`](https://github.com/ruslanmv/fitlab/tree/registry-latest) | `weekly-sync`, every run, no review needed | The freshest data. What the CLI and the leaderboard read first. |
+| `master` | a merged review PR | The reviewed copy, and the fallback when `registry-latest` is missing. |
+| bundled seed | a release | Offline fallback inside the installed package. |
+
+Publishing to a branch is deliberate: a review gate nobody can open is a freeze. Every `weekly-sync`
+run between 2026-08-31 and 2026-09-09 rebuilt the registry correctly and then failed at PR creation
+with *"GitHub Actions is not permitted to create or approve pull requests"*, so the published data
+sat at its seed date while the job reported failure. Data refresh is not code — the branch publishes
+itself, and the PR still carries it into `master` for review. To enable the PR too, turn on **Allow
+GitHub Actions to create and approve pull requests** in Settings → Actions → General.
 
 Stability guarantees:
 
@@ -257,6 +283,16 @@ Stability guarantees:
 - `data/benchmarks/` is append-only; results are never rewritten or deleted.
 - Models withdrawn from Hugging Face are marked `stale` and hidden after 60 days — never removed.
 - Fit values are labeled `estimated` until a real benchmark upgrades them to `measured`.
+- `ollama_tag` is only ever a tag that exists in `ollama_catalog.json`. `make validate` fails the
+  build on a tag that has left the Ollama library, so the page never tells you to run something
+  that is not there.
+- Every benchmark result must attach to a registry model by `model_id` or `ollama_tag`; an
+  unattributable result fails `make validate` rather than being silently dropped on join.
+- One Ollama tag belongs to one model. A speech or quantised variant that resolves onto a text
+  model's tag has the tag cleared, with a warning in the sync log.
+- `license` and `capabilities` on an auto-discovered entry are derived: `license:*` and
+  capability tags come from the Hugging Face model card, the rest from repo naming
+  (`-Coder-`, `-VL-`, `R1`, `-A3B`). Curated seed values always win.
 
 ## How the numbers are produced
 
@@ -288,12 +324,42 @@ where `speed` uses a measured value when one exists and a bandwidth-model estima
 0.5× otherwise. Changing the weights requires a version bump, making every rank shift visible in
 the pull request diff.
 
+## Secrets
+
+All secrets live in **GitHub** — Settings → Secrets and variables → Actions → New repository
+secret. Nothing is configured on the Hugging Face side: a *static* Space has no secrets and
+needs none, because the page is a static file that fetches a public `registry.json`. The
+Space never calls Kaggle or Hugging Face with a token; the GitHub workflow holds the
+credentials, builds the data, and pushes the finished page to the Space.
+
+| Secret | Needed by | Where to get it | Without it |
+|---|---|---|---|
+| `HF_TOKEN` | `sync-hf-space` | huggingface.co → Settings → Access Tokens → **Write** | The Space is never updated |
+| `KAGGLE_USERNAME` | `weekly-benchmark` GPU lane | your Kaggle username | GPU lane skips, CPU lane still runs |
+| `KAGGLE_API_TOKEN` | `weekly-benchmark` GPU lane | kaggle.com → Settings → API → **Generate New Token** | GPU lane skips, CPU lane still runs |
+
+`KAGGLE_API_TOKEN` is the variable the current Kaggle CLI reads and the only one that accepts
+a `KGAT_…` token; `KAGGLE_KEY` is interpreted as a legacy API key and fails against one. The
+workflow passes both, so an older `KAGGLE_KEY` still works if that is what you have.
+
+Also enable **Allow GitHub Actions to create and approve pull requests** (Settings → Actions →
+General → Workflow permissions). Without it the weekly review PRs cannot be opened; data still
+publishes to `registry-latest`, so the leaderboard stays current either way.
+
+```
+GitHub repo secrets ──> weekly-sync ────────> registry-latest branch ──┐
+                   │                                                   ├──> leaderboard + CLI
+                   ├──> weekly-benchmark ──> Kaggle T4 ──> data/ ──────┘
+                   └──> sync-hf-space ─────> Hugging Face Space (static, no secrets)
+```
+
 ## Automation
 
 | Workflow | Schedule | What it does |
 |---|---|---|
-| [`weekly-sync`](.github/workflows/weekly-sync.yml) | Wed 04:41 UTC | Refreshes the registry from Hugging Face, re-runs the FITS engine, validates against the schema, opens a review PR |
-| [`weekly-benchmark`](.github/workflows/weekly-benchmark.yml) | Mon 03:17 UTC | Benchmarks the rotation model on a free T4 via the Kaggle Kernels API, with a CPU lane as fallback, and runs the PLUGS probes |
+| [`weekly-sync`](.github/workflows/weekly-sync.yml) | Wed 04:41 UTC | Refreshes the Ollama library catalogue, pulls the leading models per Hugging Face pipeline tag by trend, downloads **and** last-modified, re-runs the FITS engine, resolves every entry to a verified Ollama tag, validates, publishes to `registry-latest`, and opens a review PR |
+| [`weekly-benchmark`](.github/workflows/weekly-benchmark.yml) | Mon 03:17 UTC | Benchmarks the rotation model on a free T4 via the Kaggle Kernels API, with a CPU lane as fallback, and runs the PLUGS probes. The rotation passes the registry id through as `--model-id`, so the result attaches to the model it measured |
+| [`sync-hf-space`](.github/workflows/sync-hf-space.yml) | On push + Thu 06:20 UTC | Deploys the leaderboard to the Hugging Face Space, committing on top of the Space's history |
 | [`community-submission`](.github/workflows/community-submission.yml) | On labeled issues | Extracts, schema-validates and sanity-bounds a submitted result, then merges it via PR with attribution |
 | [`publish-pypi`](.github/workflows/publish-pypi.yml) | On release | Builds, smoke-tests and publishes the package using PyPI Trusted Publishing (OIDC, no long-lived token) |
 
@@ -323,6 +389,8 @@ make run              # launches the fit-check wizard
 | `make run` | Launch the interactive wizard |
 | `make detect` / `make check` / `make bench` / `make update` | The corresponding `fitlab` subcommands |
 | `make registry` | Rebuild `data/registry.json` from Hugging Face (FITS + sync) |
+| `python scripts/ollama_catalog.py` | Refresh `data/ollama_catalog.json` from the Ollama library |
+| `python scripts/ollama_catalog.py --check <hf_id>…` | Show the Ollama tag a Hugging Face repo resolves to |
 | `make estimate` | Full FITS verdict matrix across seed models × reference GPUs × quantizations |
 | `make probe` | Run the PLUGS end-to-end stack probes |
 | `make validate` | Schema-validate every document in `data/` |

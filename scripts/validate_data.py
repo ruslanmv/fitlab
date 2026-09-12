@@ -2,8 +2,13 @@
 """Validate every document in data/ against data/schema/ — the gate `make validate` runs.
 
 Checks the registry's model entries against model.schema.json and every appended
-benchmark result against benchmark.schema.json. Exit code = number of invalid
-documents, so CI and `make test` fail honestly.
+benchmark result against benchmark.schema.json, then the joins that no schema can
+express: that every benchmark attaches to a real registry model, and that every
+published Ollama tag is really in the Ollama library. Both of those failed silently
+in production — 9 of 17 tagged models produced benchmarks that matched no model id,
+and two seed tags pointed at library entries that no longer exist.
+
+Exit code = number of invalid documents, so CI and `make test` fail honestly.
 
 Usage:
   python scripts/validate_data.py [--data data]
@@ -50,8 +55,53 @@ def validate(data_dir: Path) -> int:
             bad += 1
             print(f"FAIL {path.relative_to(data_dir.parent)}: {e}")
     print(f"ok   benchmarks — {len(results)} result file(s)")
+    bad += _check_joins(data_dir, results)
 
     print("PASSED" if not bad else f"FAILED — {bad} invalid document(s)")
+    return bad
+
+
+def _check_joins(data_dir: Path, results: list[Path]) -> int:
+    """Cross-document checks: benchmark → registry, and registry → Ollama library."""
+    registry_path = data_dir / "registry.json"
+    if not registry_path.exists():
+        return 0
+    models = _load(registry_path).get("models", {})
+    by_tag = {m["ollama_tag"]: mid for mid, m in models.items() if m.get("ollama_tag")}
+    bad = 0
+
+    orphans = []
+    for path in results:
+        try:
+            b = _load(path)
+        except json.JSONDecodeError:
+            continue                                     # already counted by the schema pass
+        if b.get("model_id") in models or b.get("ollama_tag") in by_tag:
+            continue
+        orphans.append(f"{path.name} (model_id={b.get('model_id')}, tag={b.get('ollama_tag')})")
+    for o in orphans:
+        print(f"FAIL benchmark joins to no registry model: {o}")
+    bad += len(orphans)
+    print(f"ok   benchmark joins — {len(results) - len(orphans)}/{len(results)} attach to a model")
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    try:
+        import ollama_catalog
+        catalog = ollama_catalog.load()
+    except Exception as e:
+        print(f"WARN Ollama catalogue unavailable ({e}) — tag validation skipped")
+        return bad
+    if not catalog.get("models"):
+        print("WARN no data/ollama_catalog.json — run scripts/ollama_catalog.py to enable "
+              "tag validation")
+        return bad
+    dead = {tag: mid for tag, mid in by_tag.items()
+            if not ollama_catalog.tag_exists(tag, catalog)}
+    for tag, mid in sorted(dead.items()):
+        print(f"FAIL {mid}: ollama_tag '{tag}' is not in the Ollama library")
+    bad += len(dead)
+    print(f"ok   ollama tags — {len(by_tag) - len(dead)}/{len(by_tag)} runnable "
+          f"(library fetched {catalog.get('fetched_at')})")
     return bad
 
 

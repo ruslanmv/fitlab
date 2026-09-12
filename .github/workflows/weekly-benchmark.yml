@@ -7,7 +7,10 @@
 # PLUGS lane→ latest Ollama + OllaBridge + LangGraph/CrewAI/Langflow/Langfuse/DeepAgents + top-10
 #             PyPI, exercised end-to-end against a real 0.6 B model on CPU.
 #
-# Secrets: KAGGLE_USERNAME, KAGGLE_KEY (kaggle.com → Settings → API → Create New Token)
+# Secrets: KAGGLE_USERNAME, KAGGLE_API_TOKEN (kaggle.com → Settings → API → Generate New Token).
+#   KAGGLE_API_TOKEN is the current variable and the only one that accepts a `KGAT_…` token;
+#   KAGGLE_KEY is read as a LEGACY_API_KEY and fails against one. Both are passed through, so
+#   an older key still works if that is what the repository has.
 name: weekly-benchmark
 
 on:
@@ -32,6 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       model: ${{ steps.pick.outputs.model }}
+      model_id: ${{ steps.pick.outputs.model_id }}
     steps:
       - uses: actions/checkout@v4
       - id: pick
@@ -40,19 +44,25 @@ jobs:
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import datetime, json, pathlib, os
           override = os.environ.get("INPUT_MODEL", "").strip()
-          if override:
-              print(f"model={override}"); raise SystemExit
           reg = json.loads(pathlib.Path("data/registry.json").read_text()) \
                 if pathlib.Path("data/registry.json").exists() else None
+          by_tag = {m["ollama_tag"]: mid for mid, m in (reg or {}).get("models", {}).items()
+                    if m.get("ollama_tag")}
+          if override:
+              print(f"model={override}")
+              print(f"model_id={by_tag.get(override, '')}")
+              raise SystemExit
           if reg:
               ids = [t["id"] for t in reg["categories"]["colab-free"]["top"]]
-              tags = [reg["models"][i].get("ollama_tag") for i in ids]
-              queue = [t for t in tags if t]
+              queue = [(reg["models"][i].get("ollama_tag"), i) for i in ids]
+              queue = [(t, i) for t, i in queue if t]
           else:
-              queue = ["qwen3:8b", "phi4:14b", "gemma3:12b", "deepseek-r1:14b",
-                       "qwen2.5-coder:14b", "llama3.1:8b", "qwen3:14b", "gpt-oss:20b"]
+              queue = [("qwen3:8b", "qwen3-8b"), ("phi4:14b", "phi-4"),
+                       ("gemma3:12b", "gemma-3-12b"), ("deepseek-r1:14b", "deepseek-r1-14b")]
           week = datetime.date.today().isocalendar().week
-          print(f"model={queue[week % len(queue)]}")
+          tag, mid = queue[week % len(queue)]
+          print(f"model={tag}")
+          print(f"model_id={mid}")
           PY
         env:
           INPUT_MODEL: ${{ inputs.model }}
@@ -71,15 +81,20 @@ jobs:
         id: kaggle-auth
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
-          if [ -z "$KAGGLE_USERNAME" ] || [ -z "$KAGGLE_KEY" ]; then
+          if [ -z "$KAGGLE_USERNAME" ] || { [ -z "$KAGGLE_API_TOKEN" ] && [ -z "$KAGGLE_KEY" ]; }; then
             echo "configured=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::Kaggle GPU lane skipped: KAGGLE_USERNAME/KAGGLE_KEY are not configured."
-            echo "### ⚠ Kaggle GPU lane skipped" >> "$GITHUB_STEP_SUMMARY"
-            echo "Add **KAGGLE_USERNAME** and **KAGGLE_KEY** repository secrets to restore weekly T4 measurements." >> "$GITHUB_STEP_SUMMARY"
+            echo "::warning::Kaggle GPU lane skipped: KAGGLE_USERNAME plus KAGGLE_API_TOKEN (or legacy KAGGLE_KEY) are not configured."
+            {
+              echo "### ⚠ Kaggle GPU lane skipped"
+              echo "Add **KAGGLE_USERNAME** and **KAGGLE_API_TOKEN** repository secrets to restore weekly T4 measurements."
+              echo "Generate the token at kaggle.com → Settings → API → Generate New Token."
+            } >> "$GITHUB_STEP_SUMMARY"
           else
             echo "configured=true" >> "$GITHUB_OUTPUT"
+            echo "Kaggle auth: ${KAGGLE_API_TOKEN:+KAGGLE_API_TOKEN}${KAGGLE_API_TOKEN:-legacy KAGGLE_KEY} as $KAGGLE_USERNAME"
           fi
 
       - if: steps.kaggle-auth.outputs.configured == 'true'
@@ -99,11 +114,12 @@ jobs:
           os.environ["FITLAB_ENV"] = "kaggle"
           os.environ["RUN_URL"] = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           subprocess.run(["python", "bench_gguf.py", "--model", "${MODEL}",
+                          "--model-id", "${{ needs.pick-model.outputs.model_id }}",
                           "--out", "/kaggle/working", "--source", "ci-kaggle", "--reps", "3"], check=True)
           EOF
           cat > kernel/kernel-metadata.json <<EOF
           { "id": "${KAGGLE_USERNAME}/llm-fitlab-weekly",
-            "title": "llm-fitlab weekly benchmark",
+            "title": "llm fitlab weekly",
             "code_file": "fitlab_bench.py",
             "language": "python", "kernel_type": "script",
             "is_private": true, "enable_gpu": true, "enable_internet": true }
@@ -113,19 +129,34 @@ jobs:
         if: steps.kaggle-auth.outputs.configured == 'true'
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_API_TOKEN }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
         run: |
+          set -euo pipefail
+          KERNEL=$(python -c "import json;print(json.load(open('kernel/kernel-metadata.json'))['id'])")
           kaggle kernels push -p kernel
+
+          # The push prints the URL Kaggle actually created. If the title ever stops
+          # resolving to the id, poll what exists rather than what we asked for.
+          if ! kaggle kernels status "$KERNEL" >/dev/null 2>&1; then
+            echo "::error::Kaggle did not create $KERNEL — check the kernel title still slugs to the id."
+            exit 1
+          fi
+
           for i in $(seq 1 60); do
             sleep 60
-            STATUS=$(kaggle kernels status "${KAGGLE_USERNAME}/llm-fitlab-weekly" 2>/dev/null || echo pending)
+            STATUS=$(kaggle kernels status "$KERNEL" 2>/dev/null || echo pending)
             echo "[$i] $STATUS"
             case "$STATUS" in
               *complete*) break ;;
-              *error*|*cancel*) echo "::error::Kaggle run failed"; exit 1 ;;
+              *error*|*cancel*)
+                echo "::error::Kaggle run failed — log follows"
+                mkdir -p out && kaggle kernels output "$KERNEL" -p out || true
+                for f in out/*.log; do [ -f "$f" ] && tail -c 4000 "$f"; done
+                exit 1 ;;
             esac
           done
-          mkdir -p out && kaggle kernels output "${KAGGLE_USERNAME}/llm-fitlab-weekly" -p out
+          mkdir -p out && kaggle kernels output "$KERNEL" -p out
           ls -la out
 
       - name: Validate against schema and stage result
@@ -157,7 +188,9 @@ jobs:
         env:
           FITLAB_ENV: actions
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: python scripts/bench_gguf.py --model qwen3:0.6b --out data/benchmarks --source ci-actions-cpu --reps 3
+        run: |
+          python scripts/bench_gguf.py --model qwen3:0.6b --model-id qwen3-0.6b \
+            --out data/benchmarks --source ci-actions-cpu --reps 3
       - uses: actions/upload-artifact@v4
         with: { name: cpu-result, path: data/benchmarks/*.json }
 
@@ -206,6 +239,8 @@ jobs:
           python scripts/sync_hf.py
           # Never let the transient Actions download directory leak into the PR.
           rm -rf incoming
+          pip install jsonschema
+          python scripts/validate_data.py
 
       - name: Open results PR (automation never pushes to main)
         id: results-pr

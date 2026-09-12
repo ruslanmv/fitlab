@@ -23,9 +23,36 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       - run: pip install pyyaml jsonschema
+
       - name: Pull top models per HF pipeline tag, run FITS filter, rebuild registry
         run: python scripts/sync_hf.py
-          cp data/registry.json src/fitlab/data/seed_registry.json
+
+      - name: Every published Ollama tag must exist in the live library
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          sys.path.insert(0, "scripts")
+          import ollama_catalog
+          cat = ollama_catalog.load()
+          if not cat.get("models"):
+              print("::warning::no Ollama catalogue on disk — skipping tag validation")
+              raise SystemExit(0)
+          reg = json.loads(pathlib.Path("data/registry.json").read_text())["models"]
+          tagged = {mid: m["ollama_tag"] for mid, m in reg.items() if m.get("ollama_tag")}
+          dead = {mid: t for mid, t in tagged.items() if not ollama_catalog.tag_exists(t, cat)}
+          for mid, t in dead.items():
+              print(f"::error::{mid}: ollama_tag '{t}' is not in the Ollama library")
+          if dead:
+              sys.exit(f"{len(dead)} unrunnable Ollama tag(s) would have been published")
+          print(f"✓ all {len(tagged)} Ollama tags resolve against the "
+                f"{cat['count']}-model library fetched {cat['fetched_at']}")
+          PY
+
+      # sync_hf.py writes data/registry.json + site/registry.json; the packaged seed
+      # has to follow or `pip install fitlab` keeps shipping last season's models.
+      - name: Refresh the packaged seed registry
+        run: cp data/registry.json src/fitlab/data/seed_registry.json
+
       - name: Validate every registry entry against the schema
         run: |
           python - <<'PY'
@@ -41,13 +68,114 @@ jobs:
           assert bad == 0, f"{bad} invalid entries"
           print(f"✓ {len(reg['models'])} entries valid")
           PY
-      - uses: peter-evans/create-pull-request@v7
+
+      # Opening the review PR needs "Allow GitHub Actions to create and approve pull
+      # requests" (repo Settings -> Actions -> General), which is currently off — every
+      # weekly-sync run so far pushed fresh data and then failed at PR creation, leaving
+      # the published registry frozen. Data refresh is not code, so it publishes itself to
+      # a dedicated branch that needs no merge; the PR below still carries it into master
+      # for review once that setting is enabled.
+      - name: Check the three registry copies agree
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          paths = ["data/registry.json", "site/registry.json", "src/fitlab/data/seed_registry.json"]
+          loaded = [json.loads(pathlib.Path(p).read_text()) for p in paths]
+          if len({json.dumps(r, sort_keys=True) for r in loaded}) != 1:
+              sys.exit("::error::registry copies drifted: " + ", ".join(paths))
+          reg = loaded[0]
+          stale = sum(1 for m in reg["models"].values() if m.get("status") == "stale")
+          print(f"✓ {len(reg['models'])} models in sync across {len(paths)} copies "
+                f"({stale} stale, generated_at {reg['generated_at']})")
+          PY
+
+      - name: Publish the registry to registry-latest
+        run: |
+          set -euo pipefail
+          # Built in a detached worktree: `git checkout --orphan` in the main checkout
+          # untracks every file, and the checkout back would then refuse to overwrite them.
+          # A worktree shares this clone's credentials, so the push still authenticates.
+          WT="$RUNNER_TEMP/registry-latest"
+          rm -rf "$WT"
+          git worktree add -q --detach "$WT"
+          git -C "$WT" checkout -q --orphan registry-latest
+          git -C "$WT" rm -rq --cached .
+          find "$WT" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+
+          mkdir -p "$WT/data" "$WT/site"
+          cp data/registry.json data/ollama_catalog.json "$WT/data/"
+          cp site/registry.json "$WT/site/"
+          cat > "$WT/README.md" <<'EOF'
+          # registry-latest
+
+          Published automatically by [`weekly-sync`](../../actions/workflows/weekly-sync.yml).
+          Data only — no code, no history worth reading. Consumers read:
+
+          - `data/registry.json` — the full registry (`fitlab` CLI)
+          - `site/registry.json`  — the same document, minified (leaderboard)
+          - `data/ollama_catalog.json` — the Ollama library index the tags were validated against
+
+          The reviewed copy lives on `master`.
+          EOF
+
+          git -C "$WT" add -A
+          git -C "$WT" -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -qm "registry $(python -c "import json;print(json.load(open('data/registry.json'))['generated_at'])")"
+          for attempt in 1 2 3 4; do
+            git -C "$WT" push -f origin registry-latest && break
+            echo "push failed (attempt $attempt)"; sleep $((2 ** attempt))
+          done
+          git worktree remove --force "$WT"
+
+      - name: Summarise the refresh
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          reg = json.loads(pathlib.Path("data/registry.json").read_text())
+          rows = ["### Weekly registry refresh", "",
+                  f"- generated_at: `{reg['generated_at']}`",
+                  f"- models: **{len(reg['models'])}**",
+                  f"- with an Ollama tag: **{sum(1 for m in reg['models'].values() if m.get('ollama_tag'))}**",
+                  f"- measured benchmark pairs: **{len(reg.get('benchmarks_latest', {}))}**",
+                  f"- stale: **{sum(1 for m in reg['models'].values() if m.get('status') == 'stale')}**"]
+          pathlib.Path(os.environ["GITHUB_STEP_SUMMARY"]).write_text("\n".join(rows) + "\n")
+          PY
+
+      - id: review-pr
+        continue-on-error: true
+        uses: peter-evans/create-pull-request@v7
         with:
           branch: bot/weekly-sync
           title: "data: weekly Hugging Face registry sync"
           commit-message: "data: weekly HF sync (auto)"
+          add-paths: |
+            data/registry.json
+            data/ollama_catalog.json
+            site/registry.json
+            src/fitlab/data/seed_registry.json
           body: |
             Weekly registry refresh from the Hugging Face API.
-            Review checklist: new entries plausible? any surprising `stale` markings? rank shifts explained by the score components?
+
+            Updates all three registry copies (`data/`, `site/`, packaged seed). Merging this to
+            `master` re-deploys the Hugging Face Space through `sync-hf-space`, so the public
+            leaderboard picks up the new models automatically.
+
+            Review checklist: new entries plausible? any surprising `stale` markings? rank shifts
+            explained by the score components?
           labels: bot, registry
           delete-branch: true
+
+      - name: Explain a blocked review PR
+        if: steps.review-pr.outcome != 'success'
+        run: |
+          {
+            echo "### ⚠ Review PR not created"
+            echo ""
+            echo "Fresh data **was** published to \`registry-latest\`, so the leaderboard and"
+            echo "\`pip install fitlab\` are up to date regardless."
+            echo ""
+            echo "To also get the reviewed PR into \`master\`, enable **Allow GitHub Actions to"
+            echo "create and approve pull requests** in Settings → Actions → General →"
+            echo "Workflow permissions. Until then the branch \`bot/weekly-sync\` holds the diff."
+          } >> "$GITHUB_STEP_SUMMARY"

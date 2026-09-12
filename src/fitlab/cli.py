@@ -11,7 +11,7 @@ from rich.table import Table
 from . import __version__, bench, estimate, hardware, registry
 
 console = Console(highlight=False)
-REPO = os.environ.get("FITLAB_REPO", "OWNER/llm-fitlab")
+REPO = os.environ.get("FITLAB_REPO", "ruslanmv/fitlab")
 
 VERDICT_STYLE = {"fits": "bold green", "tight": "bold yellow",
                  "offload": "dark_orange", "no": "bold red", "-": "dim"}

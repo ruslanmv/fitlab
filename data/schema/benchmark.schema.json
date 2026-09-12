@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/OWNER/llm-fitlab/data/schema/benchmark.schema.json",
+  "$id": "https://github.com/ruslanmv/fitlab/data/schema/benchmark.schema.json",
   "title": "FitLab benchmark result",
   "type": "object",
   "required": ["schema_version", "model_id", "runtime", "gpu", "quant", "metrics", "run", "provenance"],
