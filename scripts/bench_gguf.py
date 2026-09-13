@@ -9,7 +9,7 @@ Usage:
   python scripts/bench_gguf.py --model qwen3:8b --out data/benchmarks/ [--reps 3] [--source ci-kaggle]
 """
 from __future__ import annotations
-import argparse, datetime, json, os, re, shutil, statistics, subprocess, threading, time
+import argparse, datetime, json, os, re, shutil, statistics, subprocess, tempfile, threading, time
 from pathlib import Path
 from urllib import request
 
@@ -72,7 +72,9 @@ def ensure_ollama() -> str:
     try:
         return api("/api/version")["version"]
     except Exception:
-        log = Path(os.environ.get("FITLAB_LOG_DIR", ".")) / "ollama-serve.log"
+        # Never the working directory: running this from a checkout dropped a 33 KB
+        # ollama-serve.log into the repo root, and it got committed.
+        log = Path(os.environ.get("FITLAB_LOG_DIR", tempfile.gettempdir())) / "ollama-serve.log"
         with log.open("w") as fh:
             proc = subprocess.Popen(["ollama", "serve"], stdout=fh, stderr=subprocess.STDOUT)
         for _ in range(90):
@@ -83,6 +85,7 @@ def ensure_ollama() -> str:
                 if proc.poll() is not None:
                     break
         tail = log.read_text()[-2000:] if log.exists() else "(no output)"
+        print(f"! ollama serve log: {log}")
         raise RuntimeError(f"Ollama did not start (serve exited {proc.poll()}):\n{tail}")
 
 

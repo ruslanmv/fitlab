@@ -14,3 +14,6 @@ kernel/
 out/
 results/
 this-week-pins.txt
+
+# Ollama server log from a local bench run (see scripts/bench_gguf.py)
+ollama-serve.log
