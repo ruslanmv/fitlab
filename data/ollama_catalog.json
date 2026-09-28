@@ -1,6 +1,6 @@
 {
-  "count": 240,
-  "fetched_at": "2026-09-12",
+  "count": 238,
+  "fetched_at": "2026-09-28",
   "models": {
     "alfred": {
       "tags": [
@@ -1100,12 +1100,6 @@
         "latest"
       ]
     },
-    "deepseek-v4-flash": {
-      "tags": [
-        "0731-cloud",
-        "cloud"
-      ]
-    },
     "deepseek-v4-pro": {
       "tags": [
         "0813-cloud",
@@ -1973,11 +1967,6 @@
         "latest",
         "q4_K_M",
         "q8_0"
-      ]
-    },
-    "glm-5.1": {
-      "tags": [
-        "cloud"
       ]
     },
     "glm-5.2": {
@@ -6292,7 +6281,6 @@
         "35b-a3b-q4_K_M",
         "35b-a3b-q8_0",
         "35b-mlx",
-        "397b-cloud",
         "4b",
         "4b-bf16",
         "4b-mlx",
@@ -6309,7 +6297,6 @@
         "9b-nvfp4",
         "9b-q4_K_M",
         "9b-q8_0",
-        "cloud",
         "latest"
       ]
     },

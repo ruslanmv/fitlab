@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "model_id": "qwen2.5-coder-7b-instruct",
+  "ollama_tag": "qwen2.5-coder:7b",
+  "runtime": {
+    "engine": "ollama",
+    "version": "0.34.4"
+  },
+  "gpu": {
+    "name": "Tesla T4",
+    "vram_gb": 15.0,
+    "driver": "580.159.04",
+    "cuda": "",
+    "profile_id": "t4-16"
+  },
+  "quant": "Q4_K_M",
+  "context": 4096,
+  "metrics": {
+    "load_s": 72.43,
+    "ttft_ms": 24.6,
+    "prompt_tps": 2515.4,
+    "gen_tps": 33.23,
+    "gen_tps_runs": [
+      13.16,
+      33.92,
+      33.23
+    ],
+    "peak_vram_gb": 6.36,
+    "output_tokens": 768
+  },
+  "run": {
+    "date": "2026-09-28",
+    "prompt_id": "fitlab-v1-256",
+    "repetitions": 3,
+    "duration_s": 174.7
+  },
+  "provenance": {
+    "source": "ci-kaggle",
+    "submitter": "",
+    "environment": "kaggle",
+    "run_url": "https://github.com/ruslanmv/fitlab/actions/runs/36405631615"
+  }
+}

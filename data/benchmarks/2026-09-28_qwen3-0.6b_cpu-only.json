@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "model_id": "qwen3-0.6b",
+  "ollama_tag": "qwen3:0.6b",
+  "runtime": {
+    "engine": "ollama",
+    "version": "0.34.4"
+  },
+  "gpu": {
+    "name": "cpu",
+    "vram_gb": 0,
+    "driver": "",
+    "cuda": "",
+    "profile_id": "cpu-only"
+  },
+  "quant": "Q4_K_M",
+  "context": 4096,
+  "metrics": {
+    "load_s": 1.02,
+    "ttft_ms": 12.9,
+    "prompt_tps": 3338.5,
+    "gen_tps": 75.4,
+    "gen_tps_runs": [
+      75.4,
+      75.87,
+      74.96
+    ],
+    "peak_vram_gb": 0.0,
+    "output_tokens": 768
+  },
+  "run": {
+    "date": "2026-09-28",
+    "prompt_id": "fitlab-v1-256",
+    "repetitions": 3,
+    "duration_s": 19.3
+  },
+  "provenance": {
+    "source": "ci-actions-cpu",
+    "submitter": "ruslanmv",
+    "environment": "actions",
+    "run_url": "https://github.com/ruslanmv/fitlab/actions/runs/36405631615"
+  }
+}
