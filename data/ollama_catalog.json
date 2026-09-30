@@ -1,6 +1,6 @@
 {
   "count": 240,
-  "fetched_at": "2026-09-12",
+  "fetched_at": "2026-09-30",
   "models": {
     "alfred": {
       "tags": [
@@ -1100,12 +1100,6 @@
         "latest"
       ]
     },
-    "deepseek-v4-flash": {
-      "tags": [
-        "0731-cloud",
-        "cloud"
-      ]
-    },
     "deepseek-v4-pro": {
       "tags": [
         "0813-cloud",
@@ -1925,6 +1919,7 @@
         "12b-mxfp8",
         "12b-nvfp4",
         "26b",
+        "26b-a4b",
         "26b-a4b-it-bf16",
         "26b-a4b-it-mtp-q4_K_M",
         "26b-a4b-it-q4_K_M",
@@ -1973,11 +1968,6 @@
         "latest",
         "q4_K_M",
         "q8_0"
-      ]
-    },
-    "glm-5.1": {
-      "tags": [
-        "cloud"
       ]
     },
     "glm-5.2": {
@@ -4367,6 +4357,15 @@
         "latest"
       ]
     },
+    "nimble": {
+      "tags": [
+        "9b",
+        "9b-bf16",
+        "9b-q4_K_M",
+        "9b-q8_0",
+        "latest"
+      ]
+    },
     "nomic-embed-text": {
       "tags": [
         "137m-v1.5-fp16",
@@ -6292,7 +6291,6 @@
         "35b-a3b-q4_K_M",
         "35b-a3b-q8_0",
         "35b-mlx",
-        "397b-cloud",
         "4b",
         "4b-bf16",
         "4b-mlx",
@@ -6309,7 +6307,6 @@
         "9b-nvfp4",
         "9b-q4_K_M",
         "9b-q8_0",
-        "cloud",
         "latest"
       ]
     },
@@ -7304,6 +7301,18 @@
         "7b-beta-q8_0",
         "alpha",
         "beta",
+        "latest"
+      ]
+    },
+    "tev1": {
+      "tags": [
+        "0.8b",
+        "0.8b-bf16",
+        "0.8b-q8_0",
+        "4b",
+        "4b-bf16",
+        "4b-q4_K_M",
+        "4b-q8_0",
         "latest"
       ]
     },
