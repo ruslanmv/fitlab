@@ -154,6 +154,10 @@ def main() -> int:
     hw = yaml.safe_load((ROOT / "data/hardware.yaml").read_text())
     seeds = yaml.safe_load((ROOT / "data/models.seed.yaml").read_text())
     defaults, ctx = hw["fit_defaults"], hw["fit_defaults"]["context_tokens"]
+    # Shared hardware catalog; preserve the ranking's two reference lanes.
+    sys.path.insert(0, str(ROOT / "src"))
+    from fitlab import gpu_catalog
+    hw["gpus"] = gpu_catalog.load()["gpus"]
     ref_gpus = {g["id"]: g for g in hw["gpus"] if g.get("reference")}
     t4 = ref_gpus["t4-16"]
 

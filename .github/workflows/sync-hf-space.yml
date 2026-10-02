@@ -6,6 +6,7 @@ on:
     paths:
       - "huggingface-space/**"
       - "site/registry.json"
+      - "site/hardware*.js"
       - ".github/workflows/sync-hf-space.yml"
   schedule:
     # Thursdays 06:20 UTC — after weekly-sync lands, so the Space always serves
@@ -94,6 +95,8 @@ jobs:
 
           cp huggingface-space/README.md "$WORK/README.md"
           cp huggingface-space/index.html "$WORK/index.html"
+          cp huggingface-space/hardware.js "$WORK/hardware.js"
+          cp huggingface-space/hardware-ui.js "$WORK/hardware-ui.js"
           # Ship the current registry snapshot so the Space is self-contained.
           cp site/registry.json "$WORK/registry.json"
 

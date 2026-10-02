@@ -55,6 +55,15 @@ def validate(data_dir: Path) -> int:
             bad += 1
             print(f"FAIL {path.relative_to(data_dir.parent)}: {e}")
     print(f"ok   benchmarks — {len(results)} result file(s)")
+    sys.path.insert(0, str(ROOT / "src"))
+    from fitlab.gpu_catalog import validate as validate_gpus
+    try:
+        catalog = _load(data_dir / "gpu_catalog.json")
+        validate_gpus(catalog)
+        print(f"ok   gpu_catalog.json — {len(catalog['gpus'])} profiles")
+    except (OSError, ValueError, KeyError) as e:
+        bad += 1
+        print(f"FAIL gpu_catalog.json: {e}")
     bad += _check_joins(data_dir, results)
 
     print("PASSED" if not bad else f"FAILED — {bad} invalid document(s)")

@@ -1,0 +1,2006 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-10-02",
+  "gpus": [
+    {
+      "id": "apple-m-16",
+      "name": "Apple Silicon 16GB unified",
+      "vram_gb": 11.0,
+      "bandwidth_gbs": 120,
+      "arch": "apple",
+      "sm": "n/a",
+      "flags": {
+        "bf16": true,
+        "flash_attn2": false,
+        "marlin": false,
+        "metal": true
+      },
+      "notes": "Community-submitted results only; Ollama Metal backend.",
+      "vendor": "apple",
+      "form_factor": "unified",
+      "model": "Apple Silicon 16GB unified",
+      "sources": [
+        "https://github.com/ruslanmv/fitlab/blob/master/data/hardware.yaml"
+      ]
+    },
+    {
+      "id": "cpu-only",
+      "name": "CPU only (any)",
+      "vram_gb": 0,
+      "bandwidth_gbs": 50,
+      "arch": "cpu",
+      "sm": "n/a",
+      "flags": {},
+      "notes": "CI fallback lane; relative tok/s signal, labeled cpu.",
+      "vendor": "generic",
+      "form_factor": "cpu",
+      "model": "CPU only (any)",
+      "sources": [
+        "https://github.com/ruslanmv/fitlab/blob/master/data/hardware.yaml"
+      ]
+    },
+    {
+      "id": "gtx1050ti-4",
+      "model": "GTX 1050 Ti",
+      "name": "GeForce GTX 1050 Ti · 4 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 4,
+      "bandwidth_gbs": 112,
+      "arch": "pascal",
+      "sm": "6.1",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.pny.com/previous-generation-geforce/id-135/geforce_gtx_1050_ti_4gb",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; current Ollama requires driver 570+ for compute capability 5.0–6.2."
+    },
+    {
+      "id": "gtx1060-3",
+      "model": "GTX 1060",
+      "name": "GeForce GTX 1060 · 3 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 3,
+      "bandwidth_gbs": 192,
+      "arch": "pascal",
+      "sm": "6.1",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.pny.com/File%20Library/Unassigned/PNY-NVIDIA-GeForce-10-Series.pdf",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; current Ollama requires driver 570+ for compute capability 5.0–6.2."
+    },
+    {
+      "id": "gtx1060-6",
+      "model": "GTX 1060",
+      "name": "GeForce GTX 1060 · 6 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 6,
+      "bandwidth_gbs": 192,
+      "arch": "pascal",
+      "sm": "6.1",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.pny.com/File%20Library/Unassigned/PNY-NVIDIA-GeForce-10-Series.pdf",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; current Ollama requires driver 570+ for compute capability 5.0–6.2."
+    },
+    {
+      "id": "gtx1070-8",
+      "model": "GTX 1070",
+      "name": "GeForce GTX 1070 · 8 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8,
+      "bandwidth_gbs": 256,
+      "arch": "pascal",
+      "sm": "6.1",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.pny.com/File%20Library/Unassigned/PNY-NVIDIA-GeForce-10-Series.pdf",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; current Ollama requires driver 570+ for compute capability 5.0–6.2."
+    },
+    {
+      "id": "gtx1070ti-8",
+      "model": "GTX 1070 Ti",
+      "name": "GeForce GTX 1070 Ti · 8 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8,
+      "bandwidth_gbs": 256,
+      "arch": "pascal",
+      "sm": "6.1",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.pny.com/previous-generation-geforce/id-147/geforce_gtx_1070ti",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; current Ollama requires driver 570+ for compute capability 5.0–6.2."
+    },
+    {
+      "id": "gtx1080-8",
+      "model": "GTX 1080",
+      "name": "GeForce GTX 1080 · 8 GB GDDR5X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8,
+      "bandwidth_gbs": 320,
+      "arch": "pascal",
+      "sm": "6.1",
+      "memory_type": "GDDR5X",
+      "sources": [
+        "https://www.pny.com/File%20Library/Unassigned/PNY-NVIDIA-GeForce-10-Series.pdf",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; current Ollama requires driver 570+ for compute capability 5.0–6.2."
+    },
+    {
+      "id": "gtx1080ti-11",
+      "model": "GTX 1080 Ti",
+      "name": "GeForce GTX 1080 Ti · 11 GB GDDR5X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 11,
+      "bandwidth_gbs": 484,
+      "arch": "pascal",
+      "sm": "6.1",
+      "memory_type": "GDDR5X",
+      "sources": [
+        "https://www.pny.com/previous-generation-geforce/id-156/geforce_gtx_1080_ti_blower_edition",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; current Ollama requires driver 570+ for compute capability 5.0–6.2."
+    },
+    {
+      "id": "gtx1630-4",
+      "model": "GTX 1630",
+      "name": "GeForce GTX 1630 · 4 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 4.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 512,
+      "source_compute_capability": null,
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "gtx1650-4-gddr5",
+      "model": "GTX 1650",
+      "name": "GeForce GTX 1650 · 4 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 4.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR5",
+      "cuda_cores": 896,
+      "source_compute_capability": null,
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "gtx1650-4-gddr6",
+      "model": "GTX 1650",
+      "name": "GeForce GTX 1650 · 4 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 4.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 896,
+      "source_compute_capability": null,
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "gtx1650super-4",
+      "model": "GTX 1650 SUPER",
+      "name": "GeForce GTX 1650 SUPER · 4 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 4.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 1280,
+      "source_compute_capability": null,
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "gtx1660-6",
+      "model": "GTX 1660",
+      "name": "GeForce GTX 1660 · 6 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 6.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR5",
+      "cuda_cores": 1408,
+      "source_compute_capability": null,
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "gtx1660super-6",
+      "model": "GTX 1660 SUPER",
+      "name": "GeForce GTX 1660 SUPER · 6 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 6.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 1408,
+      "source_compute_capability": null,
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "gtx1660ti-6",
+      "model": "GTX 1660 Ti",
+      "name": "GeForce GTX 1660 Ti · 6 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 6.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 1536,
+      "source_compute_capability": null,
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "gtx950-2",
+      "model": "GTX 950",
+      "name": "GeForce GTX 950 · 2 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 2,
+      "bandwidth_gbs": 105.6,
+      "arch": "maxwell",
+      "sm": "5.2",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.nvidia.com/en-in/geforce/900-series/",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; requires driver 570+ for current Ollama."
+    },
+    {
+      "id": "gtx960-2",
+      "model": "GTX 960",
+      "name": "GeForce GTX 960 · 2 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 2,
+      "bandwidth_gbs": 112.0,
+      "arch": "maxwell",
+      "sm": "5.2",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.nvidia.com/en-in/geforce/900-series/",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; requires driver 570+ for current Ollama."
+    },
+    {
+      "id": "gtx970-4",
+      "model": "GTX 970",
+      "name": "GeForce GTX 970 · 4 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 4,
+      "bandwidth_gbs": 224.0,
+      "arch": "maxwell",
+      "sm": "5.2",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.nvidia.com/en-in/geforce/900-series/",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; requires driver 570+ for current Ollama."
+    },
+    {
+      "id": "gtx980-4",
+      "model": "GTX 980",
+      "name": "GeForce GTX 980 · 4 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 4,
+      "bandwidth_gbs": 224.0,
+      "arch": "maxwell",
+      "sm": "5.2",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.nvidia.com/en-in/geforce/900-series/",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; requires driver 570+ for current Ollama."
+    },
+    {
+      "id": "gtx980ti-6",
+      "model": "GTX 980 Ti",
+      "name": "GeForce GTX 980 Ti · 6 GB GDDR5",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 6,
+      "bandwidth_gbs": 336.0,
+      "arch": "maxwell",
+      "sm": "5.2",
+      "memory_type": "GDDR5",
+      "sources": [
+        "https://www.nvidia.com/en-in/geforce/900-series/",
+        "https://developer.nvidia.com/cuda-legacy-gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": false
+      },
+      "notes": "Legacy reference specs; requires driver 570+ for current Ollama."
+    },
+    {
+      "id": "l4-24",
+      "name": "NVIDIA L4 24GB (Colab paid ref)",
+      "vram_gb": 22.5,
+      "bandwidth_gbs": 300,
+      "arch": "ada",
+      "sm": "8.9",
+      "flags": {
+        "bf16": true,
+        "flash_attn2": true,
+        "marlin": true
+      },
+      "vendor": "nvidia",
+      "form_factor": "cloud",
+      "model": "NVIDIA L4 24GB (Colab paid ref)",
+      "sources": [
+        "https://github.com/ruslanmv/fitlab/blob/master/data/hardware.yaml"
+      ]
+    },
+    {
+      "id": "p100-16",
+      "name": "NVIDIA P100 16GB (Kaggle alt)",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": 732,
+      "arch": "pascal",
+      "sm": "6.0",
+      "flags": {
+        "bf16": false,
+        "flash_attn2": false,
+        "marlin": false,
+        "tensor_cores": false
+      },
+      "notes": "Kaggle sometimes assigns P100 instead of T4; results labeled separately.",
+      "vendor": "nvidia",
+      "form_factor": "cloud",
+      "model": "NVIDIA P100 16GB (Kaggle alt)",
+      "sources": [
+        "https://github.com/ruslanmv/fitlab/blob/master/data/hardware.yaml"
+      ]
+    },
+    {
+      "id": "rtx2060-12",
+      "model": "RTX 2060",
+      "name": "GeForce RTX 2060 · 12 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": null,
+      "source_compute_capability": "7.5",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx2060-6",
+      "model": "RTX 2060",
+      "name": "GeForce RTX 2060 · 6 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 6.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": null,
+      "source_compute_capability": "7.5",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx2060super-8",
+      "model": "RTX 2060 SUPER",
+      "name": "GeForce RTX 2060 SUPER · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 2176,
+      "source_compute_capability": "7.5",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx2070-8",
+      "model": "RTX 2070",
+      "name": "GeForce RTX 2070 · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 2304,
+      "source_compute_capability": "7.5",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx2070super-8",
+      "model": "RTX 2070 SUPER",
+      "name": "GeForce RTX 2070 SUPER · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 2560,
+      "source_compute_capability": "7.5",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx2080-8",
+      "model": "RTX 2080",
+      "name": "GeForce RTX 2080 · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 2944,
+      "source_compute_capability": "7.5",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx2080super-8",
+      "model": "RTX 2080 SUPER",
+      "name": "GeForce RTX 2080 SUPER · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 3072,
+      "source_compute_capability": "7.5",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx2080ti-11",
+      "model": "RTX 2080 Ti",
+      "name": "GeForce RTX 2080 Ti · 11 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 11.0,
+      "bandwidth_gbs": null,
+      "arch": "turing",
+      "sm": "7.5",
+      "memory_type": "GDDR6",
+      "cuda_cores": 4352,
+      "source_compute_capability": "7.5",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": false,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3050-6",
+      "model": "RTX 3050",
+      "name": "GeForce RTX 3050 · 6 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 6.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 2304,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3050-8",
+      "model": "RTX 3050",
+      "name": "GeForce RTX 3050 · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 2560,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3050-laptop-4",
+      "model": "RTX 3050 Laptop",
+      "name": "GeForce RTX 3050 Laptop · 4 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 4.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": null,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3050-laptop-6",
+      "model": "RTX 3050 Laptop",
+      "name": "GeForce RTX 3050 Laptop · 6 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 6.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": null,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3050ti-laptop-4",
+      "model": "RTX 3050 Ti Laptop",
+      "name": "GeForce RTX 3050 Ti Laptop · 4 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 4.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 2560,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3060-12",
+      "model": "RTX 3060",
+      "name": "GeForce RTX 3060 · 12 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": 360,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 3584,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "flash_attn2": true,
+        "marlin": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare",
+      "reference": true,
+      "bandwidth_source": "https://github.com/ruslanmv/fitlab/blob/master/data/hardware.yaml"
+    },
+    {
+      "id": "rtx3060-8",
+      "model": "RTX 3060",
+      "name": "GeForce RTX 3060 · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 3584,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3060-laptop-6",
+      "model": "RTX 3060 Laptop",
+      "name": "GeForce RTX 3060 Laptop · 6 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 6.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 3840,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3060ti-8",
+      "model": "RTX 3060 Ti",
+      "name": "GeForce RTX 3060 Ti · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": 448.0,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 4864,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare",
+      "bandwidth_source": "https://www.pny.com/geforce-rtx-3060-ti-8gb-uprising-df"
+    },
+    {
+      "id": "rtx3060ti-8-gddr6x",
+      "model": "RTX 3060 Ti",
+      "name": "GeForce RTX 3060 Ti · 8 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": 608.0,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 4864,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare",
+      "bandwidth_source": "https://www.pny.com/pny-geforce-rtx-3060-ti-8gb-verto-dual-fan"
+    },
+    {
+      "id": "rtx3070-8",
+      "model": "RTX 3070",
+      "name": "GeForce RTX 3070 · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 5888,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3070-laptop-8",
+      "model": "RTX 3070 Laptop",
+      "name": "GeForce RTX 3070 Laptop · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 5120,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3070ti-8",
+      "model": "RTX 3070 Ti",
+      "name": "GeForce RTX 3070 Ti · 8 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 6144,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3070ti-laptop-8",
+      "model": "RTX 3070 Ti Laptop",
+      "name": "GeForce RTX 3070 Ti Laptop · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 5888,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3080-10",
+      "model": "RTX 3080",
+      "name": "GeForce RTX 3080 · 10 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 10.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6X",
+      "cuda_cores": null,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3080-12",
+      "model": "RTX 3080",
+      "name": "GeForce RTX 3080 · 12 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6X",
+      "cuda_cores": null,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3080-laptop-16",
+      "model": "RTX 3080 Laptop",
+      "name": "GeForce RTX 3080 Laptop · 16 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 6144,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3080-laptop-8",
+      "model": "RTX 3080 Laptop",
+      "name": "GeForce RTX 3080 Laptop · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 6144,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3080ti-12",
+      "model": "RTX 3080 Ti",
+      "name": "GeForce RTX 3080 Ti · 12 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 10240,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3080ti-laptop-16",
+      "model": "RTX 3080 Ti Laptop",
+      "name": "GeForce RTX 3080 Ti Laptop · 16 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6",
+      "cuda_cores": 7424,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3090-24",
+      "model": "RTX 3090",
+      "name": "GeForce RTX 3090 · 24 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 24.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 10496,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx3090ti-24",
+      "model": "RTX 3090 Ti",
+      "name": "GeForce RTX 3090 Ti · 24 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 24.0,
+      "bandwidth_gbs": null,
+      "arch": "ampere",
+      "sm": "8.6",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 10752,
+      "source_compute_capability": "8.6",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4050-laptop-6",
+      "model": "RTX 4050 Laptop",
+      "name": "GeForce RTX 4050 Laptop · 6 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 6.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6",
+      "cuda_cores": 2560,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4060-8",
+      "model": "RTX 4060",
+      "name": "GeForce RTX 4060 · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6",
+      "cuda_cores": 3072,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4060-laptop-8",
+      "model": "RTX 4060 Laptop",
+      "name": "GeForce RTX 4060 Laptop · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6",
+      "cuda_cores": 3072,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4060ti-16",
+      "model": "RTX 4060 Ti",
+      "name": "GeForce RTX 4060 Ti · 16 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": 288,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6",
+      "cuda_cores": 4352,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "flash_attn2": true,
+        "marlin": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare",
+      "bandwidth_source": "https://github.com/ruslanmv/fitlab/blob/master/data/hardware.yaml"
+    },
+    {
+      "id": "rtx4060ti-8",
+      "model": "RTX 4060 Ti",
+      "name": "GeForce RTX 4060 Ti · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": 288,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6",
+      "cuda_cores": 4352,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare",
+      "bandwidth_source": "https://github.com/ruslanmv/fitlab/blob/master/data/hardware.yaml"
+    },
+    {
+      "id": "rtx4070-12",
+      "model": "RTX 4070",
+      "name": "GeForce RTX 4070 · 12 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": 504,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 5888,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "flash_attn2": true,
+        "marlin": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare",
+      "bandwidth_source": "https://github.com/ruslanmv/fitlab/blob/master/data/hardware.yaml"
+    },
+    {
+      "id": "rtx4070-12-gddr6",
+      "model": "RTX 4070",
+      "name": "GeForce RTX 4070 · 12 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6",
+      "cuda_cores": 5888,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4070-laptop-8",
+      "model": "RTX 4070 Laptop",
+      "name": "GeForce RTX 4070 Laptop · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6",
+      "cuda_cores": 4608,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4070super-12",
+      "model": "RTX 4070 SUPER",
+      "name": "GeForce RTX 4070 SUPER · 12 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 7168,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4070ti-12",
+      "model": "RTX 4070 Ti",
+      "name": "GeForce RTX 4070 Ti · 12 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 7680,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4070tisuper-16",
+      "model": "RTX 4070 Ti SUPER",
+      "name": "GeForce RTX 4070 Ti SUPER · 16 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 8448,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4080-16",
+      "model": "RTX 4080",
+      "name": "GeForce RTX 4080 · 16 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": 716.8,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 9728,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare",
+      "bandwidth_source": "https://www.pny.com/pny-geforce-rtx-4080-16gb-verto-triple-fan-led"
+    },
+    {
+      "id": "rtx4080-laptop-12",
+      "model": "RTX 4080 Laptop",
+      "name": "GeForce RTX 4080 Laptop · 12 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6",
+      "cuda_cores": 7424,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4080super-16",
+      "model": "RTX 4080 SUPER",
+      "name": "GeForce RTX 4080 SUPER · 16 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 10240,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx4090-24",
+      "model": "RTX 4090",
+      "name": "GeForce RTX 4090 · 24 GB GDDR6X",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 24.0,
+      "bandwidth_gbs": 1008.0,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6X",
+      "cuda_cores": 16384,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare",
+      "bandwidth_source": "https://www.pny.com/pny-geforce-rtx-4090-24gb-verto-triple-fan-led"
+    },
+    {
+      "id": "rtx4090-laptop-16",
+      "model": "RTX 4090 Laptop",
+      "name": "GeForce RTX 4090 Laptop · 16 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": null,
+      "arch": "ada",
+      "sm": "8.9",
+      "memory_type": "GDDR6",
+      "cuda_cores": 9728,
+      "source_compute_capability": "8.9",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5050-8",
+      "model": "RTX 5050",
+      "name": "GeForce RTX 5050 · 8 GB GDDR6",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": 320.0,
+      "arch": "blackwell",
+      "sm": "12.0",
+      "memory_type": "GDDR6",
+      "cuda_cores": 2560,
+      "source_compute_capability": "12.0",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5050-laptop-8",
+      "model": "RTX 5050 Laptop",
+      "name": "GeForce RTX 5050 Laptop · 8 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "blackwell",
+      "sm": null,
+      "memory_type": "GDDR7",
+      "cuda_cores": 2560,
+      "source_compute_capability": "12.8",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known. Official comparison and family CUDA listing disagree on compute capability; runtime compatibility needs verification.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5060-8",
+      "model": "RTX 5060",
+      "name": "GeForce RTX 5060 · 8 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": 448.0,
+      "arch": "blackwell",
+      "sm": "12.0",
+      "memory_type": "GDDR7",
+      "cuda_cores": 3840,
+      "source_compute_capability": "12.0",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5060-laptop-8",
+      "model": "RTX 5060 Laptop",
+      "name": "GeForce RTX 5060 Laptop · 8 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "blackwell",
+      "sm": null,
+      "memory_type": "GDDR7",
+      "cuda_cores": 3328,
+      "source_compute_capability": "12.8",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known. Official comparison and family CUDA listing disagree on compute capability; runtime compatibility needs verification.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5060ti-16",
+      "model": "RTX 5060 Ti",
+      "name": "GeForce RTX 5060 Ti · 16 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": 448.0,
+      "arch": "blackwell",
+      "sm": "12.0",
+      "memory_type": "GDDR7",
+      "cuda_cores": 4608,
+      "source_compute_capability": "12.0",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5060ti-8",
+      "model": "RTX 5060 Ti",
+      "name": "GeForce RTX 5060 Ti · 8 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": 448.0,
+      "arch": "blackwell",
+      "sm": "12.0",
+      "memory_type": "GDDR7",
+      "cuda_cores": 4608,
+      "source_compute_capability": "12.0",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5070-12",
+      "model": "RTX 5070",
+      "name": "GeForce RTX 5070 · 12 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": 672.0,
+      "arch": "blackwell",
+      "sm": "12.0",
+      "memory_type": "GDDR7",
+      "cuda_cores": 6144,
+      "source_compute_capability": "12.0",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5070-laptop-12",
+      "model": "RTX 5070 Laptop",
+      "name": "GeForce RTX 5070 Laptop · 12 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": null,
+      "arch": "blackwell",
+      "sm": null,
+      "memory_type": "GDDR7",
+      "cuda_cores": 4608,
+      "source_compute_capability": "12.8",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known. Official comparison and family CUDA listing disagree on compute capability; runtime compatibility needs verification.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5070-laptop-8",
+      "model": "RTX 5070 Laptop",
+      "name": "GeForce RTX 5070 Laptop · 8 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 8.0,
+      "bandwidth_gbs": null,
+      "arch": "blackwell",
+      "sm": null,
+      "memory_type": "GDDR7",
+      "cuda_cores": 4608,
+      "source_compute_capability": "12.8",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known. Official comparison and family CUDA listing disagree on compute capability; runtime compatibility needs verification.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5070ti-16",
+      "model": "RTX 5070 Ti",
+      "name": "GeForce RTX 5070 Ti · 16 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": 896.0,
+      "arch": "blackwell",
+      "sm": "12.0",
+      "memory_type": "GDDR7",
+      "cuda_cores": 8960,
+      "source_compute_capability": "12.0",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5070ti-laptop-12",
+      "model": "RTX 5070 Ti Laptop",
+      "name": "GeForce RTX 5070 Ti Laptop · 12 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 12.0,
+      "bandwidth_gbs": null,
+      "arch": "blackwell",
+      "sm": null,
+      "memory_type": "GDDR7",
+      "cuda_cores": 5888,
+      "source_compute_capability": "12.8",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known. Official comparison and family CUDA listing disagree on compute capability; runtime compatibility needs verification.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5080-16",
+      "model": "RTX 5080",
+      "name": "GeForce RTX 5080 · 16 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": 960.0,
+      "arch": "blackwell",
+      "sm": "12.0",
+      "memory_type": "GDDR7",
+      "cuda_cores": 10752,
+      "source_compute_capability": "12.0",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5080-laptop-16",
+      "model": "RTX 5080 Laptop",
+      "name": "GeForce RTX 5080 Laptop · 16 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 16.0,
+      "bandwidth_gbs": null,
+      "arch": "blackwell",
+      "sm": null,
+      "memory_type": "GDDR7",
+      "cuda_cores": 7680,
+      "source_compute_capability": "12.8",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known. Official comparison and family CUDA listing disagree on compute capability; runtime compatibility needs verification.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5090-32",
+      "model": "RTX 5090",
+      "name": "GeForce RTX 5090 · 32 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "desktop",
+      "vram_gb": 32.0,
+      "bandwidth_gbs": 1792.0,
+      "arch": "blackwell",
+      "sm": "12.0",
+      "memory_type": "GDDR7",
+      "cuda_cores": 21760,
+      "source_compute_capability": "12.0",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "rtx5090-laptop-24",
+      "model": "RTX 5090 Laptop",
+      "name": "GeForce RTX 5090 Laptop · 24 GB GDDR7",
+      "vendor": "nvidia",
+      "form_factor": "laptop",
+      "vram_gb": 24.0,
+      "bandwidth_gbs": null,
+      "arch": "blackwell",
+      "sm": null,
+      "memory_type": "GDDR7",
+      "cuda_cores": 10496,
+      "source_compute_capability": "12.8",
+      "sources": [
+        "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+        "https://developer.nvidia.com/cuda/gpus"
+      ],
+      "flags": {
+        "bf16": true,
+        "tensor_cores": true
+      },
+      "notes": "Reference specs; board and laptop power limits vary. Speed is estimated only when memory bandwidth is known. Official comparison and family CUDA listing disagree on compute capability; runtime compatibility needs verification.",
+      "catalog_origin": "nvidia-compare"
+    },
+    {
+      "id": "t4-16",
+      "name": "NVIDIA T4 16GB (Colab free / Kaggle)",
+      "reference": true,
+      "vram_gb": 15.0,
+      "bandwidth_gbs": 320,
+      "arch": "turing",
+      "sm": "7.5",
+      "flags": {
+        "bf16": false,
+        "flash_attn2": false,
+        "marlin": false
+      },
+      "notes": "No bfloat16 → force float16 on HF loads. No FlashAttention-2. Identical GPU on Colab free and Kaggle.",
+      "vendor": "nvidia",
+      "form_factor": "cloud",
+      "model": "NVIDIA T4 16GB (Colab free / Kaggle)",
+      "sources": [
+        "https://github.com/ruslanmv/fitlab/blob/master/data/hardware.yaml"
+      ]
+    }
+  ],
+  "source_hashes": {
+    "desktop": "5f025783a8556ebdfaf356885b92c1d2a6a0b776578780734c3c0dfac345dd28",
+    "laptop": "78568433bc1e3a0ee4f4ff55440056a33fb1bf1f6800ff77b7c7515d4bf7954f",
+    "laptop30": "44a694cf377004cf452f3796c505716533f4d2180deb20e250c4a0c44d1337dc",
+    "cuda": "a5830879aa04db9b5319be06c63ffdd3918673310bb0c5abd535a66dbe93aeb3"
+  }
+}

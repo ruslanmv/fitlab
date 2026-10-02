@@ -5,3 +5,6 @@
 # and mirrors the `maintainer` extra. The PLUGS stack under test stays unpinned on purpose.
 pyyaml>=6.0
 jsonschema>=4.21
+
+# NVIDIA hardware inventory refresh
+beautifulsoup4>=4.12

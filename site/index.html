@@ -209,6 +209,13 @@ body.embed main>#embedRoot{display:block}
   .rail{position:static}
   .topnav .navlink{display:none}
 }
+#gpuChips select, #gpuChips input {background:var(--bg,#101820);color:inherit;border:1px solid #53606d;border-radius:6px;padding:8px;max-width:100%;display:block}
+#gpuChips {max-width:720px;width:100%}
+.field:has(#gpu) {grid-column:span 2;min-width:0}
+#gpuChips details, .field:has(#gpu) details {margin-top:8px;font-size:12px}
+#gpuChips details label, .field:has(#gpu) details label {display:block;margin-top:8px}
+#gpuChips .mini {font-size:12px;line-height:1.5;opacity:.8}
+#gpuChips button, .field:has(#gpu) details button {margin-top:8px;padding:6px 10px}
 </style>
 </head>
 <body>
@@ -245,7 +252,7 @@ body.embed main>#embedRoot{display:block}
   </div>
 
   <div class="rail" role="group" aria-label="Your rig">
-    <div class="group"><span class="lbl">Your GPU</span><div class="chips" id="gpuChips"></div></div>
+    <div class="group"><span class="lbl">Your GPU</span><div id="gpuChips"><label for="gpuSelect" class="lbl">Hardware</label><select id="gpuSelect"></select></div></div>
     <div class="group"><span class="lbl">Quant</span><div class="chips" id="quantChips"></div></div>
     <div class="group"><span class="lbl">Context</span><div class="chips" id="ctxChips"></div></div>
   </div>
@@ -310,17 +317,13 @@ body.embed main>#embedRoot{display:block}
   <span class="spoon">// there is no spoon. there is a budget line.</span>
 </div></footer>
 
+<script src="hardware.js"></script>
+<script src="hardware-ui.js"></script>
 <script>
 /* ---------- mirrors of scripts/estimate_vram.py ---------- */
 const BPW={Q4_K_M:4.85,Q8_0:8.5};
 const DEF={weights_overhead:1.03,kv_bytes:2,runtime_overhead:0.9,tight:0.92,offload:1.6};
-const GPUS=[
- {id:"rtx3060-12",name:"RTX 3060",sub:"12 GB · local",vram:12,bw:360},
- {id:"t4-16",name:"T4 (Colab free)",sub:"15 GB usable",vram:15,bw:320},
- {id:"rtx4070-12",name:"RTX 4070",sub:"12 GB",vram:12,bw:504},
- {id:"rtx4060ti-16",name:"RTX 4060 Ti",sub:"16 GB",vram:16,bw:288},
- {id:"apple-m-16",name:"MacBook M-series",sub:"16 GB unified",vram:11,bw:120}
-];
+const GPUS=FitLabHardwareUI.profiles;
 const PAGE_URL=location.protocol.startsWith("http")?location.origin+location.pathname:"https://ruslanmv.com/fitlab/";
 function fit(m,q,ctx,g){
   const a=m.arch,bpw=BPW[q];
@@ -328,9 +331,9 @@ function fit(m,q,ctx,g){
   const kv=2*a.n_layers*a.n_kv_heads*a.head_dim*ctx*DEF.kv_bytes/1e9;
   const est=w+kv+DEF.runtime_overhead;
   let v="no";
-  if(est<=g.vram*DEF.tight)v="fits";else if(est<=g.vram)v="tight";else if(est<=g.vram*DEF.offload)v="offload";
+  if(g.vram<=0)v="offload";else if(est<=g.vram*DEF.tight)v="fits";else if(est<=g.vram)v="tight";else if(est<=g.vram*DEF.offload)v="offload";
   const act=m.active_params_b||m.params_b;
-  const tps=Math.round(g.bw*1e9/(act*1e9*bpw/8+kv*1e9/ctx*64)*0.62*10)/10;
+  const tps=g.bw?Math.round(g.bw*1e9/(act*1e9*bpw/8+kv*1e9/ctx*64)*0.62*10)/10:null;
   return{w,kv,oh:DEF.runtime_overhead,est,v,tps};
 }
 /* ---------- fallback registry (subset; replaced by registry.json when served) ---------- */
@@ -370,7 +373,7 @@ const FALLBACK={
 
 const PARAMS=new URLSearchParams(location.search);
 let REG=FALLBACK,
-    gpu=GPUS.find(g=>g.id===PARAMS.get("gpu"))||GPUS[0],
+    gpu=FitLabHardwareUI.restore(PARAMS.get("gpu"))||FitLabHardwareUI.restore("rtx3060-12"),
     quant=BPW[PARAMS.get("quant")]?PARAMS.get("quant"):"Q4_K_M",
     ctx=[4096,8192,16384,32768].includes(+PARAMS.get("ctx"))?+PARAMS.get("ctx"):8192;
 
@@ -387,14 +390,19 @@ function chipRow(host,items,cur,on){
     host.appendChild(b);
   });
 }
+let hardwarePicker;
 function renderControls(){
-  chipRow(document.getElementById("gpuChips"),GPUS.map(g=>({val:g.id,html:`${g.name}<small>${g.sub}</small>`})),gpu.id,v=>{gpu=GPUS.find(g=>g.id===v);renderAll();});
+  if(!hardwarePicker)hardwarePicker=FitLabHardwareUI.mount(document.getElementById("gpuSelect"),gpu,g=>{
+    gpu=g;const params=new URLSearchParams(location.search);params.set("gpu",g.id);
+    history.replaceState(null,"",location.pathname+"?"+params);renderAll();
+  });
+  else hardwarePicker.update(gpu);
   chipRow(document.getElementById("quantChips"),[{val:"Q4_K_M",html:"Q4_K_M"},{val:"Q8_0",html:"Q8_0"}],quant,v=>{quant=v;renderAll();});
   chipRow(document.getElementById("ctxChips"),[4096,8192,16384,32768].map(c=>({val:c,html:(c/1024)+"K"})),ctx,v=>{ctx=v;renderAll();});
 }
 
 function fitBar(f,g){
-  const scale=g.vram*1.25, pc=x=>Math.min(x/scale*100,100);
+  const scale=Math.max(g.vram,1)*1.25, pc=x=>Math.min(x/scale*100,100);
   const line=pc(g.vram);
   const wW=Math.min(pc(f.w),line);
   const wK=Math.max(Math.min(pc(f.w+f.kv),line)-wW,0);
@@ -443,7 +451,7 @@ function renderCats(){
       const meas=measuredFor(t.id);
       vd.append(el("div","tps",meas
         ? `<span class="measured">✓ ${meas.gen_tps} tok/s</span> <span class="est">${esc(meas.date)}${meas.submitter?" · @"+esc(meas.submitter):""}</span>`
-        : (f.v==="no"?`<span class="est">—</span>`:`<span class="est">~${f.tps} tok/s est.</span>`)));
+        : ((f.v==="no"||f.tps==null)?`<span class="est">—</span>`:`<span class="est">~${f.tps} tok/s est.</span>`)));
       const sb=el("button","sharebtn","share ↗");
       sb.onclick=()=>openShare(t.id,m,f,meas);
       vd.append(sb);
@@ -506,7 +514,7 @@ function renderEmbedMode(){
   row.append(el("div","mname",`<a href="${PAGE_URL}" rel="noopener">${esc(m.hf_id)}</a> <span class="verdict v-${f.v}" style="margin-left:8px">${f.v.toUpperCase()}</span>`));
   row.append(fitBar(f,gpu));
   const meas=measuredFor(id);
-  row.append(el("div","tps",(meas?`<span class="measured">✓ ${meas.gen_tps} tok/s measured</span>`:(f.v==="no"?"":`<span class="est">~${f.tps} tok/s est.</span>`))+` <span class="est">· ${gpu.name} · ${quant} · ${(ctx/1024)}K</span>`));
+  row.append(el("div","tps",(meas?`<span class="measured">✓ ${meas.gen_tps} tok/s measured</span>`:((f.v==="no"||f.tps==null)?"":`<span class="est">~${f.tps} tok/s est.</span>`))+` <span class="est">· ${gpu.name} · ${quant} · ${(ctx/1024)}K</span>`));
   root.append(row,el("div","credit",`live from <a href="${PAGE_URL}">LLM FitLab</a> · updated weekly`));
 }
 
@@ -529,13 +537,13 @@ function openShare(id,m,f,meas){
   x.fillText(name,60,170);
   x.fillStyle="#7C948A";x.font="500 30px 'JetBrains Mono',monospace";
   x.fillText(`${gpu.name} · ${quant} · ${(ctx/1024)}K context`,60,222);
-  const tps=meas?meas.gen_tps:f.tps, lbl=meas?"tok/s measured":"tok/s estimated";
+  const tps=meas?meas.gen_tps:(f.tps??"—"), lbl=meas?"tok/s measured":"tok/s estimated";
   x.fillStyle=meas?"#34D399":"#D7E4DC";x.font="700 130px 'Space Grotesk',sans-serif";
   x.fillText(f.v==="no"?"NO FIT":String(tps),60,388);
   x.fillStyle="#7C948A";x.font="500 30px 'JetBrains Mono',monospace";
   if(f.v!=="no")x.fillText(lbl,60,432);
   // fit bar
-  const bx=60,by=480,bw=1080,bh=44,scale=gpu.vram*1.25;
+  const bx=60,by=480,bw=1080,bh=44,scale=Math.max(gpu.vram,1)*1.25;
   x.fillStyle="rgba(3,20,12,1)";x.strokeStyle="rgba(74,222,128,.3)";
   x.fillRect(bx,by,bw,bh);x.strokeRect(bx,by,bw,bh);
   const px=v=>Math.min(v/scale,1)*bw;
@@ -552,7 +560,7 @@ function openShare(id,m,f,meas){
   document.getElementById("dlCard").href=cv.toDataURL("image/png");
   const txt=f.v==="no"
     ? `${name} does not fit my ${gpu.name} — checked on LLM FitLab`
-    : `My ${gpu.name} runs ${name} (${quant}) at ${meas?meas.gen_tps+" tok/s measured":"~"+f.tps+" tok/s"} — checked on LLM FitLab`;
+    : `My ${gpu.name} runs ${name} (${quant}) at ${meas?meas.gen_tps+" tok/s measured":(f.tps==null?"unknown speed":"~"+f.tps+" tok/s")} — checked on LLM FitLab`;
   document.getElementById("postX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(txt+" "+PAGE_URL);
   dlg.showModal();
 }
@@ -593,7 +601,7 @@ function renderCarousel(){
   const stats=el("div","feat-stats");
   stats.innerHTML=`
     <div class="stat"><span class="n">${fmt(f.est)}</span><span class="l">GB est · budget ${gpu.vram} GB · ${esc(gpu.name)}</span></div>
-    <div class="stat"><span class="n${meas?" meas":""}">${meas?meas.gen_tps:(f.v==="no"?"—":"~"+f.tps)}</span><span class="l">${meas?"tok/s · measured ✓":(f.v==="no"?"does not fit at "+quant:"tok/s · estimated")}</span></div>`;
+    <div class="stat"><span class="n${meas?" meas":""}">${meas?meas.gen_tps:((f.v==="no"||f.tps==null)?"—":"~"+f.tps)}</span><span class="l">${meas?"tok/s · measured ✓":(f.v==="no"?"does not fit at "+quant:f.tps==null?"bandwidth unknown":"tok/s · estimated")}</span></div>`;
   body.append(stats);
   body.append(fitBar(f,gpu));
   const acts=el("div","feat-actions");

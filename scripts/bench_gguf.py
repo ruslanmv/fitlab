@@ -9,7 +9,7 @@ Usage:
   python scripts/bench_gguf.py --model qwen3:8b --out data/benchmarks/ [--reps 3] [--source ci-kaggle]
 """
 from __future__ import annotations
-import argparse, datetime, json, os, re, shutil, statistics, subprocess, tempfile, threading, time
+import argparse, datetime, json, os, shutil, statistics, subprocess, tempfile, threading, time
 from pathlib import Path
 from urllib import request
 
@@ -90,19 +90,25 @@ def ensure_ollama() -> str:
 
 
 def gpu_info() -> dict:
-    q = sh("nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader,nounits",
-           check=False, quiet=True)
-    if q.returncode != 0 or not q.stdout.strip():
-        return {"name": "cpu", "vram_gb": 0, "driver": "", "cuda": "", "profile_id": "cpu-only"}
-    name, mem, drv = [s.strip() for s in q.stdout.strip().splitlines()[0].split(",")]
-    cuda = sh("nvidia-smi --query-gpu=cuda_version --format=csv,noheader",
-              check=False, quiet=True).stdout.strip()
-    if not re.fullmatch(r"\d+(\.\d+)*", cuda):                  # driver rejected the query
-        cuda = ""
-    prof = {"Tesla T4": "t4-16", "Tesla P100-PCIE-16GB": "p100-16",
-            "NVIDIA GeForce RTX 3060": "rtx3060-12", "NVIDIA GeForce RTX 4070": "rtx4070-12",
-            "NVIDIA GeForce RTX 4060 Ti": "rtx4060ti-16", "NVIDIA L4": "l4-24"}.get(name)
-    return {"name": name, "vram_gb": round(int(mem) / 1024, 1), "driver": drv, "cuda": cuda, "profile_id": prof}
+    # Shared catalog identity; Colab/Kaggle fetch the tiny hardware bundle as well.
+    import sys
+    root = Path(__file__).resolve().parents[1] / "src"
+    if not root.is_dir():
+        root = Path(__file__).resolve().parent / "src"
+    sys.path.insert(0, str(root))
+    try:
+        from fitlab import hardware
+        return hardware.schema_gpu(hardware.detect())
+    except (ImportError, FileNotFoundError):
+        # Preserve standalone-script use without assigning an incorrect memory variant.
+        q = sh("nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader,nounits",
+               check=False, quiet=True)
+        if q.returncode != 0 or not q.stdout.strip():
+            return {"name": "cpu", "vram_gb": 0, "driver": "", "cuda": "", "profile_id": "cpu-only"}
+        name, mem, drv = [s.strip() for s in q.stdout.strip().splitlines()[0].split(",")]
+        profile = {"Tesla T4": "t4-16", "Tesla P100-PCIE-16GB": "p100-16", "NVIDIA L4": "l4-24"}.get(name)
+        return {"name": name, "vram_gb": round(float(mem) / 1024, 1), "driver": drv,
+                "cuda": "", "profile_id": profile}
 
 
 class VramPeak(threading.Thread):

@@ -1,6 +1,8 @@
 """fitlab CLI — `fitlab` with no arguments launches the wizard."""
 import argparse
 import json
+import math
+import re
 import os
 import sys
 from urllib.parse import quote
@@ -8,7 +10,7 @@ from urllib.parse import quote
 from rich.console import Console
 from rich.table import Table
 
-from . import __version__, bench, estimate, hardware, registry
+from . import __version__, bench, estimate, hardware, registry, gpu_catalog
 
 console = Console(highlight=False)
 REPO = os.environ.get("FITLAB_REPO", "ruslanmv/fitlab")
@@ -16,15 +18,6 @@ REPO = os.environ.get("FITLAB_REPO", "ruslanmv/fitlab")
 VERDICT_STYLE = {"fits": "bold green", "tight": "bold yellow",
                  "offload": "dark_orange", "no": "bold red", "-": "dim"}
 
-# reference profiles for `fitlab check --gpu <id>` (mirrors data/hardware.yaml)
-PROFILES = {
-    "rtx3060-12": ("RTX 3060 12GB", 12, 360),
-    "t4-16": ("T4 · Colab free", 15, 320),
-    "rtx4070-12": ("RTX 4070 12GB", 12, 504),
-    "rtx4060ti-16": ("RTX 4060 Ti 16GB", 16, 288),
-    "apple-m-16": ("Apple M-series 16GB unified", 11, 120),
-    "cpu-only": ("CPU only", 0, 0),
-}
 
 
 def ask(prompt: str, default: str = "") -> str:
@@ -56,7 +49,7 @@ def load_registry(refresh: bool = False) -> dict:
 
 def hw_summary(hw: dict):
     vram = f"{hw['vram_gb']} GB VRAM" if hw["vram_gb"] else "no VRAM"
-    console.print(f"[bold]your rig:[/] {hw['name']} · {vram} · ~{hw['bw']} GB/s"
+    console.print(f"[bold]your rig:[/] {hw['name']} · {vram} · {str(hw['bw']) + ' GB/s' if hw['bw'] else 'bandwidth unknown'}"
                   + (f"  [dim]{hw['note']}[/]" if hw.get("note") else ""))
 
 
@@ -195,15 +188,29 @@ def wizard():
     run_benchmarks(picked, hw, reps, 4096, submitter)
 
 
-def resolve_gpu(spec: str) -> dict:
+def resolve_gpu(spec: str, vram: float | None = None, bandwidth: float | None = None) -> dict:
     if spec == "auto":
+        if vram is not None or bandwidth is not None:
+            raise ValueError("Custom memory options require an explicit GPU name")
         return hardware.detect()
-    if spec in PROFILES:
-        name, vram, bw = PROFILES[spec]
-        return {"kind": "profile", "name": name, "vram_gb": vram, "bw": bw,
-                "profile_id": spec, "driver": "", "cuda": "", "note": ""}
-    console.print(f"[red]unknown gpu '{spec}'[/] — use auto or one of: {', '.join(PROFILES)}")
-    sys.exit(1)
+    for value, label, maximum in ((vram, "VRAM", 256), (bandwidth, "bandwidth", 10000)):
+        if value is not None and (not math.isfinite(value) or not 0 < value <= maximum):
+            raise ValueError(f"{label} must be positive and at most {maximum}")
+    g = gpu_catalog.resolve(spec, vram)
+    if g:
+        return {"kind": g["vendor"], "name": g["name"], "vram_gb": g["vram_gb"],
+                "bw": bandwidth or g["bandwidth_gbs"], "profile_id": g["id"],
+                "driver": "", "cuda": "", "note": g.get("notes", "")}
+    if vram is not None:
+        if not re.fullmatch(r"[\w ._()+-]{1,80}", spec):
+            raise ValueError("Use a GPU name of at most 80 letters, digits, spaces or ._()+-")
+        import hashlib
+        identity = hashlib.sha256(f"{spec.lower()}|{vram}".encode()).hexdigest()[:12]
+        return {"kind": "custom", "name": spec, "vram_gb": vram, "bw": bandwidth,
+                "profile_id": f"custom-{identity}", "driver": "", "cuda": "",
+                "note": "User supplied VRAM; runtime compatibility unverified. Speed requires bandwidth."}
+    raise ValueError(f"Unknown or ambiguous GPU '{spec}'. Use a profile ID from `fitlab gpus`, "
+                     "include the VRAM variant, or provide --vram for a custom GPU.")
 
 
 def main(argv=None):
@@ -212,11 +219,15 @@ def main(argv=None):
     ap.add_argument("--version", action="version", version=f"fitlab {__version__}")
     sub = ap.add_subparsers(dest="cmd")
 
+    p_gpus = sub.add_parser("gpus", help="list the offline hardware catalog")
+    p_gpus.add_argument("--search", default="", help="filter GPU names or IDs")
     sub.add_parser("detect", help="show detected hardware")
     sub.add_parser("update", help="refresh the weekly model registry now")
 
     p_check = sub.add_parser("check", help="fit table for a GPU (no benchmarking)")
-    p_check.add_argument("--gpu", default="auto", help="auto or profile id, e.g. rtx3060-12")
+    p_check.add_argument("--gpu", default="auto", help="auto, catalog ID, or GPU name including VRAM")
+    p_check.add_argument("--vram", type=float, help="custom/variant VRAM in GB")
+    p_check.add_argument("--bandwidth", type=float, help="optional custom bandwidth in GB/s")
     p_check.add_argument("--quant", default="Q4_K_M", choices=sorted(estimate.BPW))
     p_check.add_argument("--ctx", type=int, default=8192, choices=estimate.CTX_CHOICES)
     p_check.add_argument("--category", default="all")
@@ -239,6 +250,17 @@ def main(argv=None):
         wizard()
         return 0
 
+    if args.cmd == "gpus":
+        cat = gpu_catalog.load()
+        console.print(f"[dim]GPU catalog {cat['updated_at']} · {len(cat['gpus'])} profiles[/]")
+        table = Table("ID", "Hardware", "Type", "CUDA CC", "GB/s")
+        for g in cat['gpus']:
+            if args.search.lower() in (g['id'] + ' ' + g['name']).lower():
+                table.add_row(g['id'], g['name'], g['form_factor'], g.get('sm') or "?",
+                              str(g['bandwidth_gbs']) if g['bandwidth_gbs'] else "unknown")
+        console.print(table)
+        return 0
+
     if args.cmd == "detect":
         banner()
         hw_summary(hardware.detect())
@@ -250,7 +272,10 @@ def main(argv=None):
 
     if args.cmd == "check":
         banner()
-        hw = resolve_gpu(args.gpu)
+        try:
+            hw = resolve_gpu(args.gpu, args.vram, args.bandwidth)
+        except ValueError as e:
+            ap.error(str(e))
         hw_summary(hw)
         reg = load_registry()
         ids = ordered_models(reg, args.category)

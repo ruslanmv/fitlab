@@ -110,7 +110,13 @@ jobs:
           RAW="https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_SHA}/scripts/bench_gguf.py"
           cat > kernel/fitlab_bench.py <<EOF
           import os, subprocess, urllib.request
+          from pathlib import Path
           urllib.request.urlretrieve("${RAW}", "bench_gguf.py")
+          base = "${RAW}".removesuffix("/scripts/bench_gguf.py")
+          for name in ["__init__.py", "hardware.py", "gpu_catalog.py", "data/gpu_catalog.json"]:
+              target = Path("src/fitlab") / name
+              target.parent.mkdir(parents=True, exist_ok=True)
+              urllib.request.urlretrieve(base + "/src/fitlab/" + name, str(target))
           os.environ["FITLAB_ENV"] = "kaggle"
           os.environ["RUN_URL"] = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           subprocess.run(["python", "bench_gguf.py", "--model", "${MODEL}",

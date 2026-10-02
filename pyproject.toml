@@ -31,6 +31,7 @@ dependencies = ["rich>=13"]
 # at its latest release, because testing the latest is the product.
 maintainer = [
   "pyyaml>=6.0",
+  "beautifulsoup4>=4.12",
   "jsonschema>=4.21",
 ]
 dev = [
