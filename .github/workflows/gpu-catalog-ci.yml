@@ -1,0 +1,39 @@
+name: GPU catalog validation
+on:
+  pull_request: {}
+  push:
+    branches: [master]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python: ['3.10', '3.12', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e '.[dev]'
+      - run: |
+          ruff check src scripts tests
+          python -m unittest discover -s tests
+          node --test tests/hardware-ui.test.cjs
+          python scripts/gpu_catalog.py --check
+          python scripts/validate_data.py
+          python -m build
+      - name: Installed wheel hardware smoke test
+        run: |
+          python -m venv /tmp/fitlab-wheel
+          /tmp/fitlab-wheel/bin/pip install dist/*.whl
+          cd /tmp
+          /tmp/fitlab-wheel/bin/fitlab gpus --search 5060
+      - name: Browser integration checks
+        if: matrix.python == '3.12'
+        run: |
+          npm install --prefix "$RUNNER_TEMP/browser" playwright@1.62.1
+          "$RUNNER_TEMP/browser/node_modules/.bin/playwright" install --with-deps chromium
+          NODE_PATH="$RUNNER_TEMP/browser/node_modules" node tests/browser-smoke.cjs

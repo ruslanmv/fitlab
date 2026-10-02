@@ -17,6 +17,9 @@ from pathlib import Path
 
 import yaml
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from fitlab import gpu_catalog
+
 ROOT = Path(__file__).resolve().parents[1]
 
 # GGUF bits-per-weight (effective, incl. scales) — extend as new quants appear.
@@ -26,6 +29,7 @@ BPW = {"Q2_K": 3.35, "Q3_K_M": 3.91, "Q4_K_M": 4.85, "Q5_K_M": 5.69, "Q6_K": 6.5
 
 def load_data():
     hw = yaml.safe_load((ROOT / "data/hardware.yaml").read_text())
+    hw["gpus"] = gpu_catalog.load()["gpus"]
     seeds = yaml.safe_load((ROOT / "data/models.seed.yaml").read_text())
     return hw, seeds
 
@@ -53,7 +57,7 @@ def estimate(model: dict, quant: str, ctx: int, gpu: dict, defaults: dict) -> di
     # bandwidth speed model: decode reads (active) weights + KV once per token
     active_b = model.get("active_params_b") or model["params_b"]
     bytes_per_tok = active_b * 1e9 * bpw / 8 + kv_gb * 1e9 / max(ctx, 1) * 64  # small KV read term
-    est_tps = round(gpu["bandwidth_gbs"] * 1e9 / bytes_per_tok * 0.62, 1)      # 0.62 = empirical efficiency
+    est_tps = None if not gpu["bandwidth_gbs"] else round(gpu["bandwidth_gbs"] * 1e9 / bytes_per_tok * 0.62, 1)      # 0.62 = empirical efficiency
 
     return {"verdict": verdict, "est_vram_gb": round(est, 2), "weights_gb": round(weights_gb, 2),
             "kv_gb": round(kv_gb, 2), "context": ctx, "est_tps": est_tps, "source": "estimated"}

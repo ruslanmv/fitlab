@@ -1,0 +1,57 @@
+{
+  "changes": [],
+  "conflicts": [
+    {
+      "id": "rtx5090-laptop-24",
+      "field": "sm",
+      "comparison": "12.8",
+      "family": "12.0"
+    },
+    {
+      "id": "rtx5080-laptop-16",
+      "field": "sm",
+      "comparison": "12.8",
+      "family": "12.0"
+    },
+    {
+      "id": "rtx5070ti-laptop-12",
+      "field": "sm",
+      "comparison": "12.8",
+      "family": "12.0"
+    },
+    {
+      "id": "rtx5070-laptop-12",
+      "field": "sm",
+      "comparison": "12.8",
+      "family": "12.0"
+    },
+    {
+      "id": "rtx5070-laptop-8",
+      "field": "sm",
+      "comparison": "12.8",
+      "family": "12.0"
+    },
+    {
+      "id": "rtx5060-laptop-8",
+      "field": "sm",
+      "comparison": "12.8",
+      "family": "12.0"
+    },
+    {
+      "id": "rtx5050-laptop-8",
+      "field": "sm",
+      "comparison": "12.8",
+      "family": "12.0"
+    }
+  ],
+  "orphan_models": [
+    "gtx 1650 ti"
+  ],
+  "missing_from_sources": [],
+  "sources": {
+    "desktop": "https://www.nvidia.com/en-us/geforce/graphics-cards/compare/",
+    "laptop": "https://www.nvidia.com/en-us/geforce/laptops/compare/",
+    "laptop30": "https://www.nvidia.com/en-sg/geforce/laptops/compare/30-series/",
+    "cuda": "https://developer.nvidia.com/cuda/gpus"
+  }
+}

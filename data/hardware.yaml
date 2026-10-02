@@ -1,3 +1,5 @@
+# Ranking reference defaults. The complete maintained GPU inventory is now
+# data/gpu_catalog.json; runtime engines consume that shared catalog.
 # GPU profiles = the rows of the compatibility matrix.
 # `reference: true` marks the two GPUs every Top-10 is ranked against.
 # Capability flags are consumed by scripts/estimate_vram.py and the site.
