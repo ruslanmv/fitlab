@@ -1,6 +1,6 @@
 {
-  "count": 240,
-  "fetched_at": "2026-09-12",
+  "count": 245,
+  "fetched_at": "2026-10-07",
   "models": {
     "alfred": {
       "tags": [
@@ -175,6 +175,26 @@
       "tags": [
         "567m",
         "567m-fp16",
+        "latest"
+      ]
+    },
+    "clef": {
+      "tags": [
+        "27b",
+        "27b-mlx-bf16",
+        "27b-mxfp8",
+        "27b-nvfp4",
+        "27b-q4_k_m",
+        "27b-q8_0",
+        "latest"
+      ]
+    },
+    "clef-flash": {
+      "tags": [
+        "9b",
+        "9b-mlx-bf16",
+        "9b-mxfp8",
+        "9b-q8_0",
         "latest"
       ]
     },
@@ -1100,12 +1120,6 @@
         "latest"
       ]
     },
-    "deepseek-v4-flash": {
-      "tags": [
-        "0731-cloud",
-        "cloud"
-      ]
-    },
     "deepseek-v4-pro": {
       "tags": [
         "0813-cloud",
@@ -1494,6 +1508,27 @@
         "300m-bf16",
         "300m-qat-q4_0",
         "300m-qat-q8_0",
+        "latest"
+      ]
+    },
+    "embeddinggemma-2": {
+      "tags": [
+        "270m",
+        "270m-bf16-text",
+        "270m-mxfp8-text",
+        "270m-nvfp4-text",
+        "440m",
+        "440m-bf16-text-vision",
+        "440m-mxfp8-text-vision",
+        "440m-nvfp4-text-vision",
+        "570m",
+        "570m-bf16-text-audio",
+        "570m-mxfp8-text-audio",
+        "570m-nvfp4-text-audio",
+        "740m",
+        "740m-bf16",
+        "740m-mxfp8",
+        "740m-nvfp4",
         "latest"
       ]
     },
@@ -1925,6 +1960,7 @@
         "12b-mxfp8",
         "12b-nvfp4",
         "26b",
+        "26b-a4b",
         "26b-a4b-it-bf16",
         "26b-a4b-it-mtp-q4_K_M",
         "26b-a4b-it-q4_K_M",
@@ -1973,11 +2009,6 @@
         "latest",
         "q4_K_M",
         "q8_0"
-      ]
-    },
-    "glm-5.1": {
-      "tags": [
-        "cloud"
       ]
     },
     "glm-5.2": {
@@ -2772,6 +2803,14 @@
         "nvfp4",
         "q4_K_M",
         "q8_0"
+      ]
+    },
+    "laya": {
+      "tags": [
+        "322m-multilingual-mlx-fp16",
+        "421m-english-mlx-fp16",
+        "421m-typed-decisions-mlx-fp16",
+        "latest"
       ]
     },
     "lfm2": {
@@ -3938,6 +3977,11 @@
         "675b-cloud"
       ]
     },
+    "mistral-large-4": {
+      "tags": [
+        "cloud"
+      ]
+    },
     "mistral-medium-3.5": {
       "tags": [
         "128b",
@@ -4364,6 +4408,18 @@
         "13b-v2-q5_K_S",
         "13b-v2-q6_K",
         "13b-v2-q8_0",
+        "latest"
+      ]
+    },
+    "nimble": {
+      "tags": [
+        "9b",
+        "9b-bf16",
+        "9b-mlx-bf16",
+        "9b-mxfp8",
+        "9b-nvfp4",
+        "9b-q4_K_M",
+        "9b-q8_0",
         "latest"
       ]
     },
@@ -6251,6 +6307,7 @@
         "0.8b-bf16",
         "0.8b-mlx",
         "0.8b-mlx-bf16",
+        "0.8b-mtp-q8_0",
         "0.8b-mxfp8",
         "0.8b-nvfp4",
         "0.8b-q8_0",
@@ -6266,6 +6323,7 @@
         "27b-int8",
         "27b-mlx",
         "27b-mlx-bf16",
+        "27b-mtp-q4_K_M",
         "27b-mxfp8",
         "27b-nvfp4",
         "27b-q4_K_M",
@@ -6274,6 +6332,8 @@
         "2b-bf16",
         "2b-mlx",
         "2b-mlx-bf16",
+        "2b-mtp-q4_K_M",
+        "2b-mtp-q8_0",
         "2b-mxfp8",
         "2b-nvfp4",
         "2b-q4_K_M",
@@ -6287,16 +6347,18 @@
         "35b-a3b-int4",
         "35b-a3b-int8",
         "35b-a3b-mlx-bf16",
+        "35b-a3b-mtp-q4_K_M",
         "35b-a3b-mxfp8",
         "35b-a3b-nvfp4",
         "35b-a3b-q4_K_M",
         "35b-a3b-q8_0",
         "35b-mlx",
-        "397b-cloud",
         "4b",
         "4b-bf16",
         "4b-mlx",
         "4b-mlx-bf16",
+        "4b-mtp-q4_K_M",
+        "4b-mtp-q8_0",
         "4b-mxfp8",
         "4b-nvfp4",
         "4b-q4_K_M",
@@ -6305,11 +6367,13 @@
         "9b-bf16",
         "9b-mlx",
         "9b-mlx-bf16",
+        "9b-mtp-nvfp4",
+        "9b-mtp-q4_K_M",
+        "9b-mtp-q8_0",
         "9b-mxfp8",
         "9b-nvfp4",
         "9b-q4_K_M",
         "9b-q8_0",
-        "cloud",
         "latest"
       ]
     },
@@ -7304,6 +7368,23 @@
         "7b-beta-q8_0",
         "alpha",
         "beta",
+        "latest"
+      ]
+    },
+    "tev1": {
+      "tags": [
+        "0.8b",
+        "0.8b-bf16",
+        "0.8b-mlx-bf16",
+        "0.8b-mxfp8",
+        "0.8b-q8_0",
+        "4b",
+        "4b-bf16",
+        "4b-mlx-bf16",
+        "4b-mxfp8",
+        "4b-nvfp4",
+        "4b-q4_K_M",
+        "4b-q8_0",
         "latest"
       ]
     },
