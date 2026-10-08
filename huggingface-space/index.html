@@ -223,6 +223,13 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   .facet{flex:1 1 100%}
   .top nav .pill.hide-sm{display:none}
 }
+#gpuChips select, #gpuChips input {background:var(--bg,#101820);color:inherit;border:1px solid #53606d;border-radius:6px;padding:8px;max-width:100%;display:block}
+#gpuChips {max-width:720px;width:100%}
+.field:has(#gpu) {grid-column:span 2;min-width:0}
+#gpuChips details, .field:has(#gpu) details {margin-top:8px;font-size:12px}
+#gpuChips details label, .field:has(#gpu) details label {display:block;margin-top:8px}
+#gpuChips .mini {font-size:12px;line-height:1.5;opacity:.8}
+#gpuChips button, .field:has(#gpu) details button {margin-top:8px;padding:6px 10px}
 </style>
 </head>
 <body>
@@ -304,7 +311,7 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
       </dl>
       <details class="note"><summary>Score formula &amp; caveats</summary>
         <p><code>30% fit + 30% capability + 25% HF momentum + 10% speed + 5% stack</code></p>
-        <p>Deployment readiness, not intelligence. Speed is measured only where a benchmark exists for that model × GPU pair; everything else is a bandwidth estimate and labelled as such.</p>
+        <p>Deployment readiness, not intelligence. Scores use reference hardware rankings; fit and estimated speed use your selected GPU. Speed is measured only where a benchmark exists for that model × GPU pair; everything else is a bandwidth estimate and labelled as such.</p>
         <p id="calNote"></p>
       </details>
     </div>
@@ -334,6 +341,8 @@ dialog::backdrop{background:rgba(0,0,0,.6)}
   <span id="src">—</span>
 </div></footer>
 
+<script src="hardware.js"></script>
+<script src="hardware-ui.js"></script>
 <script>
 "use strict";
 // Freshest first: the branch the weekly sync publishes to itself, then the reviewed
@@ -345,19 +354,9 @@ const SOURCES=[
 ];
 const BPW={Q4_K_M:4.85,Q8_0:8.5};
 const DEF={weights_overhead:1.03,kv_bytes:2,runtime_overhead:0.9,tight:0.92,offload:1.6};
-const GPUS=[
-  {id:"rtx3060-12",name:"RTX 3060 · 12 GB",vram:12,bw:360},
-  {id:"rtx4070-12",name:"RTX 4070 · 12 GB",vram:12,bw:504},
-  {id:"rtx4060ti-16",name:"RTX 4060 Ti · 16 GB",vram:16,bw:288},
-  {id:"t4-16",name:"T4 · 15 GB (Colab free)",vram:15,bw:320},
-  {id:"p100-16",name:"P100 · 16 GB (Kaggle)",vram:16,bw:732},
-  {id:"l4-24",name:"L4 · 22.5 GB",vram:22.5,bw:300},
-  {id:"apple-m-16",name:"Apple M · 16 GB unified",vram:11,bw:120},
-  {id:"cpu-only",name:"CPU only",vram:0,bw:50}
-];
-// Scores are computed against the reference GPUs; every other rig borrows the closer one.
-const REF_GPU_FOR={"rtx3060-12":"rtx3060-12","rtx4070-12":"rtx3060-12","apple-m-16":"rtx3060-12",
-  "cpu-only":"rtx3060-12","t4-16":"t4-16","rtx4060ti-16":"t4-16","l4-24":"t4-16","p100-16":"t4-16"};
+const GPUS=FitLabHardwareUI.profiles;
+// Scores remain reference rankings; measured results require the exact catalog ID.
+const referenceFor=g=>g.vram>=15?"t4-16":"rtx3060-12";
 const STACK_NAMES={ollama:"Ollama",ollabridge:"OllaBridge",homepilot:"HomePilot",gitpilot:"GitPilot",matrixlab:"MatrixLab",langgraph:"LangGraph",langchain:"LangChain",crewai:"CrewAI",langflow:"Langflow",langfuse:"Langfuse",deepagents:"DeepAgents"};
 
 const FACETS=[
@@ -391,7 +390,7 @@ function fitOf(m,quant,ctx,g){
   else if(est<=g.vram)verdict="tight";
   else if(est<=g.vram*DEF.offload)verdict="offload";
   const active=m.active_params_b||m.params_b;
-  const tps=Math.round(g.bw*1e9/(active*1e9*bpw/8+kv*1e9/ctx*64)*0.62*10)/10;
+  const tps=g.bw?Math.round(g.bw*1e9/(active*1e9*bpw/8+kv*1e9/ctx*64)*0.62*10)/10:null;
   return {weights,kv,est,verdict,tps,headroom:g.vram>0?(g.vram-est)/g.vram:-1};
 }
 const measuredFor=(id,g)=>(REG.benchmarks_latest||{})[id+"|"+g.id]||null;
@@ -435,7 +434,7 @@ function scoreIndex(){
   // tables, which only ever covered ~30 of the registry's models.
   const best=new Map(), gid=state.gpu;
   for(const [id,m] of Object.entries(REG.models||{})){
-    const s=m.scores&&(m.scores[gid]??m.scores[REF_GPU_FOR[gid]]);
+    const s=m.scores&&(m.scores[gid]??m.scores[referenceFor(gpuNow())]);
     if(Number.isFinite(s))best.set(id,s);
   }
   for(const cat of Object.values(REG.categories||{}))
@@ -456,7 +455,7 @@ function writeUrl(){
 }
 
 /* ---------- filtering ---------- */
-const gpuNow=()=>GPUS.find(g=>g.id===state.gpu)||GPUS[0];
+const gpuNow=()=>FitLabHardwareUI.restore(state.gpu)||FitLabHardwareUI.restore(DEFAULTS.gpu);
 
 function sizeBucket(b){return b<=4?"xs":b<=9?"s":b<=16?"m":"l"}
 function matchesTask(m,task){
@@ -486,7 +485,7 @@ function collect(){
     if(state.data==="measured"&&!meas)continue;
     out.push({id,m,f,st,meas,score:scores.get(id)||0});
   }
-  const speed=r=>r.meas?r.meas.gen_tps:(r.f.verdict==="no"?-1:r.f.tps);
+  const speed=r=>r.meas?r.meas.gen_tps:(r.f.verdict==="no"?-1:(r.f.tps??-1));
   const by={
     score:(a,b)=>b.score-a.score||speed(b)-speed(a),
     headroom:(a,b)=>b.f.headroom-a.f.headroom,
@@ -532,7 +531,7 @@ function drawer(r){
       <div class="pl">${t.limits.map(x=>`<span class="chip lim">${esc(x)}</span>`).join("")||'<span class="chip">none recorded</span>'}</div>
       <p class="mini">weights ${num(r.f.weights)} GB · KV ${num(r.f.kv)} GB · runtime ${DEF.runtime_overhead} GB · budget ${g.vram} GB</p>
     </div>
-    <div><h4>Run it</h4><div class="snips">${snips}</div></div>
+    <div><h4>Run it</h4><p class="mini">${esc(g.notes||"")} Ollama detects compatible hardware locally; verify with <code>ollama ps</code>. For multiple NVIDIA GPUs, set <code>CUDA_VISIBLE_DEVICES</code> on the Ollama server before starting it. Find UUIDs with <code>nvidia-smi -L</code>. A static page cannot execute commands on your computer. OllaBridge and HomePilot connect to the configured runtime.</p><div class="snips">${snips}</div></div>
   </div>`;
 }
 function renderRows(){
@@ -670,7 +669,9 @@ function pushState(){
   ["q","gpu","quant","ctx","sort"].forEach(k=>{ state[k]=$(k==="q"?"q":k).value; });
   expanded.clear(); sync();
 }
+let hardwarePicker;
 function applyToInputs(){
+  if(hardwarePicker)hardwarePicker.update(gpuNow());
   $("q").value=state.q; $("gpu").value=state.gpu; $("quant").value=state.quant;
   $("ctx").value=state.ctx; $("sort").value=state.sort;
 }
@@ -697,12 +698,12 @@ function ageDays(iso){
   const t=Date.parse(iso); return Number.isFinite(t)?Math.floor((Date.now()-t)/864e5):null;
 }
 async function boot(){
-  $("gpu").innerHTML=GPUS.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join("");
   readUrl();
-  if(!GPUS.some(g=>g.id===state.gpu))state.gpu=DEFAULTS.gpu;
+  if(!FitLabHardwareUI.restore(state.gpu))state.gpu=DEFAULTS.gpu;
+  hardwarePicker=FitLabHardwareUI.mount($("gpu"),gpuNow(),g=>{state.gpu=g.id;expanded.clear();sync();});
   applyToInputs();
   $("more").open=window.matchMedia("(min-width:1000px)").matches||activeFilters()>0;
-  ["q","gpu","quant","ctx","sort"].forEach(id=>$(id).addEventListener(id==="q"?"input":"change",pushState));
+  ["q","quant","ctx","sort"].forEach(id=>$(id).addEventListener(id==="q"?"input":"change",pushState));
   document.querySelectorAll("th[data-sort]").forEach(th=>th.onclick=()=>{ state.sort=th.dataset.sort; $("sort").value=state.sort; expanded.clear(); sync(); });
   $("reset").onclick=resetAll; $("resetEmpty").onclick=resetAll;
   $("cmpOpen").onclick=openCompare;

@@ -38,7 +38,7 @@ REPS     ?= 3
 OUT      ?= fitlab-results
 
 .PHONY: help uv install dev run wizard detect check bench update \
-        registry catalog estimate probe validate lint format smoke test build site clean distclean
+        registry catalog gpu-catalog unit estimate probe validate lint format smoke test build site clean distclean
 
 help: ## Show this help
 	@awk 'BEGIN { FS = ":.*##" } \
@@ -95,6 +95,14 @@ registry: install ## FITS + HF sync: rebuild data/registry.json
 catalog: install ## Refresh data/ollama_catalog.json from the Ollama library
 	@$(PY) scripts/ollama_catalog.py
 
+gpu-catalog: install ## Refresh the NVIDIA GPU inventory (opens changes for review in CI)
+	@$(PY) scripts/gpu_catalog.py
+
+unit: install ## Offline GPU parser, normalization, detection and UI logic tests
+	@$(PY) -m unittest discover -s tests
+	@node --test tests/hardware-ui.test.cjs
+	@$(PY) scripts/gpu_catalog.py --check
+
 estimate: install ## FITS verdict matrix across seed models x reference GPUs x quants
 	@$(PY) scripts/estimate_vram.py --all
 
@@ -118,7 +126,7 @@ smoke: install ## Exercise the CLI end to end without downloading a model
 	@$(FITLAB) bench --model qwen3:0.6b --dry-run
 	@echo "==> smoke OK"
 
-test: lint validate smoke ## Run every check (no unit-test suite yet)
+test: lint unit validate smoke ## Run every check (includes offline regression tests)
 	@echo "==> all checks passed"
 
 ##@ Build & housekeeping

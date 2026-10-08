@@ -1,24 +1,23 @@
 """Detect the user's GPU (NVIDIA / Apple Silicon / CPU) and map it to a FitLab profile."""
 import platform
 import subprocess
+import re
+import shlex
+
+from . import gpu_catalog
 
 
 def _sh(cmd):
-    return subprocess.run(cmd, shell=True, text=True, capture_output=True)
+    try:
+        return subprocess.run(shlex.split(cmd), text=True, capture_output=True, timeout=10)
+    except (OSError, subprocess.TimeoutExpired):
+        return subprocess.CompletedProcess(cmd, 1, "", "")
 
 
-# memory bandwidth GB/s (substring match, order matters — first hit wins)
-BW = [
-    ("h100", 3350), ("a100", 1555), ("l40", 864), ("rtx 6000", 960), ("a10", 600),
-    ("4090", 1008), ("4080", 717), ("4070 ti", 672), ("4070", 504),
-    ("4060 ti", 288), ("4060", 272), ("3090", 936), ("3080", 760),
-    ("3070", 448), ("3060", 360), ("2080", 448), ("2070", 448), ("2060", 336),
-    ("v100", 900), ("p100", 732), ("l4", 300), ("t4", 320),
-]
-PROFILES = [
-    ("t4", "t4-16"), ("p100", "p100-16"), ("3060", "rtx3060-12"),
-    ("4070", "rtx4070-12"), ("4060 ti", "rtx4060ti-16"), ("l4", "l4-24"),
-]
+# Retain non-consumer accelerator fallbacks; GeForce matching is exact and VRAM-aware.
+BW = [("h100", 3350), ("a100", 1555), ("l40", 864), ("rtx 6000", 960), ("a10", 600),
+      ("v100", 900), ("p100", 732), ("l4", 300), ("t4", 320)]
+PROFILES = [("t4", "t4-16"), ("p100", "p100-16"), ("l4", "l4-24")]
 APPLE_BW = [
     ("m4 max", 546), ("m4 pro", 273), ("m4", 120),
     ("m3 max", 400), ("m3 pro", 150), ("m3", 100),
@@ -39,13 +38,23 @@ def detect() -> dict:
     """Return {kind, name, vram_gb, bw, profile_id, driver, cuda, note}."""
     q = _sh("nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader,nounits")
     if q.returncode == 0 and q.stdout.strip():
-        name, mem, drv = [s.strip() for s in q.stdout.strip().splitlines()[0].split(",")]
-        cuda = _sh("nvidia-smi --query-gpu=cuda_version --format=csv,noheader").stdout.strip()
-        vram = round(int(mem) / 1024, 1)
+        try:
+            name, mem, drv = [s.strip() for s in q.stdout.strip().splitlines()[0].split(",")]
+            vram = round(float(mem) / 1024, 1)
+            if vram <= 0:
+                raise ValueError("invalid GPU memory")
+        except ValueError:
+            name, drv, vram = "NVIDIA GPU (memory unavailable)", "", 0
+        version = re.search(r"CUDA Version:\s*([\d.]+)", _sh("nvidia-smi").stdout)
+        cuda = version[1] if version else ""
+        profile = gpu_catalog.resolve(name, vram)
+        note = "" if profile else "Unlisted GPU or memory variant; using detected VRAM. Compatibility unverified."
+        if profile and profile.get('sm') and float(profile['sm']) <= 6.2:
+            note = "Current Ollama requires NVIDIA driver 570+ for compute capability 5.0–6.2."
         return {"kind": "nvidia", "name": name, "vram_gb": vram,
-                "bw": _lookup(name, BW, 300),
-                "profile_id": _lookup(name, PROFILES, None) or f"custom-{vram:.0f}gb",
-                "driver": drv, "cuda": cuda, "note": ""}
+                "bw": profile["bandwidth_gbs"] if profile else _lookup(name, BW, None),
+                "profile_id": profile["id"] if profile else _lookup(name, PROFILES, None) or None,
+                "driver": drv, "cuda": cuda, "note": note}
     if platform.system() == "Darwin" and platform.machine() == "arm64":
         mem = _sh("sysctl -n hw.memsize").stdout.strip()
         chip = _sh("sysctl -n machdep.cpu.brand_string").stdout.strip() or "Apple Silicon"

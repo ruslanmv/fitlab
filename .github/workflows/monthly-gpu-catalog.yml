@@ -1,0 +1,63 @@
+name: Monthly NVIDIA GPU inventory
+
+on:
+  schedule:
+    - cron: '15 5 1 * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gpu-catalog-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    if: github.repository == 'ruslanmv/fitlab'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[maintainer]'
+      - name: Refresh all sources (fail closed on malformed or unavailable HTML)
+        run: python scripts/gpu_catalog.py
+      - name: Offline regression and catalog checks
+        run: |
+          python -m unittest discover -s tests
+          node --test tests/hardware-ui.test.cjs
+          python scripts/gpu_catalog.py --check
+          python scripts/validate_data.py
+      - name: Attach discovery and conflict report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpu-refresh-report
+          path: data/gpu_refresh_report.json
+          if-no-files-found: ignore
+      - name: Propose reviewed catalog refresh
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/monthly-gpu-catalog
+          commit-message: 'Update NVIDIA GeForce GPU inventory'
+          title: 'Update NVIDIA GeForce GPU inventory'
+          body: |
+            Refresh NVIDIA desktop/laptop comparison tables and CUDA listings.
+            Review the attached discovery/conflict report and catalog diff before merging.
+            Existing entries are retained when removed from upstream sources; unknown bandwidth stays unknown.
+            Parser, detection, UI logic, artifact consistency, and data validation checks ran before this PR.
+            This workflow never merges catalog changes automatically.
+          add-paths: |
+            data/gpu_catalog.json
+            data/gpu_refresh_report.json
+            src/fitlab/data/gpu_catalog.json
+            site/hardware.js
+            site/hardware-ui.js
+            huggingface-space/hardware.js
+            huggingface-space/hardware-ui.js

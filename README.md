@@ -510,3 +510,12 @@ are licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
 
 Benchmark results are point-in-time measurements. Models referenced remain the property of their
 respective authors and are subject to their own licenses.
+
+## NVIDIA GPU catalog
+
+Search 85 hardware profiles across desktop and laptop GeForce generations, or enter
+a custom GPU and VRAM capacity in either web interface. The CLI shares the same
+offline inventory (`fitlab gpus`, `fitlab check --gpu 'RTX 4060 Ti 8GB'`). Monthly
+NVIDIA source refreshes open review PRs; unknown specs and source conflicts stay explicit.
+See [GPU catalog usage and maintenance](docs/gpu-catalog.md) for sources, custom
+hardware, launch guidance, validation, deployment and rollback.
