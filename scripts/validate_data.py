@@ -65,6 +65,7 @@ def validate(data_dir: Path) -> int:
         bad += 1
         print(f"FAIL gpu_catalog.json: {e}")
     bad += _check_joins(data_dir, results)
+    bad += _check_media(data_dir)
 
     print("PASSED" if not bad else f"FAILED — {bad} invalid document(s)")
     return bad
@@ -112,6 +113,40 @@ def _check_joins(data_dir: Path, results: list[Path]) -> int:
     print(f"ok   ollama tags — {len(by_tag) - len(dead)}/{len(by_tag)} runnable "
           f"(library fetched {catalog.get('fetched_at')})")
     return bad
+
+
+def _check_media(data_dir: Path) -> int:
+    """The media lane (image + video): schema, then joins the schema cannot express."""
+    path = data_dir / "media_registry.json"
+    if not path.exists():
+        print("WARN no data/media_registry.json — run scripts/build_media.py")
+        return 0
+    try:
+        reg = _load(path)
+        jsonschema.validate(reg, _load(data_dir / "schema" / "media.schema.json"))
+    except (jsonschema.ValidationError, json.JSONDecodeError) as e:
+        print(f"FAIL media_registry.json: {getattr(e, 'message', e)}")
+        return 1
+    models = reg["models"]
+    gpus = {g["id"] for g in _load(data_dir / "gpu_catalog.json")["gpus"]}
+    problems = []
+    for cid, cat in reg["categories"].items():
+        if cat["reference_gpu"] not in gpus:
+            problems.append(f"category {cid}: unknown reference GPU {cat['reference_gpu']}")
+        problems += [f"category {cid}: unknown model {t['id']}" for t in cat["top"] if t["id"] not in models]
+    for mid, m in models.items():
+        if mid != m["id"]:
+            problems.append(f"{mid}: key does not match id {m['id']}")
+        if m["vram_gb"]["min"] > m["vram_gb"]["recommended"]:
+            problems.append(f"{mid}: vram_gb.min is above vram_gb.recommended")
+    installs = [m["homepilot"]["model_id"] for m in models.values() if m.get("homepilot")]
+    if len(installs) != len(set(installs)):
+        problems.append("two media models share one HomePilot model_id")
+    for p in problems:
+        print(f"FAIL media_registry.json: {p}")
+    print(f"ok   media_registry.json — {len(models)} models, {len(reg['categories'])} categories, "
+          f"media_ranking_version {reg['media_ranking_version']}, generated {reg['generated_at']}")
+    return len(problems)
 
 
 def main() -> int:

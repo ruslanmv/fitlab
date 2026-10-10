@@ -18,6 +18,8 @@ Rules that follow from it: automation writes through pull requests (review gate 
 
 **PLUGS (verified, weekly).** A CPU-only CI job installs the *latest released* versions of the stack and runs a genuine request chain: `LangGraph/CrewAI/LangFlow/DeepAgents → OllaBridge (:11435/v1) → Ollama → qwen3:0.6b`. A 0.6 B model at Q4 needs ~0.6 GB RAM, so this real end-to-end test is free on a standard GitHub Actions runner. Each cell of the compat matrix records the exact version pair that passed and the run URL — "✅ langgraph 0.6.x ↔ ollabridge 1.x on 2026-08-24" is a claim with evidence, unlike every hand-maintained compat table on the internet.
 
+**MEDIA (declared + computed, weekly).** Image and video pipelines have no single `config.json` to size from, so `data/media.seed.yaml` declares each base checkpoint's VRAM need with the source of the number (`homepilot-presets` for HomePilot's measured video minimums, `editorial` until a community run upgrades it to `measured`) and the work its default workflow does. `scripts/build_media.py` adds Hugging Face momentum, derives a verdict per GPU (`fits ≥ recommended`, `tight ≥ min`, `offload ≥ 0.7·min`) and ranks under its own `media_ranking_version`. It publishes the GPU-independent score components with the weights, so a client (HomePilot) ranks for any VRAM it detects by computing only the fit verdict — the formula lives in one place. It writes a separate document, `data/media_registry.json`; the LLM registry contract is untouched.
+
 ## 3. The free-GPU decision (the honest part)
 
 The requirement was "run a weekly benchmark on free Colab GPU from GitHub Actions". Free Colab **cannot** be driven headlessly: there is no execution API on the free tier, and browser automation against it violates Google's ToS and breaks constantly. Building the pipeline on that would make the repo unstable by design. So:
@@ -54,7 +56,7 @@ The formula lives in `scripts/sync_hf.py` with a `ranking_version`; changing wei
 
 ## 7. Roadmap hooks (deliberately out of v1)
 
-Quality-eval lane (small MMLU-Pro/IFEval slice on the weekly GPU run), per-model Ollama Modelfile presets, energy/watt column from nvidia-smi, HomePilot image/video-model FITS lane (ComfyUI workflows have their own VRAM math), and a `fitlab` pip CLI that answers `fitlab can-i-run qwen3:14b` from the published registry.
+Quality-eval lane (small MMLU-Pro/IFEval slice on the weekly GPU run), per-model Ollama Modelfile presets, energy/watt column from nvidia-smi, measured VRAM for the media lane (community ComfyUI runs replacing `editorial` numbers), and a `fitlab` pip CLI that answers `fitlab can-i-run qwen3:14b` from the published registry.
 
 ## 8. The `fitlab` PyPI package
 
