@@ -41,6 +41,8 @@ produced by a script, validated against a JSON Schema, and merged through a revi
 - [Running FitLab inside an organization](#running-fitlab-inside-an-organization)
 - [Data contract](#data-contract)
 - [How the numbers are produced](#how-the-numbers-are-produced)
+- [Media lane](#media-lane)
+- [Using FitLab from HomePilot](#using-fitlab-from-homepilot)
 - [Secrets](#secrets)
 - [Automation](#automation)
 - [Development](#development)
@@ -245,12 +247,15 @@ data/
   registry.json              generated — the published source of truth (do not hand-edit)
   ollama_catalog.json        generated — the Ollama library index, every model and tag
   models.seed.yaml           human-curated seeds and editorial notes
+  media.seed.yaml            image + video models: declared VRAM (with source), workflow cost, install ids
+  media_registry.json        generated — the media lane's published document (do not hand-edit)
   hardware.yaml              GPU profiles: VRAM, bandwidth, architecture capability flags
   stack.yaml                 ecosystem components and version-discovery rules
   benchmarks/                append-only measured results, one JSON per run
   schema/
     model.schema.json        registry model entries
     benchmark.schema.json    benchmark result submissions
+    media.schema.json        the media registry document
 ```
 
 `registry.json` top-level keys: `schema_version`, `generated_at`, `ranking_version`, `models`,
@@ -314,15 +319,19 @@ Ollama's `/api/generate` timing fields — chosen because Ollama is what the tar
 runs. The weekly rotation is `week_number % queue_length`, so every model is measured and
 periodically re-measured.
 
-**Ranking** is a transparent, versioned scored sort (currently `ranking_version` 1.1):
+**Ranking** is a transparent, versioned scored sort (currently `ranking_version` 1.1, as computed
+in [`scripts/sync_hf.py`](scripts/sync_hf.py)):
 
 ```
-score = 0.35·fit + 0.25·hf_momentum + 0.25·speed + 0.15·plugs
+score = 0.30·fit + 0.30·capability + 0.25·hf_momentum + 0.10·speed + 0.05·plugs
 ```
 
-where `speed` uses a measured value when one exists and a bandwidth-model estimate discounted by
-0.5× otherwise. Changing the weights requires a version bump, making every rank shift visible in
-the pull request diff.
+where `capability` is log-scaled parameter count (the strongest model that fits should win, not the
+fastest tiny one), and `speed` uses a measured value when one exists and a bandwidth-model estimate
+discounted by 0.5× otherwise. Changing the weights requires a version bump, making every rank shift
+visible in the pull request diff.
+
+**MEDIA** (image and video generation) has its own lane — see [Media lane](#media-lane).
 
 ## Secrets
 
@@ -357,7 +366,7 @@ GitHub repo secrets ──> weekly-sync ────────> registry-lates
 
 | Workflow | Schedule | What it does |
 |---|---|---|
-| [`weekly-sync`](.github/workflows/weekly-sync.yml) | Wed 04:41 UTC | Refreshes the Ollama library catalogue, pulls the leading models per Hugging Face pipeline tag by trend, downloads **and** last-modified, re-runs the FITS engine, resolves every entry to a verified Ollama tag, validates, publishes to `registry-latest`, and opens a review PR |
+| [`weekly-sync`](.github/workflows/weekly-sync.yml) | Wed 04:41 UTC | Refreshes the Ollama library catalogue, pulls the leading models per Hugging Face pipeline tag by trend, downloads **and** last-modified, re-runs the FITS engine, resolves every entry to a verified Ollama tag, rebuilds the media lane, validates, publishes to `registry-latest`, and opens a review PR |
 | [`weekly-benchmark`](.github/workflows/weekly-benchmark.yml) | Mon 03:17 UTC | Benchmarks the rotation model on a free T4 via the Kaggle Kernels API, with a CPU lane as fallback, and runs the PLUGS probes. The rotation passes the registry id through as `--model-id`, so the result attaches to the model it measured |
 | [`sync-hf-space`](.github/workflows/sync-hf-space.yml) | On push + Thu 06:20 UTC | Deploys the leaderboard to the Hugging Face Space, committing on top of the Space's history |
 | [`community-submission`](.github/workflows/community-submission.yml) | On labeled issues | Extracts, schema-validates and sanity-bounds a submitted result, then merges it via PR with attribution |
@@ -510,6 +519,57 @@ are licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
 
 Benchmark results are point-in-time measurements. Models referenced remain the property of their
 respective authors and are subject to their own licenses.
+
+## Media lane
+
+Image and video generation models have no single `config.json` to size from, so FITS arithmetic
+does not apply. The media lane keeps FitLab's rules — every number has a recorded source, and
+nothing is hand-ranked — with a different input:
+
+- [`data/media.seed.yaml`](data/media.seed.yaml) declares each base checkpoint's VRAM need
+  (`min` = runs with offload / low-VRAM mode, `recommended` = native resolution without offload),
+  where each number came from (`homepilot-presets`, `editorial`, later `measured`), and the work its
+  default workflow does (steps × megapixels × frames).
+- [`scripts/build_media.py`](scripts/build_media.py) adds live Hugging Face download counts,
+  derives a verdict per GPU and ranks under `media_ranking_version` 1.0:
+
+```
+score = 0.40·fit + 0.25·capability + 0.25·momentum + 0.10·speed
+fit:  fits ≥ recommended · tight ≥ min · offload ≥ 0.7·min · otherwise no
+```
+
+The output, [`data/media_registry.json`](data/media_registry.json), publishes Top-10 lists for
+12, 16 and 24 GB GPUs (image and video), and — so a client can rank for **any** VRAM without
+re-implementing the formula — each model's GPU-independent `components` (capability, momentum,
+speed) alongside the `scoring` weights. A client computes only the fit verdict for its own GPU:
+`score = Σ weight · component`, with `fit = fit_score[verdict]`.
+
+```bash
+make media                         # refresh HF stats and rebuild
+python scripts/build_media.py --offline   # rebuild from the seed, keeping previous stats
+```
+
+The LLM `registry.json` is unchanged by this lane: its schema, keys and consumers stay as they were.
+
+## Using FitLab from HomePilot
+
+[HomePilot](https://github.com/ruslanmv/HomePilot) reads FitLab to suggest the top models for the
+GPU it is running on — chat and vision from `registry.json`, image and video from
+`media_registry.json` — under **Models → Suggested for your GPU**. The contract it relies on:
+
+| Field | Used for |
+|---|---|
+| `models.*.arch`, `params_b`, `active_params_b` | FITS verdict and speed for the detected GPU (same arithmetic as `fitlab check`) |
+| `models.*.ollama_tag` | One-click install through HomePilot's Ollama pull |
+| `media_registry.json` `models.*.homepilot` | `{provider, model_type, model_id}` for HomePilot's ComfyUI install |
+| `media_registry.json` `scoring` + `models.*.components` | Ranking for any VRAM, identical to the published lists |
+| `generated_at`, `ranking_version`, `media_ranking_version` | Shown with every suggestion |
+
+HomePilot fetches when the user presses **Fetch definitions** — and, if the user leaves it on, in a
+daily background check — reading `registry-latest` first and `master` second with `If-None-Match`,
+so an unchanged registry costs a `304` and no download. Offline it falls back to its last cached
+copy, then to a snapshot bundled in the release — the same order as the `fitlab` CLI.
+`FITLAB_REGISTRY_URL` points it at a mirror.
 
 ## NVIDIA GPU catalog
 

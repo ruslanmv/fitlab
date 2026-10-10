@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ruslanmv/fitlab/data/schema/media.schema.json",
+  "title": "FitLab media registry (image and video generation models)",
+  "type": "object",
+  "required": ["schema_version", "media_ranking_version", "generated_at", "scoring", "categories", "models"],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^1\\."},
+    "media_ranking_version": {"type": "string"},
+    "generated_at": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "scoring": {
+      "type": "object",
+      "required": ["weights", "fit_score", "thresholds"],
+      "properties": {
+        "weights": {
+          "type": "object",
+          "required": ["fit", "capability", "momentum", "speed"],
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "fit_score": {
+          "type": "object",
+          "required": ["fits", "tight", "offload", "no"],
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "thresholds": {"type": "object"}
+      }
+    },
+    "categories": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["title", "task", "reference_gpu", "top"],
+        "properties": {
+          "title": {"type": "string"},
+          "task": {"enum": ["image", "video"]},
+          "reference_gpu": {"type": "string"},
+          "top": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "score"],
+              "properties": {"id": {"type": "string"}, "score": {"type": "number"}}
+            }
+          }
+        }
+      }
+    },
+    "models": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/model"}
+    }
+  },
+  "$defs": {
+    "model": {
+      "type": "object",
+      "required": ["id", "name", "task", "hf_id", "params_b", "license", "vram_gb", "components", "fits", "scores"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.\\-]*$"},
+        "name": {"type": "string", "minLength": 1},
+        "task": {"enum": ["text-to-image", "text-to-video", "image-to-video"]},
+        "hf_id": {"type": "string", "pattern": "^[^/\\s]+/[^/\\s]+$"},
+        "family": {"type": "string"},
+        "params_b": {"type": "number", "exclusiveMinimum": 0, "maximum": 1000},
+        "license": {"type": "string"},
+        "download_gb": {"type": "number", "minimum": 0},
+        "vram_gb": {
+          "type": "object",
+          "required": ["min", "recommended", "source"],
+          "properties": {
+            "min": {"type": "number", "exclusiveMinimum": 0, "maximum": 256},
+            "recommended": {"type": "number", "exclusiveMinimum": 0, "maximum": 256},
+            "source": {"enum": ["homepilot-presets", "editorial", "measured"]}
+          }
+        },
+        "cost": {
+          "type": "object",
+          "properties": {
+            "steps": {"type": "integer", "minimum": 1},
+            "megapixels": {"type": "number", "exclusiveMinimum": 0},
+            "frames": {"type": "integer", "minimum": 1}
+          }
+        },
+        "hf_stats": {
+          "type": "object",
+          "properties": {
+            "downloads_30d": {"type": "integer", "minimum": 0},
+            "likes": {"type": "integer", "minimum": 0},
+            "fetched_at": {"type": ["string", "null"]}
+          }
+        },
+        "components": {
+          "description": "Score inputs that do not depend on the GPU — a client combines them with its own fit.",
+          "type": "object",
+          "required": ["capability", "momentum", "speed"],
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "fits": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["verdict"],
+            "properties": {"verdict": {"enum": ["fits", "tight", "offload", "no"]}}
+          }
+        },
+        "scores": {"type": "object", "additionalProperties": {"type": "number"}},
+        "homepilot": {
+          "type": ["object", "null"],
+          "required": ["provider", "model_type", "model_id"],
+          "properties": {
+            "provider": {"enum": ["comfyui"]},
+            "model_type": {"enum": ["image", "video"]},
+            "model_id": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  }
+}

@@ -53,6 +53,19 @@ jobs:
       - name: Refresh the packaged seed registry
         run: cp data/registry.json src/fitlab/data/seed_registry.json
 
+      # Image + video models. Hugging Face errors keep each model's last-good stats, so a
+      # flaky API never empties the lane; a malformed seed fails here, before publishing.
+      - name: Rebuild the media lane (image + video)
+        run: |
+          python scripts/build_media.py
+          python - <<'PY'
+          import json, pathlib, jsonschema
+          doc = json.loads(pathlib.Path("data/media_registry.json").read_text())
+          jsonschema.validate(doc, json.loads(pathlib.Path("data/schema/media.schema.json").read_text()))
+          print(f"✓ media registry valid — {len(doc['models'])} models, "
+                f"{len(doc['categories'])} categories")
+          PY
+
       - name: Validate every registry entry against the schema
         run: |
           python - <<'PY'
@@ -103,7 +116,7 @@ jobs:
           find "$WT" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
 
           mkdir -p "$WT/data" "$WT/site"
-          cp data/registry.json data/ollama_catalog.json "$WT/data/"
+          cp data/registry.json data/ollama_catalog.json data/media_registry.json "$WT/data/"
           cp site/registry.json "$WT/site/"
           cat > "$WT/README.md" <<'EOF'
           # registry-latest
@@ -114,6 +127,7 @@ jobs:
           - `data/registry.json` — the full registry (`fitlab` CLI)
           - `site/registry.json`  — the same document, minified (leaderboard)
           - `data/ollama_catalog.json` — the Ollama library index the tags were validated against
+          - `data/media_registry.json` — the media lane: image + video models ranked per GPU (HomePilot)
 
           The reviewed copy lives on `master`.
           EOF
@@ -152,6 +166,7 @@ jobs:
           add-paths: |
             data/registry.json
             data/ollama_catalog.json
+            data/media_registry.json
             site/registry.json
             src/fitlab/data/seed_registry.json
           body: |

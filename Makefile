@@ -92,6 +92,9 @@ update: install ## Force-refresh the model registry, bypassing the 24h cache
 registry: install ## FITS + HF sync: rebuild data/registry.json
 	@$(PY) scripts/sync_hf.py
 
+media: install ## MEDIA lane: rank image + video models, rebuild data/media_registry.json
+	@$(PY) scripts/build_media.py
+
 catalog: install ## Refresh data/ollama_catalog.json from the Ollama library
 	@$(PY) scripts/ollama_catalog.py
 

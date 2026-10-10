@@ -1,0 +1,197 @@
+# MEDIA LANE SEED — image and video generation models (bootstrap + curated facts only).
+#
+# The LLM lane sizes a model from its config.json; diffusion pipelines have no such single
+# file, so their memory needs are declared here, with the source of every number recorded in
+# `vram_gb.source`. Ranks are NOT curated: scripts/build_media.py computes them every week
+# from these facts plus live Hugging Face download counts, under `media_ranking_version`.
+#
+#   vram_gb.min          lowest VRAM that runs the default workflow (offload / low-VRAM mode allowed)
+#   vram_gb.recommended  VRAM for the native resolution without offloading
+#   vram_gb.source       homepilot-presets  — HomePilot's video_presets.json model_min_vram
+#                        editorial          — maintainer estimate from the reference ComfyUI workflow;
+#                                             replace with `measured` once a community run lands
+#   cost.steps/megapixels/frames  the default workflow's work per output, used only for the speed proxy
+#   homepilot            how HomePilot installs it (POST /models/install); null when HomePilot's
+#                        catalogue has no entry yet
+#
+# Only base / reference checkpoints belong here — not community fine-tunes.
+schema_version: "1.0"
+
+categories:
+  image-12gb: { title: "Top image models — 12 GB GPU",      task: image, reference_gpu: rtx3060-12 }
+  image-16gb: { title: "Top image models — 16 GB GPU",      task: image, reference_gpu: rtx4060ti-16 }
+  image-24gb: { title: "Top image models — 24 GB GPU",      task: image, reference_gpu: rtx4090-24 }
+  video-12gb: { title: "Top video models — 12 GB GPU",      task: video, reference_gpu: rtx3060-12 }
+  video-16gb: { title: "Top video models — 16 GB GPU",      task: video, reference_gpu: rtx4060ti-16 }
+  video-24gb: { title: "Top video models — 24 GB GPU",      task: video, reference_gpu: rtx4090-24 }
+
+models:
+  # ---------- text-to-image ----------
+  - id: sd15
+    name: Stable Diffusion 1.5
+    task: text-to-image
+    hf_id: stable-diffusion-v1-5/stable-diffusion-v1-5
+    family: sd15
+    params_b: 1.07
+    license: creativeml-openrail-m
+    vram_gb: { min: 4, recommended: 6, source: editorial }
+    download_gb: 4.27
+    cost: { steps: 25, megapixels: 0.26 }
+    homepilot: { provider: comfyui, model_type: image, model_id: sd15.safetensors }
+
+  - id: realistic-vision-5.1
+    name: Realistic Vision 5.1
+    task: text-to-image
+    hf_id: SG161222/Realistic_Vision_V5.1_noVAE
+    family: sd15
+    params_b: 1.07
+    license: creativeml-openrail-m
+    vram_gb: { min: 4, recommended: 6, source: editorial }
+    download_gb: 2.13
+    cost: { steps: 25, megapixels: 0.26 }
+    homepilot: { provider: comfyui, model_type: image, model_id: realisticVisionV51.safetensors }
+
+  - id: sdxl-base-1.0
+    name: SDXL Base 1.0
+    task: text-to-image
+    hf_id: stabilityai/stable-diffusion-xl-base-1.0
+    family: sdxl
+    params_b: 3.5
+    license: openrail++
+    vram_gb: { min: 8, recommended: 12, source: editorial }
+    download_gb: 6.94
+    cost: { steps: 25, megapixels: 1.05 }
+    homepilot: { provider: comfyui, model_type: image, model_id: sd_xl_base_1.0.safetensors }
+
+  - id: sd3.5-medium
+    name: Stable Diffusion 3.5 Medium
+    task: text-to-image
+    hf_id: stabilityai/stable-diffusion-3.5-medium
+    family: sd3
+    params_b: 2.5
+    license: stabilityai-ai-community
+    vram_gb: { min: 10, recommended: 12, source: editorial }
+    download_gb: 5.1
+    cost: { steps: 28, megapixels: 1.05 }
+    homepilot: null
+
+  - id: sd3.5-large
+    name: Stable Diffusion 3.5 Large
+    task: text-to-image
+    hf_id: stabilityai/stable-diffusion-3.5-large
+    family: sd3
+    params_b: 8.1
+    license: stabilityai-ai-community
+    vram_gb: { min: 16, recommended: 24, source: editorial }
+    download_gb: 16.5
+    cost: { steps: 28, megapixels: 1.05 }
+    homepilot: null
+
+  - id: flux1-schnell
+    name: FLUX.1 schnell
+    task: text-to-image
+    hf_id: black-forest-labs/FLUX.1-schnell
+    family: flux
+    params_b: 12.0
+    license: apache-2.0
+    vram_gb: { min: 16, recommended: 24, source: editorial }
+    download_gb: 23.8
+    cost: { steps: 4, megapixels: 1.05 }
+    homepilot: { provider: comfyui, model_type: image, model_id: flux1-schnell.safetensors }
+
+  - id: flux1-dev
+    name: FLUX.1 dev
+    task: text-to-image
+    hf_id: black-forest-labs/FLUX.1-dev
+    family: flux
+    params_b: 12.0
+    license: flux-1-dev-non-commercial-license
+    vram_gb: { min: 16, recommended: 24, source: editorial }
+    download_gb: 23.8
+    cost: { steps: 28, megapixels: 1.05 }
+    homepilot: { provider: comfyui, model_type: image, model_id: flux1-dev.safetensors }
+
+  # ---------- video (text-to-video / image-to-video) ----------
+  - id: svd-xt-1.1
+    name: Stable Video Diffusion XT 1.1
+    task: image-to-video
+    hf_id: stabilityai/stable-video-diffusion-img2vid-xt-1-1
+    family: svd
+    params_b: 1.5
+    license: stable-video-diffusion-community
+    vram_gb: { min: 6, recommended: 12, source: homepilot-presets }
+    download_gb: 9.56
+    cost: { steps: 25, megapixels: 0.59, frames: 25 }
+    homepilot: { provider: comfyui, model_type: video, model_id: svd_xt_1_1.safetensors }
+
+  - id: ltx-video-2b-0.9.1
+    name: LTX-Video 2B 0.9.1
+    task: text-to-video
+    hf_id: Lightricks/LTX-Video
+    family: ltx
+    params_b: 2.0
+    license: ltx-video-open-weights
+    vram_gb: { min: 8, recommended: 12, source: homepilot-presets }
+    download_gb: 10.5
+    cost: { steps: 30, megapixels: 0.6, frames: 97 }
+    homepilot: { provider: comfyui, model_type: video, model_id: ltx-video-2b-v0.9.1.safetensors }
+
+  - id: wan2.1-t2v-1.3b
+    name: Wan 2.1 T2V 1.3B
+    task: text-to-video
+    hf_id: Wan-AI/Wan2.1-T2V-1.3B
+    family: wan
+    params_b: 1.3
+    license: apache-2.0
+    vram_gb: { min: 8, recommended: 10, source: editorial }
+    download_gb: 8.2
+    cost: { steps: 30, megapixels: 0.41, frames: 81 }
+    homepilot: null
+
+  - id: wan2.2-ti2v-5b
+    name: Wan 2.2 TI2V 5B
+    task: text-to-video
+    hf_id: Wan-AI/Wan2.2-TI2V-5B
+    family: wan
+    params_b: 5.0
+    license: apache-2.0
+    vram_gb: { min: 10, recommended: 16, source: homepilot-presets }
+    download_gb: 21.5
+    cost: { steps: 30, megapixels: 0.92, frames: 121 }
+    homepilot: { provider: comfyui, model_type: video, model_id: wan2.2_5b_fp16_pack }
+
+  - id: hunyuanvideo-q4
+    name: HunyuanVideo 720p (GGUF Q4_K_M)
+    task: text-to-video
+    hf_id: tencent/HunyuanVideo
+    family: hunyuan
+    params_b: 13.0
+    license: tencent-hunyuan-community
+    vram_gb: { min: 12, recommended: 16, source: homepilot-presets }
+    download_gb: 9.5
+    cost: { steps: 30, megapixels: 0.92, frames: 129 }
+    homepilot: { provider: comfyui, model_type: video, model_id: hunyuanvideo_t2v_720p_gguf_q4_k_m_pack }
+
+  - id: mochi-1-preview
+    name: Mochi 1 Preview (FP8)
+    task: text-to-video
+    hf_id: genmo/mochi-1-preview
+    family: mochi
+    params_b: 10.0
+    license: apache-2.0
+    vram_gb: { min: 18, recommended: 24, source: homepilot-presets }
+    download_gb: 28.0
+    cost: { steps: 50, megapixels: 0.41, frames: 163 }
+    homepilot: { provider: comfyui, model_type: video, model_id: mochi_preview_fp8_pack }
+
+  - id: cogvideox-1.5-5b-i2v
+    name: CogVideoX 1.5 5B I2V
+    task: image-to-video
+    hf_id: THUDM/CogVideoX1.5-5B-I2V
+    family: cogvideo
+    params_b: 5.0
+    license: cogvideox
+    vram_gb: { min: 18, recommended: 24, source: homepilot-presets }
+    download_gb: 20.0
+    cost: { steps: 50, megapixels: 1.04, frames: 81 }
+    homepilot: { provider: comfyui, model_type: video, model_id: cogvideox1.5_5b_i2v_snapshot }
