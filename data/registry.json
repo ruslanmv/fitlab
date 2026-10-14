@@ -30,43 +30,43 @@
       "top": [
         {
           "id": "gpt-oss-20b",
-          "score": 0.9124
-        },
-        {
-          "id": "qwen2.5-14b-instruct",
-          "score": 0.8347
-        },
-        {
-          "id": "qwen2.5-coder-14b-instruct",
-          "score": 0.8298
+          "score": 0.9109
         },
         {
           "id": "qwen3-14b",
-          "score": 0.828
+          "score": 0.85
+        },
+        {
+          "id": "qwen2.5-coder-14b-instruct",
+          "score": 0.8288
         },
         {
           "id": "qwen3-8b",
-          "score": 0.8211
+          "score": 0.8206
         },
         {
           "id": "qwen2.5-7b-instruct",
-          "score": 0.8146
+          "score": 0.8098
+        },
+        {
+          "id": "mistral-7b-instruct-v0.2",
+          "score": 0.7864
         },
         {
           "id": "qwen2.5-coder-7b-instruct",
-          "score": 0.7945
+          "score": 0.7861
         },
         {
           "id": "qwen3-4b",
-          "score": 0.773
+          "score": 0.7803
         },
         {
           "id": "qwen3-4b-instruct-2507",
-          "score": 0.7643
+          "score": 0.7631
         },
         {
-          "id": "nvidia-nemotron-3-nano-4b-bf16",
-          "score": 0.7638
+          "id": "deepseek-r1-distill-qwen-7b",
+          "score": 0.7626
         }
       ]
     },
@@ -76,43 +76,43 @@
       "top": [
         {
           "id": "qwen3-14b",
-          "score": 0.8305
+          "score": 0.8525
         },
         {
           "id": "qwen3-8b",
-          "score": 0.8253
+          "score": 0.8249
         },
         {
           "id": "qwen2.5-7b-instruct",
-          "score": 0.8194
+          "score": 0.8147
+        },
+        {
+          "id": "mistral-7b-instruct-v0.2",
+          "score": 0.7913
         },
         {
           "id": "qwen2.5-coder-7b-instruct",
-          "score": 0.7993
+          "score": 0.7909
         },
         {
           "id": "qwen3-4b",
-          "score": 0.773
+          "score": 0.7803
+        },
+        {
+          "id": "deepseek-r1-distill-qwen-7b",
+          "score": 0.7675
         },
         {
           "id": "qwen3-4b-instruct-2507",
-          "score": 0.7643
+          "score": 0.7631
         },
         {
           "id": "nvidia-nemotron-3-nano-4b-bf16",
-          "score": 0.7638
-        },
-        {
-          "id": "qwen3-4b-base",
-          "score": 0.7547
-        },
-        {
-          "id": "otel-llm-e4b-it",
-          "score": 0.7519
+          "score": 0.7516
         },
         {
           "id": "qwen2.5-3b-instruct",
-          "score": 0.7492
+          "score": 0.7457
         }
       ]
     },
@@ -122,49 +122,49 @@
       "top": [
         {
           "id": "qwen3.5-9b",
-          "score": 0.8275
+          "score": 0.8249
         },
         {
           "id": "qwen3-vl-8b-instruct",
-          "score": 0.8211
+          "score": 0.8164
         },
         {
           "id": "qwen2.5-vl-7b-instruct",
-          "score": 0.81
+          "score": 0.8043
         },
         {
           "id": "qwen3.5-4b",
-          "score": 0.7751
-        },
-        {
-          "id": "qwen3-vl-4b-instruct",
-          "score": 0.7666
+          "score": 0.7768
         },
         {
           "id": "qwen2.5-vl-3b-instruct",
-          "score": 0.74
+          "score": 0.734
         },
         {
           "id": "qwen3.5-2b",
-          "score": 0.7166
-        },
-        {
-          "id": "qwen3-vl-2b-instruct",
-          "score": 0.7125
+          "score": 0.7136
         },
         {
           "id": "qwen2-vl-2b-instruct",
-          "score": 0.7065
+          "score": 0.698
+        },
+        {
+          "id": "apertus-v1.5-8b-base",
+          "score": 0.6808
         },
         {
           "id": "gemma-4-26b-a4b-it",
-          "score": 0.6739
+          "score": 0.6755
+        },
+        {
+          "id": "qwen3.8-27b",
+          "score": 0.67
         }
       ]
     }
   },
   "compat": {},
-  "generated_at": "2026-09-12",
+  "generated_at": "2026-10-14",
   "models": {
     "abliterated-minicpm5-2b": {
       "arch": {
@@ -231,7 +231,7 @@
       "id": "abliterated-minicpm5-2b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
@@ -240,6 +240,524 @@
       },
       "stale_since": "2026-09-12",
       "status": "stale"
+    },
+    "acquisition_student_as_tracin_alpaca_qwen3b_5000": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2048,
+        "max_context": 32768,
+        "n_kv_heads": 2,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "small"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 122.6,
+            "est_vram_gb": 3.08,
+            "kv_gb": 0.3,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.87
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 70.0,
+            "est_vram_gb": 4.49,
+            "kv_gb": 0.3,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 3.28
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 108.9,
+            "est_vram_gb": 3.08,
+            "kv_gb": 0.3,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.87
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 62.2,
+            "est_vram_gb": 4.49,
+            "kv_gb": 0.3,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 3.28
+          }
+        }
+      },
+      "hf_id": "ishikaa/acquisition_student_AS_tracin_alpaca_qwen3b_5000",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "acquisition_student_as_tracin_alpaca_qwen3b_5000",
+      "license": "",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 3.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5088,
+        "t4-16": 0.5088
+      },
+      "status": "auto"
+    },
+    "aescode-32b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 5120,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 11.5,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.6,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 10.2,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 5.8,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        }
+      },
+      "hf_id": "microsoft/AesCode-32B",
+      "hf_stats": {
+        "downloads_30d": 275,
+        "fetched_at": "2026-10-14",
+        "likes": 45,
+        "trending_score": 45
+      },
+      "id": "aescode-32b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 32.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4218,
+        "t4-16": 0.5107
+      },
+      "status": "auto"
+    },
+    "aescode-8b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 45.9,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.2,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        }
+      },
+      "hf_id": "microsoft/AesCode-8B",
+      "hf_stats": {
+        "downloads_30d": 261,
+        "fetched_at": "2026-10-14",
+        "likes": 54,
+        "trending_score": 54
+      },
+      "id": "aescode-8b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 8.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6617,
+        "t4-16": 0.6574
+      },
+      "status": "auto"
+    },
+    "agent-reflex-8b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "max_context": 40960,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "tools"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 45.9,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.2,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        }
+      },
+      "hf_id": "dongguanting/Agent-Reflex-8B",
+      "hf_stats": {
+        "downloads_30d": 75,
+        "fetched_at": "2026-10-14",
+        "likes": 2,
+        "trending_score": 0
+      },
+      "id": "agent-reflex-8b",
+      "license": "mit",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 8.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6425,
+        "t4-16": 0.6382
+      },
+      "status": "auto"
+    },
+    "alodlm-8b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "max_context": 40960,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "coding"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 45.9,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.2,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        }
+      },
+      "hf_id": "amazon/ALoDLM-8B",
+      "hf_stats": {
+        "downloads_30d": 926,
+        "fetched_at": "2026-10-14",
+        "likes": 39,
+        "trending_score": 31
+      },
+      "id": "alodlm-8b",
+      "license": "cc-by-nc-4.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 8.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6813,
+        "t4-16": 0.677
+      },
+      "status": "auto"
+    },
+    "apertus-v1.5-8b-base": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 32
+      },
+      "capabilities": [
+        "multilingual",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 45.9,
+            "est_vram_gb": 6.97,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.2,
+            "est_vram_gb": 10.73,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 6.97,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 10.73,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        }
+      },
+      "hf_id": "swiss-ai/Apertus-v1.5-8B-base",
+      "hf_stats": {
+        "downloads_30d": 1181,
+        "fetched_at": "2026-10-14",
+        "likes": 3,
+        "trending_score": 0
+      },
+      "id": "apertus-v1.5-8b-base",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 8.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.685,
+        "t4-16": 0.6808
+      },
+      "status": "auto"
+    },
+    "ari-paraphraser-1.5b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 1536,
+        "max_context": 131072,
+        "n_kv_heads": 2,
+        "n_layers": 28
+      },
+      "capabilities": [
+        "chat",
+        "small"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 244.9,
+            "est_vram_gb": 2.07,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.94
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 139.9,
+            "est_vram_gb": 2.78,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.64
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 217.7,
+            "est_vram_gb": 2.07,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.94
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 124.3,
+            "est_vram_gb": 2.78,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.64
+          }
+        }
+      },
+      "hf_id": "sriyuth/ari-paraphraser-1.5b",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 1,
+        "trending_score": 0
+      },
+      "id": "ari-paraphraser-1.5b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 1.5,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4634,
+        "t4-16": 0.4634
+      },
+      "status": "auto"
     },
     "ark-asr-3b": {
       "arch": {
@@ -307,14 +825,15 @@
       "id": "ark-asr-3b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6585,
         "t4-16": 0.6585
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "audio8-tts-preview-0.1b": {
       "arch": {
@@ -382,14 +901,15 @@
       "id": "audio8-tts-preview-0.1b",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.1,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.4299,
         "t4-16": 0.4299
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "bge-m3": {
       "arch": {
@@ -448,20 +968,20 @@
       },
       "hf_id": "furiosa-ai/bge-m3",
       "hf_stats": {
-        "downloads_30d": 518,
-        "fetched_at": "2026-09-12",
+        "downloads_30d": 1908,
+        "fetched_at": "2026-10-14",
         "likes": 0,
         "trending_score": 0
       },
       "id": "bge-m3",
       "license": "mit",
       "ollama_tag": "bge-m3",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.57,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5155,
-        "t4-16": 0.5155
+        "rtx3060-12": 0.5357,
+        "t4-16": 0.5357
       },
       "seed_lists": [],
       "status": "seed"
@@ -533,14 +1053,15 @@
       "id": "blossom-v7.1-27b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.3363,
         "t4-16": 0.4251
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "blossom-v7.1-35b-a3b": {
       "arch": {
@@ -610,14 +1131,15 @@
       "id": "blossom-v7.1-35b-a3b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 35.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.3337,
         "t4-16": 0.4228
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "blossom-v7.1-9b": {
       "arch": {
@@ -686,12 +1208,310 @@
       "id": "blossom-v7.1-9b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 9.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5812,
         "t4-16": 0.5775
+      },
+      "stale_since": "2026-10-14",
+      "status": "stale"
+    },
+    "callbus-emb-8b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "max_context": 40960,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "embeddings"
+      ],
+      "category": "sentence-similarity",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 45.9,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.2,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        }
+      },
+      "hf_id": "yasinyaman/callbus-emb-8b",
+      "hf_stats": {
+        "downloads_30d": 42,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "callbus-emb-8b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 8.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6336,
+        "t4-16": 0.6294
+      },
+      "status": "auto"
+    },
+    "colgrep-agent-2b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2048,
+        "max_context": 131072,
+        "n_kv_heads": 2,
+        "n_layers": 42
+      },
+      "capabilities": [
+        "chat",
+        "coding",
+        "small"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 183.7,
+            "est_vram_gb": 2.5,
+            "kv_gb": 0.35,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.25
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 104.9,
+            "est_vram_gb": 3.44,
+            "kv_gb": 0.35,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.19
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 163.3,
+            "est_vram_gb": 2.5,
+            "kv_gb": 0.35,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.25
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 93.2,
+            "est_vram_gb": 3.44,
+            "kv_gb": 0.35,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.19
+          }
+        }
+      },
+      "hf_id": "lightonai/colgrep-agent-2B",
+      "hf_stats": {
+        "downloads_30d": 153,
+        "fetched_at": "2026-10-14",
+        "likes": 24,
+        "trending_score": 24
+      },
+      "id": "colgrep-agent-2b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 2.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5592,
+        "t4-16": 0.5592
+      },
+      "status": "auto"
+    },
+    "colnanovdr-q-ettin150m-evie8b-4096-ml": {
+      "arch": {
+        "head_dim": 64,
+        "hidden_size": 768,
+        "max_context": 7999,
+        "n_kv_heads": 12,
+        "n_layers": 22
+      },
+      "capabilities": [
+        "embeddings"
+      ],
+      "category": "sentence-similarity",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 46.0,
+            "est_vram_gb": 6.45,
+            "kv_gb": 0.55,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.2,
+            "est_vram_gb": 10.21,
+            "kv_gb": 0.55,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.9,
+            "est_vram_gb": 6.45,
+            "kv_gb": 0.55,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 10.21,
+            "kv_gb": 0.55,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        }
+      },
+      "hf_id": "nanovdr/ColNanoVDR-Q-Ettin150M-EVIE8B-4096-ML",
+      "hf_stats": {
+        "downloads_30d": 27,
+        "fetched_at": "2026-10-14",
+        "likes": 2,
+        "trending_score": 2
+      },
+      "id": "colnanovdr-q-ettin150m-evie8b-4096-ml",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 8.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6271,
+        "t4-16": 0.6228
+      },
+      "status": "auto"
+    },
+    "d1-3b": {
+      "arch": {
+        "head_dim": 64,
+        "hidden_size": 2048,
+        "max_context": 32768,
+        "n_kv_heads": 8,
+        "n_layers": 30
+      },
+      "capabilities": [
+        "chat",
+        "multilingual",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 122.5,
+            "est_vram_gb": 3.28,
+            "kv_gb": 0.5,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.87
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 69.9,
+            "est_vram_gb": 4.69,
+            "kv_gb": 0.5,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 3.28
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 108.9,
+            "est_vram_gb": 3.28,
+            "kv_gb": 0.5,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.87
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 62.2,
+            "est_vram_gb": 4.69,
+            "kv_gb": 0.5,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 3.28
+          }
+        }
+      },
+      "hf_id": "LiquidAI/d1-3B",
+      "hf_stats": {
+        "downloads_30d": 13190,
+        "fetched_at": "2026-10-14",
+        "likes": 386,
+        "trending_score": 375
+      },
+      "id": "d1-3b",
+      "license": "other",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 3.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6559,
+        "t4-16": 0.6559
       },
       "status": "auto"
     },
@@ -752,7 +1572,7 @@
       "id": "deepseek-r1-14b",
       "license": "mit",
       "ollama_tag": "deepseek-r1:14b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 14.8,
       "schema_version": "1.0",
       "scores": {
@@ -764,6 +1584,81 @@
         "colab-free"
       ],
       "status": "seed"
+    },
+    "deepseek-r1-distill-qwen-1.5b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 1536,
+        "max_context": 131072,
+        "n_kv_heads": 2,
+        "n_layers": 28
+      },
+      "capabilities": [
+        "chat",
+        "reasoning",
+        "small"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 244.9,
+            "est_vram_gb": 2.07,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.94
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 139.9,
+            "est_vram_gb": 2.78,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.64
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 217.7,
+            "est_vram_gb": 2.07,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.94
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 124.3,
+            "est_vram_gb": 2.78,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.64
+          }
+        }
+      },
+      "hf_id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+      "hf_stats": {
+        "downloads_30d": 1333486,
+        "fetched_at": "2026-10-14",
+        "likes": 1631,
+        "trending_score": 0
+      },
+      "id": "deepseek-r1-distill-qwen-1.5b",
+      "license": "mit",
+      "ollama_tag": "deepseek-r1:1.5b",
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 1.5,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6822,
+        "t4-16": 0.6822
+      },
+      "status": "auto"
     },
     "deepseek-r1-distill-qwen-14b-3mper0rr-abliterated": {
       "arch": {
@@ -830,7 +1725,7 @@
       "id": "deepseek-r1-distill-qwen-14b-3mper0rr-abliterated",
       "license": "mit",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 14.0,
       "schema_version": "1.0",
       "scores": {
@@ -839,6 +1734,154 @@
       },
       "stale_since": "2026-09-12",
       "status": "stale"
+    },
+    "deepseek-r1-distill-qwen-32b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 5120,
+        "max_context": 131072,
+        "n_kv_heads": 8,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "reasoning"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 11.5,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.6,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 10.2,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 5.8,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        }
+      },
+      "hf_id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+      "hf_stats": {
+        "downloads_30d": 378513,
+        "fetched_at": "2026-10-14",
+        "likes": 1655,
+        "trending_score": 21
+      },
+      "id": "deepseek-r1-distill-qwen-32b",
+      "license": "mit",
+      "ollama_tag": "deepseek-r1:32b",
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 32.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5338,
+        "t4-16": 0.6227
+      },
+      "status": "auto"
+    },
+    "deepseek-r1-distill-qwen-7b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 3584,
+        "max_context": 131072,
+        "n_kv_heads": 4,
+        "n_layers": 28
+      },
+      "capabilities": [
+        "chat",
+        "reasoning"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 52.5,
+            "est_vram_gb": 5.74,
+            "kv_gb": 0.47,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.37
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 30.0,
+            "est_vram_gb": 9.03,
+            "kv_gb": 0.47,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 7.66
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 46.7,
+            "est_vram_gb": 5.74,
+            "kv_gb": 0.47,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.37
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.7,
+            "est_vram_gb": 9.03,
+            "kv_gb": 0.47,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 7.66
+          }
+        }
+      },
+      "hf_id": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
+      "hf_stats": {
+        "downloads_30d": 350970,
+        "fetched_at": "2026-10-14",
+        "likes": 925,
+        "trending_score": 20
+      },
+      "id": "deepseek-r1-distill-qwen-7b",
+      "license": "mit",
+      "ollama_tag": "deepseek-r1:7b",
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 7.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.7675,
+        "t4-16": 0.7626
+      },
+      "status": "auto"
     },
     "disctil-qwen3-1.7b": {
       "arch": {
@@ -905,14 +1948,15 @@
       "id": "disctil-qwen3-1.7b",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5942,
         "t4-16": 0.5942
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "distilqwen3-1.7b-uncensored": {
       "arch": {
@@ -979,14 +2023,15 @@
       "id": "distilqwen3-1.7b-uncensored",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5957,
         "t4-16": 0.5957
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "dna-vl-steer-2b": {
       "arch": {
@@ -1055,12 +2100,88 @@
       "id": "dna-vl-steer-2b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6049,
         "t4-16": 0.6049
+      },
+      "stale_since": "2026-10-14",
+      "status": "stale"
+    },
+    "drama-1b": {
+      "arch": {
+        "head_dim": 64,
+        "hidden_size": 2048,
+        "max_context": 131072,
+        "n_kv_heads": 8,
+        "n_layers": 16
+      },
+      "capabilities": [
+        "embeddings",
+        "multilingual",
+        "small"
+      ],
+      "category": "sentence-similarity",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 366.9,
+            "est_vram_gb": 1.79,
+            "kv_gb": 0.27,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 209.7,
+            "est_vram_gb": 2.26,
+            "kv_gb": 0.27,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 326.1,
+            "est_vram_gb": 1.79,
+            "kv_gb": 0.27,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 186.4,
+            "est_vram_gb": 2.26,
+            "kv_gb": 0.27,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        }
+      },
+      "hf_id": "facebook/drama-1b",
+      "hf_stats": {
+        "downloads_30d": 1223,
+        "fetched_at": "2026-10-14",
+        "likes": 18,
+        "trending_score": 3
+      },
+      "id": "drama-1b",
+      "license": "cc-by-nc-4.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 1.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5522,
+        "t4-16": 0.5522
       },
       "status": "auto"
     },
@@ -1130,14 +2251,15 @@
       "id": "dualmind-qwen-1.7b-thinking",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5957,
         "t4-16": 0.5957
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "dualmind-tkd-agentic-1.7b": {
       "arch": {
@@ -1205,14 +2327,15 @@
       "id": "dualmind-tkd-agentic-1.7b",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5954,
         "t4-16": 0.5954
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "dualminded-qwen3-1.7b": {
       "arch": {
@@ -1279,14 +2402,15 @@
       "id": "dualminded-qwen3-1.7b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5956,
         "t4-16": 0.5956
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "edge0-35b-a3b-preview": {
       "arch": {
@@ -1353,14 +2477,15 @@
       "id": "edge0-35b-a3b-preview",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 35.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.4482,
         "t4-16": 0.5372
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "edge0-8b-a1b-preview": {
       "arch": {
@@ -1427,14 +2552,15 @@
       "id": "edge0-8b-a1b-preview",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6832,
         "t4-16": 0.679
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "egx-decision-qwen2.5-vl-3b-fused": {
       "arch": {
@@ -1502,14 +2628,15 @@
       "id": "egx-decision-qwen2.5-vl-3b-fused",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5088,
         "t4-16": 0.5088
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "fwizzer-r1-3b-ru-v3": {
       "arch": {
@@ -1579,14 +2706,15 @@
       "id": "fwizzer-r1-3b-ru-v3",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.586,
         "t4-16": 0.586
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "gemma-3-12b": {
       "arch": {
@@ -1646,7 +2774,7 @@
       "id": "gemma-3-12b",
       "license": "gemma",
       "ollama_tag": "gemma3:12b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 12.2,
       "schema_version": "1.0",
       "scores": {
@@ -1718,20 +2846,243 @@
       },
       "hf_id": "google/gemma-4-26B-A4B-it",
       "hf_stats": {
-        "downloads_30d": 9045750,
-        "fetched_at": "2026-09-12",
-        "likes": 1490,
+        "downloads_30d": 11327173,
+        "fetched_at": "2026-10-14",
+        "likes": 1647,
         "trending_score": 0
       },
       "id": "gemma-4-26b-a4b-it",
       "license": "apache-2.0",
       "ollama_tag": "gemma4:26b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 26.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6752,
-        "t4-16": 0.6739
+        "rtx3060-12": 0.6768,
+        "t4-16": 0.6755
+      },
+      "status": "auto"
+    },
+    "genesis-qwen3vl-32b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 5120,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 11.5,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.6,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 10.2,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 5.8,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        }
+      },
+      "hf_id": "CauchyFan/Genesis-Qwen3vl-32B",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "genesis-qwen3vl-32b",
+      "license": "",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 32.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.3346,
+        "t4-16": 0.4235
+      },
+      "status": "auto"
+    },
+    "genesis-qwen3vl-4b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2560,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 91.7,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 52.4,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 81.5,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 46.6,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        }
+      },
+      "hf_id": "CauchyFan/Genesis-Qwen3vl-4B",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "genesis-qwen3vl-4b",
+      "license": "",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 4.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5303,
+        "t4-16": 0.5303
+      },
+      "status": "auto"
+    },
+    "genesis-qwen3vl-8b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 45.9,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.2,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        }
+      },
+      "hf_id": "CauchyFan/Genesis-Qwen3vl-8B",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "genesis-qwen3vl-8b",
+      "license": "",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 8.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5753,
+        "t4-16": 0.5711
       },
       "status": "auto"
     },
@@ -1801,14 +3152,15 @@
       "id": "giga-embeddings-instruct-3b-0826",
       "license": "mit",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6691,
         "t4-16": 0.6691
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "gpt-oss-20b": {
       "active_params_b": 3.6,
@@ -1870,26 +3222,101 @@
       },
       "hf_id": "openai/gpt-oss-20b",
       "hf_stats": {
-        "downloads_30d": 6597891,
-        "fetched_at": "2026-09-12",
-        "likes": 5024,
+        "downloads_30d": 5982456,
+        "fetched_at": "2026-10-14",
+        "likes": 5178,
         "trending_score": 0
       },
       "id": "gpt-oss-20b",
       "license": "apache-2.0",
       "notes": "MXFP4-native ~13 GB \u2014 a 16 GB-class model; offload-only on 12 GB.",
       "ollama_tag": "gpt-oss:20b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 20.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7024,
-        "t4-16": 0.9124
+        "rtx3060-12": 0.7009,
+        "t4-16": 0.9109
       },
       "seed_lists": [
         "colab-free"
       ],
       "status": "seed"
+    },
+    "gpt-oss-20b-high-nextcoder-distill-qwen3-4b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2560,
+        "max_context": 40960,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "coding",
+        "reasoning"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 18.4,
+            "est_vram_gb": 14.6,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 12.49
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 10.5,
+            "est_vram_gb": 24.0,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 21.89
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 16.4,
+            "est_vram_gb": 14.6,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "tight",
+            "weights_gb": 12.49
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 9.3,
+            "est_vram_gb": 24.0,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 21.89
+          }
+        }
+      },
+      "hf_id": "MaxSchulten/gpt-oss-20B-high-nextcoder-distill-Qwen3-4B",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "gpt-oss-20b-high-nextcoder-distill-qwen3-4b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 20.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4242,
+        "t4-16": 0.5425
+      },
+      "status": "auto"
     },
     "granite-33-8b": {
       "arch": {
@@ -1949,7 +3376,7 @@
       "id": "granite-33-8b",
       "license": "apache-2.0",
       "ollama_tag": "granite3.3:8b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.1,
       "schema_version": "1.0",
       "scores": {
@@ -2018,20 +3445,95 @@
       },
       "hf_id": "Alibaba-NLP/gte-Qwen2-1.5B-instruct",
       "hf_stats": {
-        "downloads_30d": 718396,
-        "fetched_at": "2026-09-12",
-        "likes": 238,
+        "downloads_30d": 436967,
+        "fetched_at": "2026-10-14",
+        "likes": 239,
         "trending_score": 0
       },
       "id": "gte-qwen2-1.5b-instruct",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.5,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6726,
-        "t4-16": 0.6726
+        "rtx3060-12": 0.6649,
+        "t4-16": 0.6649
+      },
+      "status": "auto"
+    },
+    "h2o-lightning-4b": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 2560,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 32
+      },
+      "capabilities": [
+        "chat",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 91.7,
+            "est_vram_gb": 4.47,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 52.4,
+            "est_vram_gb": 6.35,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 81.5,
+            "est_vram_gb": 4.47,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 46.6,
+            "est_vram_gb": 6.35,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        }
+      },
+      "hf_id": "h2oai/h2o-lightning-4b",
+      "hf_stats": {
+        "downloads_30d": 2116,
+        "fetched_at": "2026-10-14",
+        "likes": 66,
+        "trending_score": 65
+      },
+      "id": "h2o-lightning-4b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 4.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6491,
+        "t4-16": 0.6491
       },
       "status": "auto"
     },
@@ -2092,20 +3594,20 @@
       },
       "hf_id": "multimodalart/higgs-audio-v3-tts-4b-transformers",
       "hf_stats": {
-        "downloads_30d": 54587,
-        "fetched_at": "2026-09-12",
-        "likes": 20,
+        "downloads_30d": 44143,
+        "fetched_at": "2026-10-14",
+        "likes": 23,
         "trending_score": 0
       },
       "id": "higgs-audio-v3-tts-4b-transformers",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6995,
-        "t4-16": 0.6995
+        "rtx3060-12": 0.6962,
+        "t4-16": 0.6962
       },
       "status": "auto"
     },
@@ -2175,14 +3677,15 @@
       "id": "higgs-tts-2-3b-base",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.708,
         "t4-16": 0.708
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "higgs-tts-3-4b": {
       "arch": {
@@ -2242,20 +3745,20 @@
       },
       "hf_id": "bosonai/higgs-tts-3-4b",
       "hf_stats": {
-        "downloads_30d": 186973,
-        "fetched_at": "2026-09-12",
-        "likes": 759,
+        "downloads_30d": 122567,
+        "fetched_at": "2026-10-14",
+        "likes": 805,
         "trending_score": 0
       },
       "id": "higgs-tts-3-4b",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7186,
-        "t4-16": 0.7186
+        "rtx3060-12": 0.7121,
+        "t4-16": 0.7121
       },
       "status": "auto"
     },
@@ -2324,12 +3827,88 @@
       "id": "huihui-qwen3.8-27b-abliterated",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5122,
         "t4-16": 0.6009
+      },
+      "stale_since": "2026-10-14",
+      "status": "stale"
+    },
+    "huihui-qwen3.8-27b-coder390-efficientthink-abliterated": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 5120,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "coding",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 13.6,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 7.8,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 12.1,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.9,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        }
+      },
+      "hf_id": "huihui-ai/Huihui-Qwen3.8-27B-Coder390-EfficientThink-abliterated",
+      "hf_stats": {
+        "downloads_30d": 266,
+        "fetched_at": "2026-10-14",
+        "likes": 29,
+        "trending_score": 29
+      },
+      "id": "huihui-qwen3.8-27b-coder390-efficientthink-abliterated",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 27.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.423,
+        "t4-16": 0.5117
       },
       "status": "auto"
     },
@@ -2391,7 +3970,7 @@
       "id": "internvl3-8b",
       "license": "mit",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.1,
       "schema_version": "1.0",
       "scores": {
@@ -2402,6 +3981,230 @@
         "multimodal"
       ],
       "status": "seed"
+    },
+    "jev-27b-vl": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 5120,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 13.6,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 7.8,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 12.1,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.9,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        }
+      },
+      "hf_id": "autotrust/JEV-27B-VL",
+      "hf_stats": {
+        "downloads_30d": 1558117,
+        "fetched_at": "2026-10-14",
+        "likes": 4328,
+        "trending_score": 0
+      },
+      "id": "jev-27b-vl",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 27.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5575,
+        "t4-16": 0.6462
+      },
+      "status": "auto"
+    },
+    "jirackultra_1b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 1536,
+        "max_context": 131072,
+        "n_kv_heads": 2,
+        "n_layers": 28
+      },
+      "capabilities": [
+        "chat",
+        "multilingual",
+        "small"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 367.1,
+            "est_vram_gb": 1.76,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 209.7,
+            "est_vram_gb": 2.23,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 326.3,
+            "est_vram_gb": 1.76,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 186.4,
+            "est_vram_gb": 2.23,
+            "kv_gb": 0.23,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        }
+      },
+      "hf_id": "CMSManhattan/JiRackUltra_1b",
+      "hf_stats": {
+        "downloads_30d": 2540060,
+        "fetched_at": "2026-10-14",
+        "likes": 10,
+        "trending_score": 0
+      },
+      "id": "jirackultra_1b",
+      "license": "mit",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 1.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6706,
+        "t4-16": 0.6706
+      },
+      "status": "auto"
+    },
+    "joyfox-reverie-27b": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 5120,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "multilingual",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 13.6,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 7.8,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 12.1,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.9,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        }
+      },
+      "hf_id": "joyfox/JoyFox-Reverie-27B",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 2,
+        "trending_score": 0
+      },
+      "id": "joyfox-reverie-27b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 27.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.3363,
+        "t4-16": 0.4251
+      },
+      "status": "auto"
     },
     "k2-horizon-0.9b": {
       "arch": {
@@ -2470,14 +4273,15 @@
       "id": "k2-horizon-0.9b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.9,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.585,
         "t4-16": 0.585
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "k2-horizon-7b": {
       "arch": {
@@ -2543,14 +4347,15 @@
       "id": "k2-horizon-7b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 7.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.7027,
         "t4-16": 0.6978
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "kokoro-82m": {
       "arch": {
@@ -2609,7 +4414,7 @@
       "id": "kokoro-82m",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.082,
       "schema_version": "1.0",
       "scores": {
@@ -2618,6 +4423,81 @@
       },
       "seed_lists": [],
       "status": "seed"
+    },
+    "lca-nemotron-embed-1b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2048,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 16
+      },
+      "capabilities": [
+        "embeddings",
+        "multilingual",
+        "small"
+      ],
+      "category": "sentence-similarity",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 365.6,
+            "est_vram_gb": 2.06,
+            "kv_gb": 0.54,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 209.2,
+            "est_vram_gb": 2.53,
+            "kv_gb": 0.54,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 325.0,
+            "est_vram_gb": 2.06,
+            "kv_gb": 0.54,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 186.0,
+            "est_vram_gb": 2.53,
+            "kv_gb": 0.54,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        }
+      },
+      "hf_id": "Tiangong-LCA/LCA-Nemotron-Embed-1B",
+      "hf_stats": {
+        "downloads_30d": 8,
+        "fetched_at": "2026-10-14",
+        "likes": 1,
+        "trending_score": 0
+      },
+      "id": "lca-nemotron-embed-1b",
+      "license": "openmdw-1.1",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 1.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.476,
+        "t4-16": 0.476
+      },
+      "status": "auto"
     },
     "lfm2.5-1.2b-distilled-sft": {
       "arch": {
@@ -2685,14 +4565,15 @@
       "id": "lfm2.5-1.2b-distilled-sft",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.2,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5757,
         "t4-16": 0.5757
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "lfm2.5-2.6b": {
       "arch": {
@@ -2752,20 +4633,20 @@
       },
       "hf_id": "LiquidAI/LFM2.5-2.6B",
       "hf_stats": {
-        "downloads_30d": 107587,
-        "fetched_at": "2026-09-12",
-        "likes": 754,
+        "downloads_30d": 116541,
+        "fetched_at": "2026-10-14",
+        "likes": 823,
         "trending_score": 22
       },
       "id": "lfm2.5-2.6b",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.6,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6783,
-        "t4-16": 0.6783
+        "rtx3060-12": 0.6796,
+        "t4-16": 0.6796
       },
       "status": "auto"
     },
@@ -2834,12 +4715,163 @@
       "id": "lfm2.5-2.6b-cybersec",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.6,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6196,
         "t4-16": 0.6196
+      },
+      "stale_since": "2026-10-14",
+      "status": "stale"
+    },
+    "lfm2.5-24b-a2b": {
+      "arch": {
+        "head_dim": 64,
+        "hidden_size": 2048,
+        "max_context": 131072,
+        "n_kv_heads": 8,
+        "n_layers": 40
+      },
+      "capabilities": [
+        "chat",
+        "moe",
+        "multilingual"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 15.3,
+            "est_vram_gb": 16.56,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 14.99
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 8.8,
+            "est_vram_gb": 27.84,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 26.27
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 13.6,
+            "est_vram_gb": 16.56,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 14.99
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 7.8,
+            "est_vram_gb": 27.84,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 26.27
+          }
+        }
+      },
+      "hf_id": "LiquidAI/LFM2.5-24B-A2B",
+      "hf_stats": {
+        "downloads_30d": 2565,
+        "fetched_at": "2026-10-14",
+        "likes": 227,
+        "trending_score": 226
+      },
+      "id": "lfm2.5-24b-a2b",
+      "license": "other",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 24.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5495,
+        "t4-16": 0.5481
+      },
+      "status": "auto"
+    },
+    "lfm2.5-24b-a2b-base": {
+      "arch": {
+        "head_dim": 64,
+        "hidden_size": 2048,
+        "max_context": 131072,
+        "n_kv_heads": 8,
+        "n_layers": 40
+      },
+      "capabilities": [
+        "chat",
+        "moe",
+        "multilingual"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 15.3,
+            "est_vram_gb": 16.56,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 14.99
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 8.8,
+            "est_vram_gb": 27.84,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 26.27
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 13.6,
+            "est_vram_gb": 16.56,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 14.99
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 7.8,
+            "est_vram_gb": 27.84,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 26.27
+          }
+        }
+      },
+      "hf_id": "LiquidAI/LFM2.5-24B-A2B-Base",
+      "hf_stats": {
+        "downloads_30d": 7,
+        "fetched_at": "2026-10-14",
+        "likes": 28,
+        "trending_score": 28
+      },
+      "id": "lfm2.5-24b-a2b-base",
+      "license": "other",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 24.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.46,
+        "t4-16": 0.4586
       },
       "status": "auto"
     },
@@ -2909,12 +4941,238 @@
       "id": "lfm2.5-8b-a1b-opus-distil",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.7007,
         "t4-16": 0.6964
+      },
+      "stale_since": "2026-10-14",
+      "status": "stale"
+    },
+    "lightonocr-3-0.8b": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 1024,
+        "max_context": 262144,
+        "n_kv_heads": 2,
+        "n_layers": 24
+      },
+      "capabilities": [
+        "chat",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 457.2,
+            "est_vram_gb": 1.8,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 261.6,
+            "est_vram_gb": 2.18,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.88
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 406.4,
+            "est_vram_gb": 1.8,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 232.6,
+            "est_vram_gb": 2.18,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.88
+          }
+        }
+      },
+      "hf_id": "lightonai/LightOnOCR-3-0.8B",
+      "hf_stats": {
+        "downloads_30d": 2344,
+        "fetched_at": "2026-10-14",
+        "likes": 63,
+        "trending_score": 61
+      },
+      "id": "lightonocr-3-0.8b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 0.8,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5521,
+        "t4-16": 0.5521
+      },
+      "status": "auto"
+    },
+    "lightonocr-3-0.8b-onnx": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 1024,
+        "max_context": 262144,
+        "n_kv_heads": 2,
+        "n_layers": 24
+      },
+      "capabilities": [
+        "chat",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 457.2,
+            "est_vram_gb": 1.8,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 261.6,
+            "est_vram_gb": 2.18,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.88
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 406.4,
+            "est_vram_gb": 1.8,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 232.6,
+            "est_vram_gb": 2.18,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.88
+          }
+        }
+      },
+      "hf_id": "tomngdev/LightOnOCR-3-0.8B-ONNX",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "lightonocr-3-0.8b-onnx",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 0.8,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4317,
+        "t4-16": 0.4317
+      },
+      "status": "auto"
+    },
+    "lightonocr-3-4b": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 2560,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 32
+      },
+      "capabilities": [
+        "chat",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 91.7,
+            "est_vram_gb": 4.47,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 52.4,
+            "est_vram_gb": 6.35,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 81.5,
+            "est_vram_gb": 4.47,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 46.6,
+            "est_vram_gb": 6.35,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        }
+      },
+      "hf_id": "lightonai/LightOnOCR-3-4B",
+      "hf_stats": {
+        "downloads_30d": 5346,
+        "fetched_at": "2026-10-14",
+        "likes": 82,
+        "trending_score": 82
+      },
+      "id": "lightonocr-3-4b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 4.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6635,
+        "t4-16": 0.6635
       },
       "status": "auto"
     },
@@ -2976,7 +5234,7 @@
       "id": "llama-31-8b",
       "license": "llama3.1",
       "ollama_tag": "llama3.1:8b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
@@ -3046,7 +5304,7 @@
       "id": "llama-32-11b-vision",
       "license": "llama3.2",
       "ollama_tag": "llama3.2-vision:11b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 10.7,
       "schema_version": "1.0",
       "scores": {
@@ -3125,14 +5383,15 @@
       "id": "medix-r1-2b",
       "license": "cc-by-nc-sa-4.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5503,
         "t4-16": 0.5503
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "medix-r1-30b": {
       "arch": {
@@ -3200,14 +5459,15 @@
       "id": "medix-r1-30b",
       "license": "cc-by-nc-sa-4.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 30.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.4302,
         "t4-16": 0.519
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "medix-r1-8b": {
       "arch": {
@@ -3275,12 +5535,88 @@
       "id": "medix-r1-8b",
       "license": "cc-by-nc-sa-4.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6536,
         "t4-16": 0.6494
+      },
+      "stale_since": "2026-10-14",
+      "status": "stale"
+    },
+    "mellum2.1-12b-a2.5b-thinking": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2304,
+        "max_context": 131072,
+        "n_kv_heads": 4,
+        "n_layers": 28
+      },
+      "capabilities": [
+        "chat",
+        "moe",
+        "reasoning"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 30.7,
+            "est_vram_gb": 8.86,
+            "kv_gb": 0.47,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 7.49
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 17.5,
+            "est_vram_gb": 14.5,
+            "kv_gb": 0.47,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 13.13
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 27.3,
+            "est_vram_gb": 8.86,
+            "kv_gb": 0.47,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 7.49
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 15.6,
+            "est_vram_gb": 14.5,
+            "kv_gb": 0.47,
+            "source": "estimated",
+            "verdict": "tight",
+            "weights_gb": 13.13
+          }
+        }
+      },
+      "hf_id": "JetBrains/Mellum2.1-12B-A2.5B-Thinking",
+      "hf_stats": {
+        "downloads_30d": 1471,
+        "fetched_at": "2026-10-14",
+        "likes": 125,
+        "trending_score": 124
+      },
+      "id": "mellum2.1-12b-a2.5b-thinking",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 12.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.7113,
+        "t4-16": 0.7084
       },
       "status": "auto"
     },
@@ -3349,14 +5685,15 @@
       "id": "mini-oss-0.6b",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.6,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5456,
         "t4-16": 0.5456
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "minicpm-v": {
       "arch": {
@@ -3416,7 +5753,7 @@
       "id": "minicpm-v",
       "license": "minicpm",
       "ollama_tag": "minicpm-v",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.1,
       "schema_version": "1.0",
       "scores": {
@@ -3427,6 +5764,307 @@
         "multimodal"
       ],
       "status": "seed"
+    },
+    "minicpm-v-4.7-1b": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 1024,
+        "max_context": 262144,
+        "n_kv_heads": 2,
+        "n_layers": 24
+      },
+      "capabilities": [
+        "chat",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 366.3,
+            "est_vram_gb": 1.93,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 209.5,
+            "est_vram_gb": 2.4,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 325.6,
+            "est_vram_gb": 1.93,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 186.2,
+            "est_vram_gb": 2.4,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        }
+      },
+      "hf_id": "openbmb/MiniCPM-V-4.7-1B",
+      "hf_stats": {
+        "downloads_30d": 263,
+        "fetched_at": "2026-10-14",
+        "likes": 314,
+        "trending_score": 223
+      },
+      "id": "minicpm-v-4.7-1b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 1.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5284,
+        "t4-16": 0.5284
+      },
+      "status": "auto"
+    },
+    "minicpm-v-4.7-1b-coreai": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 1024,
+        "max_context": 262144,
+        "n_kv_heads": 2,
+        "n_layers": 24
+      },
+      "capabilities": [
+        "multilingual",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 366.3,
+            "est_vram_gb": 1.93,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 209.5,
+            "est_vram_gb": 2.4,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 325.6,
+            "est_vram_gb": 1.93,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 186.2,
+            "est_vram_gb": 2.4,
+            "kv_gb": 0.4,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.09
+          }
+        }
+      },
+      "hf_id": "mlboydaisuke/MiniCPM-V-4.7-1B-CoreAI",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "minicpm-v-4.7-1b-coreai",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 1.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4419,
+        "t4-16": 0.4419
+      },
+      "status": "auto"
+    },
+    "minicpm-v-4.7-35b-a3b": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 2048,
+        "max_context": 262144,
+        "n_kv_heads": 2,
+        "n_layers": 40
+      },
+      "capabilities": [
+        "chat",
+        "moe",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 10.5,
+            "est_vram_gb": 23.43,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 21.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.0,
+            "est_vram_gb": 39.87,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 38.3
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 9.3,
+            "est_vram_gb": 23.43,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 21.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 5.3,
+            "est_vram_gb": 39.87,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 38.3
+          }
+        }
+      },
+      "hf_id": "openbmb/MiniCPM-V-4.7-35B-A3B",
+      "hf_stats": {
+        "downloads_30d": 630,
+        "fetched_at": "2026-10-14",
+        "likes": 524,
+        "trending_score": 459
+      },
+      "id": "minicpm-v-4.7-35b-a3b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 35.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4338,
+        "t4-16": 0.5228
+      },
+      "status": "auto"
+    },
+    "minicpm-v-4.7-35b-a3b-w4a8-arm-flagos": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 2048,
+        "max_context": 262144,
+        "n_kv_heads": 2,
+        "n_layers": 40
+      },
+      "capabilities": [
+        "chat",
+        "moe",
+        "multilingual",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 10.5,
+            "est_vram_gb": 23.43,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 21.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.0,
+            "est_vram_gb": 39.87,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 38.3
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 9.3,
+            "est_vram_gb": 23.43,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 21.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 5.3,
+            "est_vram_gb": 39.87,
+            "kv_gb": 0.67,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 38.3
+          }
+        }
+      },
+      "hf_id": "FlagRelease/MiniCPM-V-4.7-35B-A3B-W4A8-arm-FlagOS",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "minicpm-v-4.7-35b-a3b-w4a8-arm-flagos",
+      "license": "",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 35.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.3337,
+        "t4-16": 0.4228
+      },
+      "status": "auto"
     },
     "minicpm5-1b": {
       "arch": {
@@ -3496,14 +6134,15 @@
       "id": "minicpm5-1b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6501,
         "t4-16": 0.6501
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "minicpm5-2b": {
       "arch": {
@@ -3565,20 +6204,20 @@
       },
       "hf_id": "openbmb/MiniCPM5-2B",
       "hf_stats": {
-        "downloads_30d": 102334,
-        "fetched_at": "2026-09-12",
-        "likes": 1229,
-        "trending_score": 1035
+        "downloads_30d": 1265771,
+        "fetched_at": "2026-10-14",
+        "likes": 1768,
+        "trending_score": 0
       },
       "id": "minicpm5-2b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.66,
-        "t4-16": 0.66
+        "rtx3060-12": 0.699,
+        "t4-16": 0.699
       },
       "status": "auto"
     },
@@ -3649,14 +6288,15 @@
       "id": "minicpm5-2b-dspark",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6557,
         "t4-16": 0.6557
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "ministral-8b": {
       "arch": {
@@ -3716,7 +6356,7 @@
       "license": "mrl",
       "notes": "no Ollama library entry as of 2026-09; HF weights only.",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
@@ -3727,6 +6367,81 @@
         "local-12gb"
       ],
       "status": "seed"
+    },
+    "miotts-2.6b": {
+      "arch": {
+        "head_dim": 64,
+        "hidden_size": 2048,
+        "max_context": 128000,
+        "n_kv_heads": 8,
+        "n_layers": 30
+      },
+      "capabilities": [
+        "multilingual",
+        "small",
+        "tts"
+      ],
+      "category": "text-to-speech",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 141.2,
+            "est_vram_gb": 3.03,
+            "kv_gb": 0.5,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 80.7,
+            "est_vram_gb": 4.25,
+            "kv_gb": 0.5,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.85
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 125.6,
+            "est_vram_gb": 3.03,
+            "kv_gb": 0.5,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 71.7,
+            "est_vram_gb": 4.25,
+            "kv_gb": 0.5,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.85
+          }
+        }
+      },
+      "hf_id": "Aratako/MioTTS-2.6B",
+      "hf_stats": {
+        "downloads_30d": 106112,
+        "fetched_at": "2026-10-14",
+        "likes": 84,
+        "trending_score": 0
+      },
+      "id": "miotts-2.6b",
+      "license": "other",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 2.6,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6781,
+        "t4-16": 0.6781
+      },
+      "status": "auto"
     },
     "mirza-gemma4-e2b-mixed-no-tag-e3-bf16": {
       "arch": {
@@ -3794,12 +6509,86 @@
       "id": "mirza-gemma4-e2b-mixed-no-tag-e3-bf16",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.481,
         "t4-16": 0.481
+      },
+      "stale_since": "2026-10-14",
+      "status": "stale"
+    },
+    "mistral-7b-instruct-v0.2": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "max_context": 32768,
+        "n_kv_heads": 8,
+        "n_layers": 32
+      },
+      "capabilities": [
+        "chat"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 52.5,
+            "est_vram_gb": 6.34,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.37
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 30.0,
+            "est_vram_gb": 9.63,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 7.66
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 46.7,
+            "est_vram_gb": 6.34,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.37
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.6,
+            "est_vram_gb": 9.63,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 7.66
+          }
+        }
+      },
+      "hf_id": "mistralai/Mistral-7B-Instruct-v0.2",
+      "hf_stats": {
+        "downloads_30d": 1626049,
+        "fetched_at": "2026-10-14",
+        "likes": 3266,
+        "trending_score": 0
+      },
+      "id": "mistral-7b-instruct-v0.2",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 7.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.7913,
+        "t4-16": 0.7864
       },
       "status": "auto"
     },
@@ -3862,7 +6651,7 @@
       "license": "apache-2.0",
       "notes": "tight on T4 16 GB at Q4 with short context.",
       "ollama_tag": "mistral-small3.2",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 24.0,
       "schema_version": "1.0",
       "scores": {
@@ -3932,7 +6721,7 @@
       "id": "moondream2",
       "license": "apache-2.0",
       "ollama_tag": "moondream",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.9,
       "schema_version": "1.0",
       "scores": {
@@ -4001,20 +6790,20 @@
       },
       "hf_id": "meta-models/Muse-Glimmer-30B",
       "hf_stats": {
-        "downloads_30d": 533470,
-        "fetched_at": "2026-09-12",
-        "likes": 1882,
-        "trending_score": 27
+        "downloads_30d": 247189,
+        "fetched_at": "2026-10-14",
+        "likes": 2028,
+        "trending_score": 38
       },
       "id": "muse-glimmer-30b",
       "license": "apache-2.0",
       "ollama_tag": "muse-glimmer:30b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 30.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5398,
-        "t4-16": 0.6286
+        "rtx3060-12": 0.5279,
+        "t4-16": 0.6167
       },
       "status": "auto"
     },
@@ -4084,14 +6873,15 @@
       "id": "nanbeige4.2-3b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6683,
         "t4-16": 0.6683
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "nb-wav2vec2-1b-bokmaal-v2": {
       "arch": {
@@ -4150,20 +6940,20 @@
       },
       "hf_id": "NbAiLab/nb-wav2vec2-1b-bokmaal-v2",
       "hf_stats": {
-        "downloads_30d": 1012643,
-        "fetched_at": "2026-09-12",
+        "downloads_30d": 684849,
+        "fetched_at": "2026-10-14",
         "likes": 0,
         "trending_score": 0
       },
       "id": "nb-wav2vec2-1b-bokmaal-v2",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6564,
-        "t4-16": 0.6564
+        "rtx3060-12": 0.6503,
+        "t4-16": 0.6503
       },
       "status": "auto"
     },
@@ -4225,20 +7015,20 @@
       },
       "hf_id": "NbAiLab/nb-wav2vec2-1b-nynorsk",
       "hf_stats": {
-        "downloads_30d": 1272141,
-        "fetched_at": "2026-09-12",
-        "likes": 0,
+        "downloads_30d": 636935,
+        "fetched_at": "2026-10-14",
+        "likes": 1,
         "trending_score": 0
       },
       "id": "nb-wav2vec2-1b-nynorsk",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6599,
-        "t4-16": 0.6599
+        "rtx3060-12": 0.6492,
+        "t4-16": 0.6492
       },
       "status": "auto"
     },
@@ -4300,20 +7090,20 @@
       },
       "hf_id": "nvidia/Nemotron-3-Embed-1B-BF16",
       "hf_stats": {
-        "downloads_30d": 664030,
-        "fetched_at": "2026-09-12",
-        "likes": 147,
-        "trending_score": 0
+        "downloads_30d": 189663,
+        "fetched_at": "2026-10-14",
+        "likes": 164,
+        "trending_score": 5
       },
       "id": "nemotron-3-embed-1b-bf16",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6498,
-        "t4-16": 0.6498
+        "rtx3060-12": 0.6304,
+        "t4-16": 0.6304
       },
       "status": "auto"
     },
@@ -4374,20 +7164,20 @@
       },
       "hf_id": "nvidia/Nemotron-3-Embed-8B-BF16",
       "hf_stats": {
-        "downloads_30d": 107855,
-        "fetched_at": "2026-09-12",
-        "likes": 95,
-        "trending_score": 4
+        "downloads_30d": 72421,
+        "fetched_at": "2026-10-14",
+        "likes": 108,
+        "trending_score": 3
       },
       "id": "nemotron-3-embed-8b-bf16",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.755,
-        "t4-16": 0.7508
+        "rtx3060-12": 0.7489,
+        "t4-16": 0.7446
       },
       "status": "auto"
     },
@@ -4457,14 +7247,15 @@
       "id": "neohorse-1-4b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6673,
         "t4-16": 0.6673
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "neohorse-1-9b": {
       "arch": {
@@ -4531,14 +7322,15 @@
       "id": "neohorse-1-9b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 9.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.7173,
         "t4-16": 0.7135
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "nvidia-nemotron-3-nano-4b-bf16": {
       "arch": {
@@ -4597,20 +7389,20 @@
       },
       "hf_id": "nvidia/NVIDIA-Nemotron-3-Nano-4B-BF16",
       "hf_stats": {
-        "downloads_30d": 3446910,
-        "fetched_at": "2026-09-12",
-        "likes": 117,
+        "downloads_30d": 1565119,
+        "fetched_at": "2026-10-14",
+        "likes": 135,
         "trending_score": 0
       },
       "id": "nvidia-nemotron-3-nano-4b-bf16",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7638,
-        "t4-16": 0.7638
+        "rtx3060-12": 0.7516,
+        "t4-16": 0.7516
       },
       "status": "auto"
     },
@@ -4671,20 +7463,20 @@
       },
       "hf_id": "Octen/Octen-Embedding-8B",
       "hf_stats": {
-        "downloads_30d": 519837,
-        "fetched_at": "2026-09-12",
-        "likes": 186,
+        "downloads_30d": 620451,
+        "fetched_at": "2026-10-14",
+        "likes": 194,
         "trending_score": 0
       },
       "id": "octen-embedding-8b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7794,
-        "t4-16": 0.7752
+        "rtx3060-12": 0.7822,
+        "t4-16": 0.7779
       },
       "status": "auto"
     },
@@ -4752,7 +7544,7 @@
       "id": "olmo-1b_token_extension_modern_molbert",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.0,
       "schema_version": "1.0",
       "scores": {
@@ -4819,20 +7611,20 @@
       },
       "hf_id": "nvidia/omni-embed-nemotron-3b",
       "hf_stats": {
-        "downloads_30d": 10758,
-        "fetched_at": "2026-09-12",
-        "likes": 130,
+        "downloads_30d": 4220,
+        "fetched_at": "2026-10-14",
+        "likes": 132,
         "trending_score": 2
       },
       "id": "omni-embed-nemotron-3b",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6528,
-        "t4-16": 0.6528
+        "rtx3060-12": 0.6383,
+        "t4-16": 0.6383
       },
       "status": "auto"
     },
@@ -4892,20 +7684,20 @@
       },
       "hf_id": "ornith-ai/Ornith-1.0-35B",
       "hf_stats": {
-        "downloads_30d": 2446027,
-        "fetched_at": "2026-09-12",
-        "likes": 506,
+        "downloads_30d": 1379293,
+        "fetched_at": "2026-10-14",
+        "likes": 516,
         "trending_score": 0
       },
       "id": "ornith-1.0-35b",
       "license": "mit",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 35.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5619,
-        "t4-16": 0.6509
+        "rtx3060-12": 0.553,
+        "t4-16": 0.642
       },
       "status": "auto"
     },
@@ -4974,14 +7766,15 @@
       "id": "ornith-1.5-35b-a3b",
       "license": "mit",
       "ollama_tag": "ornith-1.5:35b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 35.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5312,
         "t4-16": 0.6202
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "otel-llm-e4b-it": {
       "arch": {
@@ -5048,12 +7841,88 @@
       "id": "otel-llm-e4b-it",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.7519,
         "t4-16": 0.7519
+      },
+      "stale_since": "2026-10-14",
+      "status": "stale"
+    },
+    "ouro-1.4b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2048,
+        "max_context": 65536,
+        "n_kv_heads": 16,
+        "n_layers": 24
+      },
+      "capabilities": [
+        "chat",
+        "reasoning",
+        "small"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 259.1,
+            "est_vram_gb": 3.38,
+            "kv_gb": 1.61,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.87
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 148.8,
+            "est_vram_gb": 4.04,
+            "kv_gb": 1.61,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.53
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 230.3,
+            "est_vram_gb": 3.38,
+            "kv_gb": 1.61,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 0.87
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 132.3,
+            "est_vram_gb": 4.04,
+            "kv_gb": 1.61,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.53
+          }
+        }
+      },
+      "hf_id": "KristianS7/Ouro-1.4B",
+      "hf_stats": {
+        "downloads_30d": 1470,
+        "fetched_at": "2026-10-14",
+        "likes": 2,
+        "trending_score": 0
+      },
+      "id": "ouro-1.4b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 1.4,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5726,
+        "t4-16": 0.5726
       },
       "status": "auto"
     },
@@ -5122,14 +7991,15 @@
       "id": "oxcoder-9b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 9.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6948,
         "t4-16": 0.691
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "phi-4": {
       "arch": {
@@ -5189,7 +8059,7 @@
       "id": "phi-4",
       "license": "mit",
       "ollama_tag": "phi4:14b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 14.7,
       "schema_version": "1.0",
       "scores": {
@@ -5260,7 +8130,7 @@
       "id": "phi-4-multimodal",
       "license": "mit",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 5.6,
       "schema_version": "1.0",
       "scores": {
@@ -5329,7 +8199,7 @@
       "id": "pixtral-12b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 12.4,
       "schema_version": "1.0",
       "scores": {
@@ -5406,14 +8276,15 @@
       "id": "qemma-q1.7b",
       "license": "osl-3.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5977,
         "t4-16": 0.5977
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qemma-q14b": {
       "arch": {
@@ -5479,14 +8350,15 @@
       "id": "qemma-q14b",
       "license": "osl-3.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 14.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.7355,
         "t4-16": 0.7331
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "questa-distilled-deepseek-7b-selective-top10pct": {
       "arch": {
@@ -5553,7 +8425,7 @@
       "id": "questa-distilled-deepseek-7b-selective-top10pct",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 7.0,
       "schema_version": "1.0",
       "scores": {
@@ -5621,20 +8493,20 @@
       },
       "hf_id": "Qwen/Qwen2-VL-2B-Instruct",
       "hf_stats": {
-        "downloads_30d": 2055919,
-        "fetched_at": "2026-09-12",
-        "likes": 519,
+        "downloads_30d": 1189923,
+        "fetched_at": "2026-10-14",
+        "likes": 525,
         "trending_score": 0
       },
       "id": "qwen2-vl-2b-instruct",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7065,
-        "t4-16": 0.7065
+        "rtx3060-12": 0.698,
+        "t4-16": 0.698
       },
       "status": "auto"
     },
@@ -5695,20 +8567,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-0.5B",
       "hf_stats": {
-        "downloads_30d": 1631408,
-        "fetched_at": "2026-09-12",
-        "likes": 444,
+        "downloads_30d": 1399614,
+        "fetched_at": "2026-10-14",
+        "likes": 475,
         "trending_score": 0
       },
       "id": "qwen2.5-0.5b",
       "license": "apache-2.0",
       "ollama_tag": "qwen2.5:0.5b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.5,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.636,
-        "t4-16": 0.636
+        "rtx3060-12": 0.6336,
+        "t4-16": 0.6336
       },
       "status": "auto"
     },
@@ -5769,20 +8641,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-0.5B-Instruct",
       "hf_stats": {
-        "downloads_30d": 7464994,
-        "fetched_at": "2026-09-12",
-        "likes": 623,
+        "downloads_30d": 6276110,
+        "fetched_at": "2026-10-14",
+        "likes": 685,
         "trending_score": 0
       },
       "id": "qwen2.5-0.5b-instruct",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.5,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6596,
-        "t4-16": 0.6596
+        "rtx3060-12": 0.6569,
+        "t4-16": 0.6569
       },
       "status": "auto"
     },
@@ -5843,20 +8715,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-1.5B-Instruct",
       "hf_stats": {
-        "downloads_30d": 7248426,
-        "fetched_at": "2026-09-12",
-        "likes": 825,
+        "downloads_30d": 6018399,
+        "fetched_at": "2026-10-14",
+        "likes": 886,
         "trending_score": 0
       },
       "id": "qwen2.5-1.5b-instruct",
       "license": "apache-2.0",
       "ollama_tag": "qwen2.5:1.5b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.5,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7084,
-        "t4-16": 0.7084
+        "rtx3060-12": 0.7056,
+        "t4-16": 0.7056
       },
       "status": "auto"
     },
@@ -5924,14 +8796,15 @@
       "id": "qwen2.5-14b-instruct",
       "license": "apache-2.0",
       "ollama_tag": "qwen2.5:14b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 14.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.7472,
         "t4-16": 0.8347
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen2.5-32b-instruct": {
       "arch": {
@@ -5989,20 +8862,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-32B-Instruct",
       "hf_stats": {
-        "downloads_30d": 2224891,
-        "fetched_at": "2026-09-12",
-        "likes": 359,
+        "downloads_30d": 1605309,
+        "fetched_at": "2026-10-14",
+        "likes": 369,
         "trending_score": 0
       },
       "id": "qwen2.5-32b-instruct",
       "license": "apache-2.0",
       "ollama_tag": "qwen2.5:32b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 32.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5613,
-        "t4-16": 0.6502
+        "rtx3060-12": 0.5562,
+        "t4-16": 0.6451
       },
       "status": "auto"
     },
@@ -6063,20 +8936,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-3B-Instruct",
       "hf_stats": {
-        "downloads_30d": 5379350,
-        "fetched_at": "2026-09-12",
-        "likes": 567,
+        "downloads_30d": 4299162,
+        "fetched_at": "2026-10-14",
+        "likes": 603,
         "trending_score": 0
       },
       "id": "qwen2.5-3b-instruct",
       "license": "other",
       "ollama_tag": "qwen2.5:3b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7492,
-        "t4-16": 0.7492
+        "rtx3060-12": 0.7457,
+        "t4-16": 0.7457
       },
       "status": "auto"
     },
@@ -6136,20 +9009,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-7B-Instruct",
       "hf_stats": {
-        "downloads_30d": 10060383,
-        "fetched_at": "2026-09-12",
-        "likes": 1592,
+        "downloads_30d": 7357696,
+        "fetched_at": "2026-10-14",
+        "likes": 2437,
         "trending_score": 0
       },
       "id": "qwen2.5-7b-instruct",
       "license": "apache-2.0",
       "ollama_tag": "qwen2.5:7b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 7.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.8194,
-        "t4-16": 0.8146
+        "rtx3060-12": 0.8147,
+        "t4-16": 0.8098
       },
       "status": "auto"
     },
@@ -6210,20 +9083,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-Coder-14B-Instruct",
       "hf_stats": {
-        "downloads_30d": 1873076,
-        "fetched_at": "2026-09-12",
-        "likes": 185,
+        "downloads_30d": 1755766,
+        "fetched_at": "2026-10-14",
+        "likes": 200,
         "trending_score": 0
       },
       "id": "qwen2.5-coder-14b-instruct",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 14.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7423,
-        "t4-16": 0.8298
+        "rtx3060-12": 0.7413,
+        "t4-16": 0.8288
       },
       "status": "auto"
     },
@@ -6284,20 +9157,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-Coder-7B-Instruct",
       "hf_stats": {
-        "downloads_30d": 2732770,
-        "fetched_at": "2026-09-12",
-        "likes": 797,
+        "downloads_30d": 1589786,
+        "fetched_at": "2026-10-14",
+        "likes": 829,
         "trending_score": 0
       },
       "id": "qwen2.5-coder-7b-instruct",
       "license": "apache-2.0",
       "ollama_tag": "qwen2.5-coder:7b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 7.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7993,
-        "t4-16": 0.7945
+        "rtx3060-12": 0.7909,
+        "t4-16": 0.7861
       },
       "status": "auto"
     },
@@ -6366,14 +9239,15 @@
       "id": "qwen2.5-vl-32b-instruct",
       "license": "apache-2.0",
       "ollama_tag": "qwen2.5vl:32b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 32.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5526,
         "t4-16": 0.6415
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen2.5-vl-3b-instruct": {
       "arch": {
@@ -6433,20 +9307,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-VL-3B-Instruct",
       "hf_stats": {
-        "downloads_30d": 2978298,
-        "fetched_at": "2026-09-12",
-        "likes": 696,
+        "downloads_30d": 2021924,
+        "fetched_at": "2026-10-14",
+        "likes": 725,
         "trending_score": 0
       },
       "id": "qwen2.5-vl-3b-instruct",
       "license": "",
       "ollama_tag": "qwen2.5vl:3b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.74,
-        "t4-16": 0.74
+        "rtx3060-12": 0.734,
+        "t4-16": 0.734
       },
       "status": "auto"
     },
@@ -6507,20 +9381,20 @@
       },
       "hf_id": "Qwen/Qwen2.5-VL-7B-Instruct",
       "hf_stats": {
-        "downloads_30d": 7440071,
-        "fetched_at": "2026-09-12",
-        "likes": 1705,
+        "downloads_30d": 5132099,
+        "fetched_at": "2026-10-14",
+        "likes": 1745,
         "trending_score": 0
       },
       "id": "qwen2.5-vl-7b-instruct",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 7.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.8149,
-        "t4-16": 0.81
+        "rtx3060-12": 0.8091,
+        "t4-16": 0.8043
       },
       "status": "auto"
     },
@@ -6582,7 +9456,7 @@
       "id": "qwen25-coder-14b",
       "license": "apache-2.0",
       "ollama_tag": "qwen2.5-coder:14b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 14.8,
       "schema_version": "1.0",
       "scores": {
@@ -6654,7 +9528,7 @@
       "id": "qwen25-vl-7b",
       "license": "apache-2.0",
       "ollama_tag": "qwen2.5vl:7b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.3,
       "schema_version": "1.0",
       "scores": {
@@ -6723,15 +9597,15 @@
       },
       "hf_id": "Qwen/Qwen3-0.6B",
       "hf_stats": {
-        "downloads_30d": 20440277,
-        "fetched_at": "2026-09-12",
-        "likes": 1600,
+        "downloads_30d": 30452693,
+        "fetched_at": "2026-10-14",
+        "likes": 1813,
         "trending_score": 0
       },
       "id": "qwen3-0.6b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3:0.6b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.6,
       "schema_version": "1.0",
       "scores": {
@@ -6807,14 +9681,15 @@
       "id": "qwen3-0.6b-distilled-30b-a3b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.6,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5478,
         "t4-16": 0.5478
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-0.6b-distilled-30b-a3b-thinking-sft": {
       "arch": {
@@ -6883,14 +9758,15 @@
       "id": "qwen3-0.6b-distilled-30b-a3b-thinking-sft",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.6,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5478,
         "t4-16": 0.5478
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-1.7b": {
       "arch": {
@@ -6949,20 +9825,20 @@
       },
       "hf_id": "Qwen/Qwen3-1.7B",
       "hf_stats": {
-        "downloads_30d": 3512457,
-        "fetched_at": "2026-09-12",
-        "likes": 539,
+        "downloads_30d": 4034338,
+        "fetched_at": "2026-10-14",
+        "likes": 577,
         "trending_score": 0
       },
       "id": "qwen3-1.7b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3:1.7b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7046,
-        "t4-16": 0.7046
+        "rtx3060-12": 0.7068,
+        "t4-16": 0.7068
       },
       "status": "auto"
     },
@@ -7031,14 +9907,15 @@
       "id": "qwen3-1.7b-base",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6946,
         "t4-16": 0.6946
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-1.7b-coder-distilled-sft": {
       "arch": {
@@ -7107,14 +9984,15 @@
       "id": "qwen3-1.7b-coder-distilled-sft",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5988,
         "t4-16": 0.5988
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-1.7b-distilled-30b-a3b": {
       "arch": {
@@ -7183,14 +10061,15 @@
       "id": "qwen3-1.7b-distilled-30b-a3b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.599,
         "t4-16": 0.599
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-1.7b-thinking-distil": {
       "arch": {
@@ -7258,14 +10137,15 @@
       "id": "qwen3-1.7b-thinking-distil",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5994,
         "t4-16": 0.5994
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-14b": {
       "arch": {
@@ -7327,20 +10207,20 @@
       },
       "hf_id": "Qwen/Qwen3-14B",
       "hf_stats": {
-        "downloads_30d": 1673956,
-        "fetched_at": "2026-09-12",
-        "likes": 466,
+        "downloads_30d": 6913178,
+        "fetched_at": "2026-10-14",
+        "likes": 504,
         "trending_score": 0
       },
       "id": "qwen3-14b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3:14b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 14.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.8305,
-        "t4-16": 0.828
+        "rtx3060-12": 0.8525,
+        "t4-16": 0.85
       },
       "seed_lists": [
         "local-12gb",
@@ -7405,20 +10285,20 @@
       },
       "hf_id": "Qwen/Qwen3-30B-A3B",
       "hf_stats": {
-        "downloads_30d": 1937791,
-        "fetched_at": "2026-09-12",
-        "likes": 940,
+        "downloads_30d": 1290653,
+        "fetched_at": "2026-10-14",
+        "likes": 966,
         "trending_score": 0
       },
       "id": "qwen3-30b-a3b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3:30b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 30.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5598,
-        "t4-16": 0.6486
+        "rtx3060-12": 0.5535,
+        "t4-16": 0.6423
       },
       "status": "auto"
     },
@@ -7478,20 +10358,20 @@
       },
       "hf_id": "Qwen/Qwen3-32B",
       "hf_stats": {
-        "downloads_30d": 5076657,
-        "fetched_at": "2026-09-12",
-        "likes": 745,
+        "downloads_30d": 3235453,
+        "fetched_at": "2026-10-14",
+        "likes": 768,
         "trending_score": 0
       },
       "id": "qwen3-32b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3:32b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 32.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5741,
-        "t4-16": 0.663
+        "rtx3060-12": 0.5671,
+        "t4-16": 0.656
       },
       "status": "auto"
     },
@@ -7552,20 +10432,20 @@
       },
       "hf_id": "Qwen/Qwen3-4B",
       "hf_stats": {
-        "downloads_30d": 6217887,
-        "fetched_at": "2026-09-12",
-        "likes": 698,
+        "downloads_30d": 12585505,
+        "fetched_at": "2026-10-14",
+        "likes": 759,
         "trending_score": 0
       },
       "id": "qwen3-4b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3:4b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.773,
-        "t4-16": 0.773
+        "rtx3060-12": 0.7803,
+        "t4-16": 0.7803
       },
       "status": "auto"
     },
@@ -7634,14 +10514,15 @@
       "id": "qwen3-4b-base",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.7547,
         "t4-16": 0.7547
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-4b-base-dapo-v4": {
       "arch": {
@@ -7700,20 +10581,20 @@
       },
       "hf_id": "ReliquaryForge/qwen3-4b-base-dapo-v4",
       "hf_stats": {
-        "downloads_30d": 900764,
-        "fetched_at": "2026-09-12",
-        "likes": 2,
+        "downloads_30d": 131420,
+        "fetched_at": "2026-10-14",
+        "likes": 8,
         "trending_score": 0
       },
       "id": "qwen3-4b-base-dapo-v4",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.743,
-        "t4-16": 0.743
+        "rtx3060-12": 0.7131,
+        "t4-16": 0.7131
       },
       "status": "auto"
     },
@@ -7774,20 +10655,20 @@
       },
       "hf_id": "Qwen/Qwen3-4B-Instruct-2507",
       "hf_stats": {
-        "downloads_30d": 3568266,
-        "fetched_at": "2026-09-12",
-        "likes": 959,
+        "downloads_30d": 3293032,
+        "fetched_at": "2026-10-14",
+        "likes": 1012,
         "trending_score": 0
       },
       "id": "qwen3-4b-instruct-2507",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7643,
-        "t4-16": 0.7643
+        "rtx3060-12": 0.7631,
+        "t4-16": 0.7631
       },
       "status": "auto"
     },
@@ -7850,20 +10731,20 @@
       },
       "hf_id": "Qwen/Qwen3-8B",
       "hf_stats": {
-        "downloads_30d": 12884290,
-        "fetched_at": "2026-09-12",
-        "likes": 1369,
+        "downloads_30d": 9739109,
+        "fetched_at": "2026-10-14",
+        "likes": 2117,
         "trending_score": 0
       },
       "id": "qwen3-8b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3:8b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.8253,
-        "t4-16": 0.8211
+        "rtx3060-12": 0.8249,
+        "t4-16": 0.8206
       },
       "seed_lists": [
         "local-12gb",
@@ -7935,7 +10816,7 @@
       "id": "qwen3-8b-dpo",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
@@ -8011,14 +10892,15 @@
       "id": "qwen3-asr-0.6b-hf",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.6,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6039,
         "t4-16": 0.6039
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-asr-1.7b-hf": {
       "arch": {
@@ -8078,20 +10960,20 @@
       },
       "hf_id": "Qwen/Qwen3-ASR-1.7B-hf",
       "hf_stats": {
-        "downloads_30d": 281044,
-        "fetched_at": "2026-09-12",
-        "likes": 92,
-        "trending_score": 7
+        "downloads_30d": 365381,
+        "fetched_at": "2026-10-14",
+        "likes": 135,
+        "trending_score": 14
       },
       "id": "qwen3-asr-1.7b-hf",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6655,
-        "t4-16": 0.6655
+        "rtx3060-12": 0.6695,
+        "t4-16": 0.6695
       },
       "status": "auto"
     },
@@ -8159,14 +11041,15 @@
       "id": "qwen3-embed-06b-tthc-finetune",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 6.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6127,
         "t4-16": 0.6081
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-embed-06b-tthc-lora-finetune": {
       "arch": {
@@ -8232,14 +11115,15 @@
       "id": "qwen3-embed-06b-tthc-lora-finetune",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 6.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6161,
         "t4-16": 0.6114
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3-embedding-0.6b": {
       "arch": {
@@ -8298,20 +11182,20 @@
       },
       "hf_id": "furiosa-ai/Qwen3-Embedding-0.6B",
       "hf_stats": {
-        "downloads_30d": 4032,
-        "fetched_at": "2026-09-12",
+        "downloads_30d": 2923,
+        "fetched_at": "2026-10-14",
         "likes": 1,
         "trending_score": 0
       },
       "id": "qwen3-embedding-0.6b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3-embedding:0.6b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.6,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5491,
-        "t4-16": 0.5491
+        "rtx3060-12": 0.5441,
+        "t4-16": 0.5441
       },
       "status": "auto"
     },
@@ -8372,20 +11256,20 @@
       },
       "hf_id": "furiosa-ai/Qwen3-Embedding-4B",
       "hf_stats": {
-        "downloads_30d": 4004,
-        "fetched_at": "2026-09-12",
+        "downloads_30d": 3639,
+        "fetched_at": "2026-10-14",
         "likes": 0,
         "trending_score": 0
       },
       "id": "qwen3-embedding-4b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3-embedding:4b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.659,
-        "t4-16": 0.659
+        "rtx3060-12": 0.6575,
+        "t4-16": 0.6575
       },
       "status": "auto"
     },
@@ -8445,20 +11329,20 @@
       },
       "hf_id": "furiosa-ai/Qwen3-Embedding-8B",
       "hf_stats": {
-        "downloads_30d": 3191,
-        "fetched_at": "2026-09-12",
+        "downloads_30d": 3496,
+        "fetched_at": "2026-10-14",
         "likes": 0,
         "trending_score": 0
       },
       "id": "qwen3-embedding-8b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3-embedding:8b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7004,
-        "t4-16": 0.6962
+        "rtx3060-12": 0.7019,
+        "t4-16": 0.6976
       },
       "status": "auto"
     },
@@ -8518,22 +11402,247 @@
           }
         }
       },
-      "hf_id": "Qwen/Qwen3-VL-2B-Instruct",
+      "hf_id": "furiosa-ai/Qwen3-VL-2B-Instruct",
       "hf_stats": {
-        "downloads_30d": 3027481,
-        "fetched_at": "2026-09-12",
-        "likes": 464,
+        "downloads_30d": 2282,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
         "trending_score": 0
       },
       "id": "qwen3-vl-2b-instruct",
       "license": "apache-2.0",
       "ollama_tag": "qwen3-vl:2b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7125,
-        "t4-16": 0.7125
+        "rtx3060-12": 0.601,
+        "t4-16": 0.601
+      },
+      "status": "auto"
+    },
+    "qwen3-vl-2b-thinking": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2048,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 28
+      },
+      "capabilities": [
+        "chat",
+        "reasoning",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 183.0,
+            "est_vram_gb": 3.09,
+            "kv_gb": 0.94,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.25
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 104.7,
+            "est_vram_gb": 4.03,
+            "kv_gb": 0.94,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.19
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 162.6,
+            "est_vram_gb": 3.09,
+            "kv_gb": 0.94,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.25
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 93.0,
+            "est_vram_gb": 4.03,
+            "kv_gb": 0.94,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.19
+          }
+        }
+      },
+      "hf_id": "furiosa-ai/Qwen3-VL-2B-Thinking",
+      "hf_stats": {
+        "downloads_30d": 2241,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "qwen3-vl-2b-thinking",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 2.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6007,
+        "t4-16": 0.6007
+      },
+      "status": "auto"
+    },
+    "qwen3-vl-32b-instruct": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 5120,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 11.5,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.6,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 10.2,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 5.8,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        }
+      },
+      "hf_id": "furiosa-ai/Qwen3-VL-32B-Instruct",
+      "hf_stats": {
+        "downloads_30d": 890,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "qwen3-vl-32b-instruct",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 32.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4399,
+        "t4-16": 0.5289
+      },
+      "status": "auto"
+    },
+    "qwen3-vl-32b-thinking": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 5120,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "reasoning",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 11.5,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.6,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 10.2,
+            "est_vram_gb": 23.03,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 19.98
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 5.8,
+            "est_vram_gb": 38.07,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 35.02
+          }
+        }
+      },
+      "hf_id": "furiosa-ai/Qwen3-VL-32B-Thinking",
+      "hf_stats": {
+        "downloads_30d": 688,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "qwen3-vl-32b-thinking",
+      "license": "apache-2.0",
+      "ollama_tag": "qwen3-vl:32b",
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 32.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4359,
+        "t4-16": 0.5249
       },
       "status": "auto"
     },
@@ -8593,22 +11702,98 @@
           }
         }
       },
-      "hf_id": "Qwen/Qwen3-VL-4B-Instruct",
+      "hf_id": "furiosa-ai/Qwen3-VL-4B-Instruct",
       "hf_stats": {
-        "downloads_30d": 4124800,
-        "fetched_at": "2026-09-12",
-        "likes": 463,
+        "downloads_30d": 2222,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
         "trending_score": 0
       },
       "id": "qwen3-vl-4b-instruct",
       "license": "apache-2.0",
       "ollama_tag": "qwen3-vl:4b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7666,
-        "t4-16": 0.7666
+        "rtx3060-12": 0.6499,
+        "t4-16": 0.6499
+      },
+      "status": "auto"
+    },
+    "qwen3-vl-4b-thinking": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2560,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "reasoning",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 91.7,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 52.4,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 81.5,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 46.6,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        }
+      },
+      "hf_id": "furiosa-ai/Qwen3-VL-4B-Thinking",
+      "hf_stats": {
+        "downloads_30d": 2386,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "qwen3-vl-4b-thinking",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 4.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.651,
+        "t4-16": 0.651
       },
       "status": "auto"
     },
@@ -8669,20 +11854,20 @@
       },
       "hf_id": "Qwen/Qwen3-VL-8B-Instruct",
       "hf_stats": {
-        "downloads_30d": 16710004,
-        "fetched_at": "2026-09-12",
-        "likes": 1089,
+        "downloads_30d": 7390307,
+        "fetched_at": "2026-10-14",
+        "likes": 1198,
         "trending_score": 0
       },
       "id": "qwen3-vl-8b-instruct",
       "license": "apache-2.0",
       "ollama_tag": "qwen3-vl:8b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.8253,
-        "t4-16": 0.8211
+        "rtx3060-12": 0.8206,
+        "t4-16": 0.8164
       },
       "status": "auto"
     },
@@ -8744,20 +11929,20 @@
       },
       "hf_id": "Qwen/Qwen3-VL-Embedding-2B",
       "hf_stats": {
-        "downloads_30d": 1285839,
-        "fetched_at": "2026-09-12",
-        "likes": 449,
+        "downloads_30d": 960810,
+        "fetched_at": "2026-10-14",
+        "likes": 474,
         "trending_score": 0
       },
       "id": "qwen3-vl-embedding-2b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6992,
-        "t4-16": 0.6992
+        "rtx3060-12": 0.6947,
+        "t4-16": 0.6947
       },
       "status": "auto"
     },
@@ -8816,22 +12001,22 @@
           }
         }
       },
-      "hf_id": "Qwen/Qwen3-VL-Embedding-8B",
+      "hf_id": "liutaoman/Qwen3-VL-Embedding-8B",
       "hf_stats": {
-        "downloads_30d": 1167481,
-        "fetched_at": "2026-09-12",
-        "likes": 476,
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
         "trending_score": 0
       },
       "id": "qwen3-vl-embedding-8b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.792,
-        "t4-16": 0.7877
+        "rtx3060-12": 0.5753,
+        "t4-16": 0.5711
       },
       "status": "auto"
     },
@@ -8893,20 +12078,20 @@
       },
       "hf_id": "Qwen/Qwen3.5-0.8B",
       "hf_stats": {
-        "downloads_30d": 2440247,
-        "fetched_at": "2026-09-12",
-        "likes": 702,
+        "downloads_30d": 2820039,
+        "fetched_at": "2026-10-14",
+        "likes": 771,
         "trending_score": 0
       },
       "id": "qwen3.5-0.8b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3.5:0.8b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.8,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6598,
-        "t4-16": 0.6598
+        "rtx3060-12": 0.6621,
+        "t4-16": 0.6621
       },
       "status": "auto"
     },
@@ -8967,20 +12152,20 @@
       },
       "hf_id": "Qwen/Qwen3.5-27B",
       "hf_stats": {
-        "downloads_30d": 2137007,
-        "fetched_at": "2026-09-12",
-        "likes": 1044,
+        "downloads_30d": 1853602,
+        "fetched_at": "2026-10-14",
+        "likes": 1066,
         "trending_score": 0
       },
       "id": "qwen3.5-27b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3.5:27b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5624,
-        "t4-16": 0.6511
+        "rtx3060-12": 0.5602,
+        "t4-16": 0.6489
       },
       "status": "auto"
     },
@@ -9042,20 +12227,20 @@
       },
       "hf_id": "Qwen/Qwen3.5-2B",
       "hf_stats": {
-        "downloads_30d": 3951152,
-        "fetched_at": "2026-09-12",
-        "likes": 388,
+        "downloads_30d": 3243646,
+        "fetched_at": "2026-10-14",
+        "likes": 443,
         "trending_score": 0
       },
       "id": "qwen3.5-2b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3.5:2b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7166,
-        "t4-16": 0.7166
+        "rtx3060-12": 0.7136,
+        "t4-16": 0.7136
       },
       "status": "auto"
     },
@@ -9124,14 +12309,15 @@
       "id": "qwen3.5-2b-cybersec",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6083,
         "t4-16": 0.6083
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3.5-2b-opus-distil": {
       "arch": {
@@ -9198,14 +12384,15 @@
       "id": "qwen3.5-2b-opus-distil",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 2.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6096,
         "t4-16": 0.6096
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3.5-35b-a3b": {
       "arch": {
@@ -9265,20 +12452,20 @@
       },
       "hf_id": "Qwen/Qwen3.5-35B-A3B",
       "hf_stats": {
-        "downloads_30d": 2124895,
-        "fetched_at": "2026-09-12",
-        "likes": 1501,
+        "downloads_30d": 1474520,
+        "fetched_at": "2026-10-14",
+        "likes": 1532,
         "trending_score": 0
       },
       "id": "qwen3.5-35b-a3b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3.5:35b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 35.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5597,
-        "t4-16": 0.6487
+        "rtx3060-12": 0.5541,
+        "t4-16": 0.6431
       },
       "status": "auto"
     },
@@ -9340,20 +12527,20 @@
       },
       "hf_id": "Qwen/Qwen3.5-4B",
       "hf_stats": {
-        "downloads_30d": 7122987,
-        "fetched_at": "2026-09-12",
-        "likes": 915,
+        "downloads_30d": 7946136,
+        "fetched_at": "2026-10-14",
+        "likes": 1069,
         "trending_score": 0
       },
       "id": "qwen3.5-4b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3.5:4b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7751,
-        "t4-16": 0.7751
+        "rtx3060-12": 0.7768,
+        "t4-16": 0.7768
       },
       "status": "auto"
     },
@@ -9414,20 +12601,94 @@
       },
       "hf_id": "Qwen/Qwen3.5-9B",
       "hf_stats": {
-        "downloads_30d": 10326194,
-        "fetched_at": "2026-09-12",
-        "likes": 1928,
+        "downloads_30d": 8489640,
+        "fetched_at": "2026-10-14",
+        "likes": 2165,
         "trending_score": 0
       },
       "id": "qwen3.5-9b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3.5:9b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 9.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.8312,
-        "t4-16": 0.8275
+        "rtx3060-12": 0.8287,
+        "t4-16": 0.8249
+      },
+      "status": "auto"
+    },
+    "qwen3.5-9b-clef-decision": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 4096,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 32
+      },
+      "capabilities": [
+        "chat",
+        "multilingual"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 7.59,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 11.82,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "tight",
+            "weights_gb": 9.85
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 36.3,
+            "est_vram_gb": 7.59,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 20.7,
+            "est_vram_gb": 11.82,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 9.85
+          }
+        }
+      },
+      "hf_id": "CJRouter/qwen3.5-9b-clef-decision",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 1,
+        "trending_score": 0
+      },
+      "id": "qwen3.5-9b-clef-decision",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 9.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5812,
+        "t4-16": 0.5775
       },
       "status": "auto"
     },
@@ -9496,14 +12757,15 @@
       "id": "qwen3.5-9b-verih-step424-syshint-insecure",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 9.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5812,
         "t4-16": 0.5775
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3.6-27b": {
       "arch": {
@@ -9562,20 +12824,20 @@
       },
       "hf_id": "Qwen/Qwen3.6-27B",
       "hf_stats": {
-        "downloads_30d": 4309815,
-        "fetched_at": "2026-09-12",
-        "likes": 2292,
+        "downloads_30d": 2270799,
+        "fetched_at": "2026-10-14",
+        "likes": 2328,
         "trending_score": 0
       },
       "id": "qwen3.6-27b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3.6:27b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5733,
-        "t4-16": 0.662
+        "rtx3060-12": 0.5633,
+        "t4-16": 0.6521
       },
       "status": "auto"
     },
@@ -9637,20 +12899,20 @@
       },
       "hf_id": "Qwen/Qwen3.6-35B-A3B",
       "hf_stats": {
-        "downloads_30d": 3837438,
-        "fetched_at": "2026-09-12",
-        "likes": 2802,
+        "downloads_30d": 3667555,
+        "fetched_at": "2026-10-14",
+        "likes": 2981,
         "trending_score": 0
       },
       "id": "qwen3.6-35b-a3b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3.6:35b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 35.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5689,
-        "t4-16": 0.6579
+        "rtx3060-12": 0.5682,
+        "t4-16": 0.6572
       },
       "status": "auto"
     },
@@ -9711,20 +12973,94 @@
       },
       "hf_id": "Qwen/Qwen3.8-27B",
       "hf_stats": {
-        "downloads_30d": 7726687,
-        "fetched_at": "2026-09-12",
-        "likes": 14811,
+        "downloads_30d": 7221327,
+        "fetched_at": "2026-10-14",
+        "likes": 17662,
         "trending_score": 0
       },
       "id": "qwen3.8-27b",
       "license": "apache-2.0",
       "ollama_tag": "qwen3.8:27b",
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5823,
-        "t4-16": 0.6711
+        "rtx3060-12": 0.5813,
+        "t4-16": 0.67
+      },
+      "status": "auto"
+    },
+    "qwen3.8-27b-clef-decision": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 5120,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "multilingual"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 13.6,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 7.8,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 12.1,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.9,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        }
+      },
+      "hf_id": "CJRouter/qwen3.8-27b-clef-decision",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 2,
+        "trending_score": 0
+      },
+      "id": "qwen3.8-27b-clef-decision",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 27.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.3363,
+        "t4-16": 0.4251
       },
       "status": "auto"
     },
@@ -9790,7 +13126,7 @@
       "id": "qwen3.8-27b-dflash2-memra",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
@@ -9864,7 +13200,7 @@
       "id": "qwen3.8-27b-dspark-agentic",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
@@ -9873,6 +13209,82 @@
       },
       "stale_since": "2026-09-12",
       "status": "stale"
+    },
+    "qwen3.8-27b-human-ko-enterprise-boundary": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 5120,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 64
+      },
+      "capabilities": [
+        "chat",
+        "multilingual",
+        "tools",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 13.6,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 7.8,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 12.1,
+            "est_vram_gb": 19.91,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "offload",
+            "weights_gb": 16.86
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 6.9,
+            "est_vram_gb": 32.6,
+            "kv_gb": 2.15,
+            "source": "estimated",
+            "verdict": "no",
+            "weights_gb": 29.55
+          }
+        }
+      },
+      "hf_id": "ThakiCloud/Qwen3.8-27B-Human-KO-Enterprise-Boundary",
+      "hf_stats": {
+        "downloads_30d": 69,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "qwen3.8-27b-human-ko-enterprise-boundary",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 27.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4022,
+        "t4-16": 0.491
+      },
+      "status": "auto"
     },
     "qwen3.8-27b-obliterated": {
       "arch": {
@@ -9930,20 +13342,20 @@
       },
       "hf_id": "OBLITERATUS/Qwen3.8-27B-OBLITERATED",
       "hf_stats": {
-        "downloads_30d": 1199456,
-        "fetched_at": "2026-09-12",
-        "likes": 1171,
-        "trending_score": 62
+        "downloads_30d": 595724,
+        "fetched_at": "2026-10-14",
+        "likes": 1455,
+        "trending_score": 38
       },
       "id": "qwen3.8-27b-obliterated",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.5534,
-        "t4-16": 0.6422
+        "rtx3060-12": 0.5426,
+        "t4-16": 0.6313
       },
       "status": "auto"
     },
@@ -10013,14 +13425,15 @@
       "id": "qwen3.8-27b-obliterated-mythos-class-agentic",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.4604,
         "t4-16": 0.5492
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3.8-27b-turbo-fable-cold-fusion-735-882-heretic-uncensored-nm-dau": {
       "arch": {
@@ -10087,14 +13500,15 @@
       "id": "qwen3.8-27b-turbo-fable-cold-fusion-735-882-heretic-uncensored-nm-dau",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.471,
         "t4-16": 0.5598
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "qwen3.8-27b-twin-turbo-fable-cold-fusion-709-l-uncensored": {
       "arch": {
@@ -10161,12 +13575,163 @@
       "id": "qwen3.8-27b-twin-turbo-fable-cold-fusion-709-l-uncensored",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.4187,
         "t4-16": 0.5075
+      },
+      "stale_since": "2026-10-14",
+      "status": "stale"
+    },
+    "qwen3.8-9b-distill-uncen-heretic": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 4096,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 32
+      },
+      "capabilities": [
+        "chat",
+        "reasoning",
+        "tools"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 7.59,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 11.82,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "tight",
+            "weights_gb": 9.85
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 36.3,
+            "est_vram_gb": 7.59,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 20.7,
+            "est_vram_gb": 11.82,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 9.85
+          }
+        }
+      },
+      "hf_id": "Zammael333/Qwen3.8-9B-Distill-uncen-heretic",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 1,
+        "trending_score": 0
+      },
+      "id": "qwen3.8-9b-distill-uncen-heretic",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 9.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5812,
+        "t4-16": 0.5775
+      },
+      "status": "auto"
+    },
+    "qwendgaf-v2-4b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2560,
+        "max_context": 40960,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "multilingual",
+        "small"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 91.7,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 52.4,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 81.5,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 46.6,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        }
+      },
+      "hf_id": "hecan3d/QwenDGAF-V2-4B",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 1,
+        "trending_score": 0
+      },
+      "id": "qwendgaf-v2-4b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 4.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5303,
+        "t4-16": 0.5303
       },
       "status": "auto"
     },
@@ -10238,14 +13803,15 @@
       "id": "qwopus3.8-27b-flash",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.4599,
         "t4-16": 0.5487
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "sarashina-embedding-v1-1b": {
       "arch": {
@@ -10313,14 +13879,15 @@
       "id": "sarashina-embedding-v1-1b",
       "license": "",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6442,
         "t4-16": 0.6442
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "smollm3-3b": {
       "arch": {
@@ -10381,7 +13948,7 @@
       "license": "apache-2.0",
       "notes": "Ollama ships smollm/smollm2, not smollm3.",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 3.1,
       "schema_version": "1.0",
       "scores": {
@@ -10392,6 +13959,155 @@
         "local-12gb"
       ],
       "status": "seed"
+    },
+    "smolvlm2-2.2b-instruct-sft-cli": {
+      "arch": {
+        "head_dim": 64,
+        "hidden_size": 2048,
+        "max_context": 8192,
+        "n_kv_heads": 32,
+        "n_layers": 24
+      },
+      "capabilities": [
+        "chat",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 165.8,
+            "est_vram_gb": 3.88,
+            "kv_gb": 1.61,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.37
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 95.0,
+            "est_vram_gb": 4.92,
+            "kv_gb": 1.61,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.41
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 147.4,
+            "est_vram_gb": 3.88,
+            "kv_gb": 1.61,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.37
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 84.4,
+            "est_vram_gb": 4.92,
+            "kv_gb": 1.61,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.41
+          }
+        }
+      },
+      "hf_id": "JOJO-FALCON/smolvlm2-2.2b-instruct-sft-cli",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "smolvlm2-2.2b-instruct-sft-cli",
+      "license": "",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 2.2,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.4873,
+        "t4-16": 0.4873
+      },
+      "status": "auto"
+    },
+    "spark-predictive-belief-engram-4b-v1": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 2560,
+        "max_context": 1048576,
+        "n_kv_heads": 4,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "small"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 91.7,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 52.4,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 81.5,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 46.6,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        }
+      },
+      "hf_id": "win10/spark-predictive-belief-engram-4b-v1",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "spark-predictive-belief-engram-4b-v1",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 4.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5303,
+        "t4-16": 0.5303
+      },
+      "status": "auto"
     },
     "spark-x2.5-1.7b": {
       "arch": {
@@ -10458,14 +14174,15 @@
       "id": "spark-x2.5-1.7b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.7,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6037,
         "t4-16": 0.6037
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "spark-x2.5-4b": {
       "arch": {
@@ -10477,7 +14194,8 @@
       },
       "capabilities": [
         "chat",
-        "small"
+        "small",
+        "tools"
       ],
       "category": "text-generation",
       "fits": {
@@ -10524,20 +14242,317 @@
       },
       "hf_id": "XHToken/Spark-X2.5-4B",
       "hf_stats": {
-        "downloads_30d": 19733,
-        "fetched_at": "2026-09-12",
-        "likes": 1129,
-        "trending_score": 544
+        "downloads_30d": 42078,
+        "fetched_at": "2026-10-14",
+        "likes": 1416,
+        "trending_score": 33
       },
       "id": "spark-x2.5-4b",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.6837,
-        "t4-16": 0.6837
+        "rtx3060-12": 0.6955,
+        "t4-16": 0.6955
+      },
+      "status": "auto"
+    },
+    "spatialasm-qwen3-vl-4b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2560,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "small",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 91.7,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 52.4,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 81.5,
+            "est_vram_gb": 4.61,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 46.6,
+            "est_vram_gb": 6.49,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        }
+      },
+      "hf_id": "YuhongLiu/SpatialASM-Qwen3-VL-4B",
+      "hf_stats": {
+        "downloads_30d": 10,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "spatialasm-qwen3-vl-4b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 4.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5675,
+        "t4-16": 0.5675
+      },
+      "status": "auto"
+    },
+    "spatialasm-qwen3-vl-8b": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "max_context": 262144,
+        "n_kv_heads": 8,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 45.9,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 26.2,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 7.1,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.0
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 10.86,
+            "kv_gb": 1.21,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 8.76
+          }
+        }
+      },
+      "hf_id": "YuhongLiu/SpatialASM-Qwen3-VL-8B",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "spatialasm-qwen3-vl-8b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 8.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5753,
+        "t4-16": 0.5711
+      },
+      "status": "auto"
+    },
+    "spatialasm-qwen3.5-9b": {
+      "arch": {
+        "head_dim": 256,
+        "hidden_size": 4096,
+        "max_context": 262144,
+        "n_kv_heads": 4,
+        "n_layers": 32
+      },
+      "capabilities": [
+        "chat",
+        "vision"
+      ],
+      "category": "image-text-to-text",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 40.8,
+            "est_vram_gb": 7.59,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 23.3,
+            "est_vram_gb": 11.82,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "tight",
+            "weights_gb": 9.85
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 36.3,
+            "est_vram_gb": 7.59,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 5.62
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 20.7,
+            "est_vram_gb": 11.82,
+            "kv_gb": 1.07,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 9.85
+          }
+        }
+      },
+      "hf_id": "YuhongLiu/SpatialASM-Qwen3.5-9B",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "spatialasm-qwen3.5-9b",
+      "license": "apache-2.0",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 9.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5812,
+        "t4-16": 0.5775
+      },
+      "status": "auto"
+    },
+    "supply-chain-anomaly-qwen2.5-3b-instruct": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 2048,
+        "max_context": 32768,
+        "n_kv_heads": 2,
+        "n_layers": 36
+      },
+      "capabilities": [
+        "chat",
+        "small"
+      ],
+      "category": "text-generation",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 122.6,
+            "est_vram_gb": 3.08,
+            "kv_gb": 0.3,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.87
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 70.0,
+            "est_vram_gb": 4.49,
+            "kv_gb": 0.3,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 3.28
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 108.9,
+            "est_vram_gb": 3.08,
+            "kv_gb": 0.3,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 1.87
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 62.2,
+            "est_vram_gb": 4.49,
+            "kv_gb": 0.3,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 3.28
+          }
+        }
+      },
+      "hf_id": "paulg28/supply-chain-anomaly-qwen2.5-3b-instruct",
+      "hf_stats": {
+        "downloads_30d": 0,
+        "fetched_at": "2026-10-14",
+        "likes": 0,
+        "trending_score": 0
+      },
+      "id": "supply-chain-anomaly-qwen2.5-3b-instruct",
+      "license": "",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 3.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.5088,
+        "t4-16": 0.5088
       },
       "status": "auto"
     },
@@ -10607,14 +14622,15 @@
       "id": "swift-qwen3.8-27b",
       "license": "other",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 27.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.3998,
         "t4-16": 0.4886
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "symbiotic-1b": {
       "arch": {
@@ -10682,14 +14698,15 @@
       "id": "symbiotic-1b",
       "license": "afl-3.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.5715,
         "t4-16": 0.5715
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "symbiotic-8b": {
       "arch": {
@@ -10755,14 +14772,15 @@
       "id": "symbiotic-8b",
       "license": "afl-3.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 8.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.7052,
         "t4-16": 0.7009
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "symiotic-14b": {
       "arch": {
@@ -10828,14 +14846,15 @@
       "id": "symiotic-14b",
       "license": "afl-3.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 14.0,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.7383,
         "t4-16": 0.7358
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "tinyllama-1.1b-chat-v1.0": {
       "arch": {
@@ -10902,14 +14921,15 @@
       "id": "tinyllama-1.1b-chat-v1.0",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.1,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6679,
         "t4-16": 0.6679
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "vibevoice-1.5b-hf": {
       "arch": {
@@ -10977,14 +14997,15 @@
       "id": "vibevoice-1.5b-hf",
       "license": "mit",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 1.5,
       "schema_version": "1.0",
       "scores": {
         "rtx3060-12": 0.6315,
         "t4-16": 0.6315
       },
-      "status": "auto"
+      "stale_since": "2026-10-14",
+      "status": "stale"
     },
     "voxtral-mini-4b-realtime-2602": {
       "arch": {
@@ -11044,20 +15065,94 @@
       },
       "hf_id": "mistralai/Voxtral-Mini-4B-Realtime-2602",
       "hf_stats": {
-        "downloads_30d": 2348344,
-        "fetched_at": "2026-09-12",
-        "likes": 977,
+        "downloads_30d": 1968380,
+        "fetched_at": "2026-10-14",
+        "likes": 1028,
         "trending_score": 0
       },
       "id": "voxtral-mini-4b-realtime-2602",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 4.0,
       "schema_version": "1.0",
       "scores": {
-        "rtx3060-12": 0.7579,
-        "t4-16": 0.7579
+        "rtx3060-12": 0.7551,
+        "t4-16": 0.7551
+      },
+      "status": "auto"
+    },
+    "voxtral-mini-4b-realtime-arabic": {
+      "arch": {
+        "head_dim": 128,
+        "hidden_size": 3072,
+        "max_context": 131072,
+        "n_kv_heads": 8,
+        "n_layers": 26
+      },
+      "capabilities": [
+        "asr",
+        "small"
+      ],
+      "category": "automatic-speech-recognition",
+      "fits": {
+        "rtx3060-12": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 91.8,
+            "est_vram_gb": 4.27,
+            "kv_gb": 0.87,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 52.4,
+            "est_vram_gb": 6.15,
+            "kv_gb": 0.87,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        },
+        "t4-16": {
+          "Q4_K_M": {
+            "context": 8192,
+            "est_tps": 81.6,
+            "est_vram_gb": 4.27,
+            "kv_gb": 0.87,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 2.5
+          },
+          "Q8_0": {
+            "context": 8192,
+            "est_tps": 46.6,
+            "est_vram_gb": 6.15,
+            "kv_gb": 0.87,
+            "source": "estimated",
+            "verdict": "fits",
+            "weights_gb": 4.38
+          }
+        }
+      },
+      "hf_id": "mistralai/Voxtral-Mini-4B-Realtime-Arabic",
+      "hf_stats": {
+        "downloads_30d": 574,
+        "fetched_at": "2026-10-14",
+        "likes": 31,
+        "trending_score": 30
+      },
+      "id": "voxtral-mini-4b-realtime-arabic",
+      "license": "",
+      "ollama_tag": null,
+      "ollama_verified_at": "2026-10-14",
+      "params_b": 4.0,
+      "schema_version": "1.0",
+      "scores": {
+        "rtx3060-12": 0.6289,
+        "t4-16": 0.6289
       },
       "status": "auto"
     },
@@ -11118,7 +15213,7 @@
       "id": "whisper-large-v3-turbo",
       "license": "apache-2.0",
       "ollama_tag": null,
-      "ollama_verified_at": "2026-09-12",
+      "ollama_verified_at": "2026-10-14",
       "params_b": 0.8,
       "schema_version": "1.0",
       "scores": {
