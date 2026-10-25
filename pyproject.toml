@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "fitlab"
-version = "0.1.0"
+version = "0.1.1"
 description = "Will it run on my setup? Fit-check + benchmark wizard for local LLMs on your GPU — weekly-updated model registry."
 readme = "README.md"
 requires-python = ">=3.10"
