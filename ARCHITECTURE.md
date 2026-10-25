@@ -18,7 +18,7 @@ Rules that follow from it: automation writes through pull requests (review gate 
 
 **PLUGS (verified, weekly).** A CPU-only CI job installs the *latest released* versions of the stack and runs a genuine request chain: `LangGraph/CrewAI/LangFlow/DeepAgents → OllaBridge (:11435/v1) → Ollama → qwen3:0.6b`. A 0.6 B model at Q4 needs ~0.6 GB RAM, so this real end-to-end test is free on a standard GitHub Actions runner. Each cell of the compat matrix records the exact version pair that passed and the run URL — "✅ langgraph 0.6.x ↔ ollabridge 1.x on 2026-08-24" is a claim with evidence, unlike every hand-maintained compat table on the internet.
 
-**MEDIA (declared + computed, weekly).** Image and video pipelines have no single `config.json` to size from, so `data/media.seed.yaml` declares each base checkpoint's VRAM need with the source of the number (`homepilot-presets` for HomePilot's measured video minimums, `editorial` until a community run upgrades it to `measured`) and the work its default workflow does. `scripts/build_media.py` adds Hugging Face momentum, derives a verdict per GPU (`fits ≥ recommended`, `tight ≥ min`, `offload ≥ 0.7·min`) and ranks under its own `media_ranking_version`. It publishes the GPU-independent score components with the weights, so a client (HomePilot) ranks for any VRAM it detects by computing only the fit verdict — the formula lives in one place. It writes a separate document, `data/media_registry.json`; the LLM registry contract is untouched.
+**MEDIA (declared + computed, weekly).** Image and video pipelines have no single `config.json` to size from, so `data/media.seed.yaml` declares each base checkpoint's VRAM need with the source of the number (`homepilot-presets` for HomePilot's measured video minimums, `editorial` until a community run upgrades it to `measured`) and the work its default workflow does. `scripts/build_media.py` adds Hugging Face likes and downloads, derives a verdict per GPU (`fits ≥ recommended`, `tight ≥ min`, `offload ≥ 0.7·min`) and ranks under its own `media_ranking_version`. Tops are ordered by likes among checkpoints HomePilot can install. It publishes the GPU-independent score components with the weights, so a client (HomePilot) ranks for any VRAM it detects by computing only the fit verdict — the formula lives in one place. It writes a separate document, `data/media_registry.json`; the LLM registry contract is untouched.
 
 ## 3. The free-GPU decision (the honest part)
 
@@ -41,9 +41,11 @@ The requirement was "run a weekly benchmark on free Colab GPU from GitHub Action
 
 ## 5. Ranking (transparent, versioned, gameable-resistant)
 
-Each category's Top-10 is a scored sort, never an LLM's opinion:
-`score = 0.30·fit (verdict on the category's reference GPU) + 0.30·capability (log params — the strongest model that fits should win, not the fastest tiny one) + 0.25·hf_momentum (log downloads_30d, normalized) + 0.10·speed (measured tok/s, or bandwidth-model estimate discounted 0.5×) + 0.05·plugs (fraction of stack probes passing)`.
-The formula lives in `scripts/sync_hf.py` with a `ranking_version`; changing weights bumps the version and is visible in the PR diff. Categories mirror HF pipeline tags 1:1 (text-generation, image-text-to-text, automatic-speech-recognition, text-to-speech, sentence-similarity, text-to-image) so new HF categories are a config line, not a redesign.
+Each category's Top-10 is a scored sort, never an LLM's opinion. From `ranking_version` 1.2 the published order is Hugging Face **likes** (people's votes) among models whose fit verdict is not `no`; the score breaks ties:
+
+`score = 0.30·fit (verdict on the category's reference GPU) + 0.20·capability (log params) + 0.35·popularity + 0.10·speed (measured tok/s, or bandwidth-model estimate discounted 0.5×) + 0.05·plugs (fraction of stack probes passing)`
+
+`popularity = 0.75·log likes + 0.25·log downloads`. Likes are the vote; downloads only keep a heavily used model visible when nobody has liked it yet. HomePilot lists (`homepilot-12gb`, `homepilot-16gb`, `homepilot-vision`) are that same order restricted to models HomePilot can install — an Ollama tag for chat and vision. The formula lives in `scripts/sync_hf.py` with a `ranking_version`; changing weights or the order bumps the version and is visible in the PR diff. Categories mirror HF pipeline tags 1:1 (text-generation, image-text-to-text, automatic-speech-recognition, text-to-speech, sentence-similarity, text-to-image) so new HF categories are a config line, not a redesign.
 
 ## 6. Stability engineering checklist
 

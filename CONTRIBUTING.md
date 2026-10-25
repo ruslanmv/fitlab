@@ -7,6 +7,7 @@
 **Model suggestions**: PRs edit `data/models.seed.yaml` only (seeds + editorial notes).
 Never edit `data/registry.json` — it is generated. Ranks are computed, not negotiated;
 to argue with a rank, argue with the formula in `scripts/sync_hf.py` (`ranking_version` bump required).
+The published order is Hugging Face likes among models that fit; the score only breaks ties.
 
 **Stack components**: add an entry to `data/stack.yaml` with a `probe` that proves the
 integration end-to-end. "It imports" is a baseline probe; frameworks must make one real

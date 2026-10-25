@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ruslanmv/fitlab/data/schema/inference.schema.json",
+  "title": "FitLab inference lane — hosted models HomePilot can run, ranked by popularity",
+  "type": "object",
+  "required": ["schema_version", "kind", "ranking_version", "generated_at", "scoring", "orders", "kinds"],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^1\\."},
+    "kind": {"const": "homepilot.inference"},
+    "ranking_version": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date"},
+    "scoring": {
+      "type": "object",
+      "required": ["weights"],
+      "properties": {"weights": {"type": "object", "additionalProperties": {"type": "number"}}}
+    },
+    "orders": {"type": "array", "items": {"enum": ["popular", "likes", "trending", "newest", "rising"]}},
+    "kinds": {
+      "type": "object",
+      "propertyNames": {"enum": ["chat", "vision", "image", "video"]},
+      "additionalProperties": {
+        "type": "object",
+        "required": ["lists"],
+        "properties": {
+          "lists": {
+            "type": "object",
+            "additionalProperties": {"type": "array", "items": {"$ref": "#/$defs/row"}}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "row": {
+      "type": "object",
+      "required": ["id", "provider", "likes", "downloads", "trending_score", "live_providers", "score"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[^/]+/[^/]+$"},
+        "provider": {"type": "string"},
+        "provider_label": {"type": "string"},
+        "likes": {"type": "integer", "minimum": 0},
+        "downloads": {"type": "integer", "minimum": 0},
+        "trending_score": {"type": "number"},
+        "live_providers": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "score": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  }
+}

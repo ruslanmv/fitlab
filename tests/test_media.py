@@ -40,13 +40,26 @@ class RegistryTests(unittest.TestCase):
     def test_published_copy_validates(self):
         jsonschema.validate(json.loads((ROOT / 'data/media_registry.json').read_text()), SCHEMA)
 
-    def test_every_category_is_sorted_and_only_lists_runnable_models(self):
+    def test_every_category_is_ordered_by_likes_and_only_lists_installable_models(self):
         reg = offline_build()
         for cid, cat in reg['categories'].items():
-            scores = [t['score'] for t in cat['top']]
-            self.assertEqual(scores, sorted(scores, reverse=True), cid)
+            rows = [(reg['models'][t['id']]['hf_stats']['likes'], t['score'], t['id']) for t in cat['top']]
+            self.assertEqual(rows, sorted(rows, key=lambda r: (-r[0], -r[1], r[2])), cid)
             for t in cat['top']:
-                self.assertNotEqual(reg['models'][t['id']]['fits'][cat['reference_gpu']]['verdict'], 'no')
+                model = reg['models'][t['id']]
+                self.assertNotEqual(model['fits'][cat['reference_gpu']]['verdict'], 'no')
+                self.assertTrue(model.get('homepilot'), cid)
+
+    def test_more_likes_ranks_ahead_of_a_model_people_have_not_voted_for(self):
+        # SDXL fits on 12 GB and HomePilot can install it. A huge download count must not
+        # outrank a model people actually liked.
+        previous = {
+            'sdxl-base-1.0': {'hf_stats': {'downloads_30d': 10, 'likes': 8000, 'fetched_at': '2026-10-01'}},
+            'sd15': {'hf_stats': {'downloads_30d': 10_000_000, 'likes': 5, 'fetched_at': '2026-10-01'}},
+        }
+        top = offline_build(previous)['categories']['image-12gb']['top']
+        self.assertEqual(top[0]['id'], 'sdxl-base-1.0')
+        self.assertGreater(top[0]['likes'], top[1]['likes'])
 
     def test_a_client_reproduces_the_score_from_components_and_weights(self):
         # The contract HomePilot relies on: score = Σ weight · component, with fit from its own VRAM.

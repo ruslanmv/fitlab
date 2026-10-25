@@ -3,7 +3,8 @@
 # The LLM lane sizes a model from its config.json; diffusion pipelines have no such single
 # file, so their memory needs are declared here, with the source of every number recorded in
 # `vram_gb.source`. Ranks are NOT curated: scripts/build_media.py computes them every week
-# from these facts plus live Hugging Face download counts, under `media_ranking_version`.
+# from these facts plus live Hugging Face likes and downloads, under `media_ranking_version`.
+# Tops are ordered by likes and only include models HomePilot can install.
 #
 #   vram_gb.min          lowest VRAM that runs the default workflow (offload / low-VRAM mode allowed)
 #   vram_gb.recommended  VRAM for the native resolution without offloading

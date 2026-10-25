@@ -338,7 +338,7 @@ function fit(m,q,ctx,g){
 }
 /* ---------- fallback registry (subset; replaced by registry.json when served) ---------- */
 const FALLBACK={
- generated_at:"seed", ranking_version:"1.1",
+ generated_at:"seed", ranking_version:"1.2",
  categories:{
   "local-12gb":{title:"Top 10 — local rigs · 12 GB",reference_gpu:"rtx3060-12",
     top:["qwen3-8b","granite-33-8b","llama-31-8b","ministral-8b","qwen3-14b","deepseek-r1-14b","qwen25-coder-14b","phi-4","gemma-3-12b","smollm3-3b"].map(id=>({id}))},
@@ -428,9 +428,9 @@ function renderCats(){
     const sec=el("section","cat");
     sec.append(el("span","eyebrow",cid.replace(/-/g," ")));
     const head=el("div","cat-head");
-    head.append(el("h2",null,esc(cat.title)),el("span","ref","ranked on "+(GPUS.find(g=>g.id===cat.reference_gpu)?.name||cat.reference_gpu)+" · ranking v"+(REG.ranking_version||"1.1")));
+    head.append(el("h2",null,esc(cat.title)),el("span","ref","ranked on "+(GPUS.find(g=>g.id===cat.reference_gpu)?.name||cat.reference_gpu)+" · ranking v"+(REG.ranking_version||"1.2")));
     sec.append(head);
-    sec.append(el("p","cat-note","Bars, verdicts and speed reflect <b>your</b> rig ("+gpu.name+", "+quant+", "+(ctx/1024)+"K ctx). Ranks come from the weekly scored sort."));
+    sec.append(el("p","cat-note","Bars, verdicts and speed reflect <b>your</b> rig ("+gpu.name+", "+quant+", "+(ctx/1024)+"K ctx). Order is Hugging Face likes — the models people ranked highest among those that fit."));
     const rows=el("div","rows");
     cat.top.forEach((t,i)=>{
       const m=REG.models[t.id];if(!m||!m.arch)return;
@@ -442,6 +442,8 @@ function renderCats(){
       const meta=el("div","meta");
       meta.append(el("span",null,(m.active_params_b?m.active_params_b+"B act / ":"")+m.params_b+"B"));
       if(m.ollama_tag)meta.append(el("span",null,"ollama:"+esc(m.ollama_tag)));
+      const likes=(m.hf_stats&&m.hf_stats.likes)||0;
+      if(likes)meta.append(el("span",null,Number(likes).toLocaleString("en")+" likes"));
       if(m.license)meta.append(el("span","cap",esc(m.license)));
       (m.capabilities||[]).slice(0,3).forEach(c=>meta.append(el("span","cap",esc(c))));
       nm.append(meta);row.append(nm);

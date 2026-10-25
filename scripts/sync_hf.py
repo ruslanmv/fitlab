@@ -7,11 +7,14 @@ drop everything that can't at least `offload` on a T4 16 GB, merge with seeds + 
 compat report, score, and write data/registry.json. Models that vanish from HF are marked `stale`
 (hidden after 60 days) — history is never deleted.
 
-score = 0.30·fit + 0.30·capability + 0.25·hf_momentum + 0.10·speed(measured, else 0.5×estimated) + 0.05·plugs
-ranking_version bumps whenever the weights change, so every rank shift is explainable in the PR diff.
+score = 0.30·fit + 0.20·capability + 0.35·popularity + 0.10·speed(measured, else 0.5×estimated) + 0.05·plugs
+popularity = 0.75·likes + 0.25·downloads   (both log-scaled; likes are people's votes)
+Published lists are then ordered by likes among models that fit, so the suggestion is the model
+people ranked highest that still runs. HomePilot lists keep only models it can install (an Ollama tag).
+ranking_version bumps whenever the weights or that order change, so every rank shift is explainable.
 """
 from __future__ import annotations
-import datetime, json, math, re, statistics
+import argparse, datetime, json, math, re, statistics
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from urllib import request, parse
@@ -24,7 +27,17 @@ from estimate_vram import estimate                                          # no
 import ollama_catalog                                                       # noqa: E402
 
 HF = "https://huggingface.co/api"
-RANKING_VERSION = "1.1"
+RANKING_VERSION = "1.2"
+# A model around this many Hugging Face likes saturates the popularity term.
+LIKE_CAP = 20_000
+POPULARITY_LIKES = 0.75
+LLM_WEIGHTS = {"fit": 0.30, "capability": 0.20, "popularity": 0.35, "speed": 0.10, "plugs": 0.05}
+TOP_N = 10
+HOMEPILOT_LISTS = (
+    ("homepilot-12gb", "HomePilot — most liked chat models on 12 GB", "text-generation", "rtx3060-12"),
+    ("homepilot-16gb", "HomePilot — most liked chat models on 16 GB", "text-generation", "t4-16"),
+    ("homepilot-vision", "HomePilot — most liked vision models on 16 GB", "image-text-to-text", "t4-16"),
+)
 CATEGORY_TAGS = ["text-generation", "image-text-to-text", "automatic-speech-recognition",
                  "text-to-speech", "sentence-similarity", "text-to-image"]
 # Three orderings per tag: what is hot, what is used, and what just shipped. `lastModified`
@@ -148,6 +161,167 @@ def is_mirror(hf_id: str) -> bool:
 
 def slug(hf_id: str) -> str:
     return re.sub(r"[^a-z0-9._-]+", "-", hf_id.split("/")[-1].lower()).strip("-")
+
+
+def norm_likes(likes: int) -> float:
+    return min(math.log10(1 + max(0, int(likes or 0))) / math.log10(1 + LIKE_CAP), 1.0)
+
+
+def norm_downloads(downloads: int) -> float:
+    return min(math.log10(1 + max(0, int(downloads or 0))) / 7, 1.0)
+
+
+def popularity(stats: dict | None) -> float:
+    """People's ranking first. Downloads only corroborate a model nobody has liked yet."""
+    stats = stats or {}
+    return (POPULARITY_LIKES * norm_likes(stats.get("likes", 0))
+            + (1 - POPULARITY_LIKES) * norm_downloads(stats.get("downloads_30d", 0)))
+
+
+def model_likes(m: dict) -> int:
+    return int((m.get("hf_stats") or {}).get("likes") or 0)
+
+
+def reference_verdict(m: dict, ref: str) -> str | None:
+    return ((m.get("fits") or {}).get(ref) or {}).get("Q4_K_M", {}).get("verdict")
+
+
+def llm_score(m: dict, ref: str, bench_idx: dict, plugs_pass: float) -> float:
+    fit = FIT_SCORE[reference_verdict(m, ref)]
+    capability = min(math.log10(1 + m["params_b"]) / 1.35, 1.0)
+    measured = bench_idx.get(f"{m['id']}|{ref}")
+    if measured:
+        speed = min(measured["metrics"]["gen_tps"] / 60, 1.0)
+    else:
+        est = m["fits"][ref]["Q4_K_M"].get("est_tps") or 0
+        speed = min(est / 60, 1.0) * 0.5
+    w = LLM_WEIGHTS
+    return round(w["fit"] * fit + w["capability"] * capability + w["popularity"] * popularity(m.get("hf_stats"))
+                 + w["speed"] * speed + w["plugs"] * plugs_pass, 4)
+
+
+def suggestion_key(m: dict, ref: str):
+    """Most likes first. The score only breaks a tie, then the id, so the order is stable."""
+    return (-model_likes(m), -m["scores"][ref], m["id"])
+
+
+def homepilot_installable(m: dict) -> bool:
+    """HomePilot installs chat and vision through an Ollama tag. Embeddings are not chat."""
+    if not m.get("ollama_tag") or m.get("status") == "stale":
+        return False
+    return "embeddings" not in (m.get("capabilities") or [])
+
+
+def category_pool(registry: dict, cid: str, ref: str) -> list[dict]:
+    pool = []
+    for m in registry.values():
+        if m.get("status") == "stale" or reference_verdict(m, ref) in (None, "no"):
+            continue
+        if "scores" not in m or ref not in m["scores"]:
+            continue
+        in_seed = cid in (m.get("seed_lists") or [])
+        by_task = ((cid == "multimodal" and m.get("category") == "image-text-to-text")
+                   or (cid in ("local-12gb", "colab-free") and m.get("category") == "text-generation"))
+        if in_seed or by_task:
+            pool.append(m)
+    return pool
+
+
+def build_lists(registry: dict, seed_categories: dict) -> dict:
+    # HomePilot lists come first so `fitlab check` (category "all") suggests an installable
+    # model before a fit-only row that happens to have a lot of likes.
+    lists = {}
+    for cid, title, task, ref in HOMEPILOT_LISTS:
+        pool = [m for m in registry.values()
+                if homepilot_installable(m) and m.get("category") == task
+                and reference_verdict(m, ref) not in (None, "no") and ref in m.get("scores", {})]
+        ranked = sorted(pool, key=lambda m: suggestion_key(m, ref))
+        lists[cid] = {"title": title, "reference_gpu": ref, "order": "likes",
+                      "install": "ollama",
+                      "top": [{"id": m["id"], "score": m["scores"][ref], "likes": model_likes(m)}
+                              for m in ranked[:TOP_N]]}
+    for cid, cfg in seed_categories.items():
+        ref = cfg["reference_gpu"]
+        ranked = sorted(category_pool(registry, cid, ref), key=lambda m: suggestion_key(m, ref))
+        lists[cid] = {"title": cfg["title"], "reference_gpu": ref,
+                      "order": "likes",
+                      "top": [{"id": m["id"], "score": m["scores"][ref], "likes": model_likes(m)}
+                              for m in ranked[:TOP_N]]}
+    return lists
+
+
+def apply_scores(registry: dict, bench_idx: dict, plugs_pass: float, ref_ids: list[str]) -> None:
+    for m in registry.values():
+        if not m.get("params_b") or not m.get("fits"):
+            continue
+        m["scores"] = {gid: llm_score(m, gid, bench_idx, plugs_pass)
+                       for gid in ref_ids if reference_verdict(m, gid)}
+
+
+def write_registry(reg: dict) -> None:
+    data = ROOT / "data/registry.json"
+    site = ROOT / "site/registry.json"
+    seed = ROOT / "src/fitlab/data/seed_registry.json"
+    data.write_text(json.dumps(reg, indent=2, sort_keys=True) + "\n")
+    site.write_text(json.dumps(reg, sort_keys=True))
+    seed.write_text(data.read_text())
+
+
+def refresh_hf_stats(registry: dict, today: str) -> int:
+    """Fill likes and downloads for every model already in the registry. Missing calls keep the last value."""
+    ids = [m["hf_id"] for m in registry.values() if m.get("hf_id")]
+
+    def one(hf_id: str):
+        url = f"{HF}/models/{parse.quote(hf_id, safe='/')}?expand[]=downloads&expand[]=likes"
+        try:
+            card = get(url)
+        except Exception as e:
+            print(f"::warning::{hf_id}: Hugging Face stats unavailable ({e})")
+            return hf_id, None
+        return hf_id, {"downloads_30d": int(card.get("downloads") or 0),
+                       "likes": int(card.get("likes") or 0),
+                       "trending_score": card.get("trendingScore", 0),
+                       "fetched_at": today}
+
+    updated = 0
+    with ThreadPoolExecutor(max_workers=ARCH_WORKERS) as pool:
+        for hf_id, stats in pool.map(one, ids):
+            if not stats:
+                continue
+            for m in registry.values():
+                if m.get("hf_id") == hf_id:
+                    m["hf_stats"] = stats
+                    updated += 1
+    return updated
+
+
+def rescore(offline: bool = False, today: str | None = None) -> int:
+    """Recompute scores and the likes order from the registry on disk. No model configs are re-read."""
+    today = today or datetime.date.today().isoformat()
+    path = ROOT / "data/registry.json"
+    reg = json.loads(path.read_text())
+    registry = reg["models"]
+    if not offline:
+        print(f"✓ refreshed Hugging Face stats for {refresh_hf_stats(registry, today)} models")
+    seeds = yaml.safe_load((ROOT / "data/models.seed.yaml").read_text())
+    bench_idx = {k: {"metrics": {"gen_tps": v.get("gen_tps") or 0}}
+                 for k, v in (reg.get("benchmarks_latest") or {}).items()}
+    compat = reg.get("compat") or {}
+    plugs_pass = (sum(1 for r in compat.values() if isinstance(r, dict) and r.get("ok")) / len(compat)) if compat else 0.5
+    ref_ids = sorted({gid for m in registry.values() for gid in (m.get("fits") or {})})
+    apply_scores(registry, bench_idx, plugs_pass, ref_ids)
+    reg["categories"] = build_lists(registry, seeds["categories"])
+    reg["ranking_version"] = RANKING_VERSION
+    reg["generated_at"] = today
+    reg["scoring"] = {"weights": LLM_WEIGHTS, "like_cap": LIKE_CAP,
+                      "popularity": "0.75·log likes + 0.25·log downloads",
+                      "order": "likes, then score, among models whose verdict is not no"}
+    write_registry(reg)
+    tops = {cid: [t["id"] for t in cat["top"][:3]] for cid, cat in reg["categories"].items()}
+    print(f"✓ rescored {len(registry)} models at ranking {RANKING_VERSION}")
+    for cid, names in tops.items():
+        print(f"  {cid}: {', '.join(names)}")
+    return 0
 
 
 def main() -> int:
@@ -291,37 +465,12 @@ def main() -> int:
     compat = json.loads(compat_path.read_text())["results"] if compat_path.exists() else {}
     plugs_pass = (sum(1 for r in compat.values() if r["ok"]) / len(compat)) if compat else 0.5
 
-    def score(m: dict, ref: str) -> float:
-        fit = FIT_SCORE[m["fits"][ref]["Q4_K_M"]["verdict"]]
-        stats = m.get("hf_stats", {})
-        momentum = min(math.log10(1 + stats.get("downloads_30d", 0)) / 7, 1.0)
-        # capability proxy: bigger models that still fit should outrank tiny-but-fast ones
-        capability = min(math.log10(1 + m["params_b"]) / 1.35, 1.0)
-        measured = bench_idx.get(f"{m['id']}|{ref}")                     # same GPU, or it is not measured
-        if measured:
-            speed = min(measured["metrics"]["gen_tps"] / 60, 1.0)
-        else:
-            speed = min(m["fits"][ref]["Q4_K_M"]["est_tps"] / 60, 1.0) * 0.5
-        return round(0.30 * fit + 0.30 * capability + 0.25 * momentum
-                     + 0.10 * speed + 0.05 * plugs_pass, 4)
-
     # Score every model against every reference GPU, not just the ones that land in a
     # category Top-10. With ~140 models and 3 categories, ranking only the top 10 of each
     # left most of the registry unscored and the leaderboard showed "unranked" for rows it
-    # had all the numbers for.
-    for m in registry.values():
-        m["scores"] = {gid: score(m, gid) for gid in ref_gpus}
-
-    cats = seeds["categories"]
-    lists = {}
-    for cid, cfg in cats.items():
-        pool = [m for m in registry.values() if m.get("status") != "stale" and (
-            cid in m.get("seed_lists", []) or
-            (cid == "multimodal" and m["category"] == "image-text-to-text") or
-            (cid in ("local-12gb", "colab-free") and m["category"] == "text-generation"))]
-        ranked = sorted(pool, key=lambda m: score(m, cfg["reference_gpu"]), reverse=True)
-        lists[cid] = {"title": cfg["title"], "reference_gpu": cfg["reference_gpu"],
-                      "top": [{"id": m["id"], "score": score(m, cfg["reference_gpu"])} for m in ranked[:10]]}
+    # had all the numbers for. Lists are then ordered by likes among models that fit.
+    apply_scores(registry, bench_idx, plugs_pass, list(ref_gpus))
+    lists = build_lists(registry, seeds["categories"])
 
     # Report how the bandwidth model is doing against reality rather than quietly tuning
     # the constant to whatever few measurements exist. The first real GPU datapoint came
@@ -346,18 +495,26 @@ def main() -> int:
 
     out = {"schema_version": "1.0", "ranking_version": RANKING_VERSION, "calibration": calibration,
            "generated_at": TODAY.isoformat(), "categories": lists,
+           "scoring": {"weights": LLM_WEIGHTS, "like_cap": LIKE_CAP,
+                       "popularity": "0.75·log likes + 0.25·log downloads",
+                       "order": "likes, then score, among models whose verdict is not no"},
            "compat": compat, "models": registry,
            "benchmarks_latest": {k: {"gen_tps": v["metrics"]["gen_tps"],
                                      "peak_vram_gb": v["metrics"].get("peak_vram_gb"),
                                      "date": v["run"]["date"], "source": v["provenance"]["source"],
                                      "submitter": v["provenance"].get("submitter", "")}
                                  for k, v in bench_idx.items()}}
-    prev_path.write_text(json.dumps(out, indent=2, sort_keys=True))
-    (ROOT / "site/registry.json").write_text(json.dumps(out, sort_keys=True))
+    write_registry(out)
     print(f"✓ registry: {len(registry)} models, {len(bench_idx)} measured, "
           f"{sum(1 for m in registry.values() if m.get('status') == 'stale')} stale")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--rescore", action="store_true",
+                    help="recompute scores and the likes order from data/registry.json")
+    ap.add_argument("--offline", action="store_true",
+                    help="with --rescore, keep the Hugging Face stats already stored")
+    args = ap.parse_args()
+    raise SystemExit(rescore(offline=args.offline) if args.rescore else main())
