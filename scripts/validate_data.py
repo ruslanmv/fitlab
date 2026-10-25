@@ -66,6 +66,7 @@ def validate(data_dir: Path) -> int:
         print(f"FAIL gpu_catalog.json: {e}")
     bad += _check_joins(data_dir, results)
     bad += _check_media(data_dir)
+    bad += _check_inference(data_dir)
 
     print("PASSED" if not bad else f"FAILED — {bad} invalid document(s)")
     return bad
@@ -113,6 +114,34 @@ def _check_joins(data_dir: Path, results: list[Path]) -> int:
     print(f"ok   ollama tags — {len(by_tag) - len(dead)}/{len(by_tag)} runnable "
           f"(library fetched {catalog.get('fetched_at')})")
     return bad
+
+
+def _check_inference(data_dir: Path) -> int:
+    """The inference lane (hosted models HomePilot can run): schema, then orders the schema cannot express."""
+    path = data_dir / "inference_registry.json"
+    if not path.exists():
+        print("WARN no data/inference_registry.json — run scripts/sync_inference.py")
+        return 0
+    try:
+        reg = _load(path)
+        jsonschema.validate(reg, _load(data_dir / "schema" / "inference.schema.json"))
+    except (jsonschema.ValidationError, json.JSONDecodeError) as e:
+        print(f"FAIL inference_registry.json: {getattr(e, 'message', e)}")
+        return 1
+    problems = []
+    for kind, k in reg["kinds"].items():
+        likes = [r["likes"] for r in k["lists"].get("likes", [])]
+        if likes != sorted(likes, reverse=True):
+            problems.append(f"{kind}: the likes list is not ordered by likes")
+        scores = [r["score"] for r in k["lists"].get("popular", [])]
+        if scores != sorted(scores, reverse=True):
+            problems.append(f"{kind}: the popular list is not ordered by score")
+    for p in problems:
+        print(f"FAIL inference_registry.json: {p}")
+    if not problems:
+        sizes = ", ".join(f"{kind} {len(k['lists']['popular'])}" for kind, k in reg["kinds"].items())
+        print(f"ok   inference_registry.json — {sizes} (ranking {reg['ranking_version']}, generated {reg['generated_at']})")
+    return 1 if problems else 0
 
 
 def _check_media(data_dir: Path) -> int:

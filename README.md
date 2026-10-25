@@ -28,6 +28,7 @@ produced by a script, validated against a JSON Schema, and merged through a revi
 | **FITS** | Will this model fit my GPU? | Deterministic VRAM arithmetic from the model's own `config.json` — weights + KV cache + runtime overhead, per quantization and context length | Computed, reproducible |
 | **RUNS** | How fast is it, really? | A real benchmark on a free T4 16 GB GPU every week, plus community-submitted runs on real consumer hardware | Measured, with raw data retained |
 | **PLUGS** | Does it work with my stack? | Weekly end-to-end probes installing the **latest released** Ollama, [OllaBridge](https://github.com/ruslanmv/ollabridge), LangGraph, CrewAI, Langflow, Langfuse and DeepAgents, then issuing a genuine request through the whole chain | Verified, with exact versions recorded |
+| **HOSTED** | Which hosted models can HomePilot run today, and which do people like most? | Hugging Face Hub data (published weekly; HomePilot reads it live): models a provider serves *live* through Inference Providers for chat, vision, images and video, ranked by likes, downloads, trend and freshness | Observed, with raw counts kept |
 
 **Source of truth:** [`data/registry.json`](data/) · **Design rationale:** [`ARCHITECTURE.md`](ARCHITECTURE.md)
 
@@ -116,10 +117,13 @@ fitlab
 your rig: NVIDIA GeForce RTX 3060 · 12.0 GB VRAM · ~360 GB/s
 registry 2026-08-24 · 22 models · live (weekly)
 
-  1 colab-free — Top 10 — Colab free / Kaggle (T4 16 GB)
-  2 local-12gb — Top 10 — local inference, low-end GPU (12 GB)
-  3 multimodal — Top multimodal (vision-language) for 12–16 GB
-  4 all        — everything, deduplicated
+  1 homepilot-12gb — HomePilot — most liked chat models on 12 GB
+  2 homepilot-16gb — HomePilot — most liked chat models on 16 GB
+  3 homepilot-vision — HomePilot — most liked vision models on 16 GB
+  4 local-12gb — Top 10 — local inference, low-end GPU (12 GB)
+  5 colab-free — Top 10 — Colab free / Kaggle (T4 16 GB)
+  6 multimodal — Top multimodal (vision-language) for 12–16 GB
+  7 all        — everything, deduplicated
 ? Category 1-4 (1)
 ```
 
@@ -319,17 +323,19 @@ Ollama's `/api/generate` timing fields — chosen because Ollama is what the tar
 runs. The weekly rotation is `week_number % queue_length`, so every model is measured and
 periodically re-measured.
 
-**Ranking** is a transparent, versioned scored sort (currently `ranking_version` 1.1, as computed
-in [`scripts/sync_hf.py`](scripts/sync_hf.py)):
+**Ranking** is a transparent, versioned sort (currently `ranking_version` 1.2, as computed
+in [`scripts/sync_hf.py`](scripts/sync_hf.py)). The published order is Hugging Face likes among
+models that fit the reference GPU. The score breaks ties:
 
 ```
-score = 0.30·fit + 0.30·capability + 0.25·hf_momentum + 0.10·speed + 0.05·plugs
+score = 0.30·fit + 0.20·capability + 0.35·popularity + 0.10·speed + 0.05·plugs
+popularity = 0.75·log likes + 0.25·log downloads
 ```
 
-where `capability` is log-scaled parameter count (the strongest model that fits should win, not the
-fastest tiny one), and `speed` uses a measured value when one exists and a bandwidth-model estimate
-discounted by 0.5× otherwise. Changing the weights requires a version bump, making every rank shift
-visible in the pull request diff.
+Likes are people's votes. Downloads only corroborate a model that has not been liked yet. `capability`
+is log-scaled parameter count, and `speed` uses a measured value when one exists and a bandwidth-model
+estimate discounted by 0.5× otherwise. HomePilot lists keep only models it can install. Changing the
+weights or the order requires a version bump, making every rank shift visible in the pull request diff.
 
 **MEDIA** (image and video generation) has its own lane — see [Media lane](#media-lane).
 
@@ -530,11 +536,13 @@ nothing is hand-ranked — with a different input:
   (`min` = runs with offload / low-VRAM mode, `recommended` = native resolution without offload),
   where each number came from (`homepilot-presets`, `editorial`, later `measured`), and the work its
   default workflow does (steps × megapixels × frames).
-- [`scripts/build_media.py`](scripts/build_media.py) adds live Hugging Face download counts,
-  derives a verdict per GPU and ranks under `media_ranking_version` 1.0:
+- [`scripts/build_media.py`](scripts/build_media.py) adds live Hugging Face likes and downloads,
+  derives a verdict per GPU and ranks under `media_ranking_version` 1.1. Tops are ordered by likes
+  and only include checkpoints HomePilot can install:
 
 ```
 score = 0.40·fit + 0.25·capability + 0.25·momentum + 0.10·speed
+momentum: 0.75·log likes + 0.25·log downloads
 fit:  fits ≥ recommended · tight ≥ min · offload ≥ 0.7·min · otherwise no
 ```
 
@@ -555,13 +563,37 @@ The LLM `registry.json` is unchanged by this lane: its schema, keys and consumer
 
 [HomePilot](https://github.com/ruslanmv/HomePilot) reads FitLab to suggest the top models for the
 GPU it is running on — chat and vision from `registry.json`, image and video from
-`media_registry.json` — under **Models → Suggested for your GPU**. The contract it relies on:
+`media_registry.json` — under **Models → Suggested for your GPU**. Suggestions are the models
+HomePilot can install that fit the machine, ordered by Hugging Face likes, so the first row is the
+one people have ranked highest. The contract it relies on:
 
 | Field | Used for |
 |---|---|
 | `models.*.arch`, `params_b`, `active_params_b` | FITS verdict and speed for the detected GPU (same arithmetic as `fitlab check`) |
 | `models.*.ollama_tag` | One-click install through HomePilot's Ollama pull |
 | `media_registry.json` `models.*.homepilot` | `{provider, model_type, model_id}` for HomePilot's ComfyUI install |
+| `inference_registry.json` `kinds.<type>.lists.<order>` | **Models → Hugging Face**: hosted models to pick for chat, vision, images and video |
+
+### Inference lane — hosted models, ranked by people
+
+`scripts/sync_inference.py` publishes `data/inference_registry.json`: for each HomePilot model type
+(`chat`, `vision`, `image`, `video`) the models Hugging Face Inference Providers serve **live** for the
+task HomePilot calls (adapters and GGUF repos excluded), in five orders:
+
+| Order | Meaning |
+|---|---|
+| `popular` | `0.55·likes + 0.15·downloads + 0.20·trending + 0.10·recency` (each log-scaled 0..1; recency has a one-year half-life). The default suggestion. |
+| `likes` | Most liked first — ranked by the people |
+| `trending` | The Hub's trending score |
+| `newest` | Most recently created |
+| `rising` | Created in the last 120 days, by trending — newer models a likes order would bury |
+
+Every row keeps its raw `likes`, `downloads` and `trending_score` beside the `score`, plus the
+`live_providers` serving it. Each type also reports `diversity.top_publisher_share`, to watch one
+publisher crowding the list. Popularity guides; it does not measure quality on your task.
+The ranking is the pure module `fitlab.inference`; HomePilot ranks live Hub data with the same rules
+and falls back to this feed, then to the copy it ships with.
+
 | `media_registry.json` `scoring` + `models.*.components` | Ranking for any VRAM, identical to the published lists |
 | `generated_at`, `ranking_version`, `media_ranking_version` | Shown with every suggestion |
 

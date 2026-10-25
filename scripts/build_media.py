@@ -14,8 +14,10 @@ the formula here and bump MEDIA_RANKING_VERSION.
   fit         FIT_SCORE[verdict]; fits ≥ recommended VRAM, tight ≥ min, offload ≥ 0.7·min
               (ComfyUI low-VRAM mode: works, slowly), otherwise no
   capability  log10(1 + params_b) / log10(1 + 14) — larger models that still fit outrank tiny ones
-  momentum    log10(1 + downloads_30d) / 7, the same scale as the LLM lane
+  momentum    0.75·log likes (people) + 0.25·log downloads, the same popularity mix as the LLM lane
   speed       1 − log10(1 + cost) / 3.5, cost = params_b · steps · megapixels · max(1, frames / 16)
+
+Published tops are ordered by likes, then score, and only include models HomePilot can install.
 
 The GPU-independent parts (capability, momentum, speed) are published per model as
 `components`, with the weights under `scoring`, so a client can rank for any VRAM it detects
@@ -43,8 +45,10 @@ SEED = ROOT / "data/media.seed.yaml"
 OUT = ROOT / "data/media_registry.json"
 GPU_CATALOG = ROOT / "data/gpu_catalog.json"
 
-MEDIA_RANKING_VERSION = "1.0"
+MEDIA_RANKING_VERSION = "1.1"
 WEIGHTS = {"fit": 0.40, "capability": 0.25, "momentum": 0.25, "speed": 0.10}
+LIKE_CAP = 20_000
+POPULARITY_LIKES = 0.75
 FIT_SCORE = {"fits": 1.0, "tight": 0.7, "offload": 0.3, "no": 0.0}
 OFFLOAD_FRACTION = 0.7
 TOP_N = 10
@@ -61,10 +65,21 @@ def verdict(vram_gb: float, need: dict) -> str:
     return "no"
 
 
+def norm_likes(likes: int) -> float:
+    return min(math.log10(1 + max(0, int(likes or 0))) / math.log10(1 + LIKE_CAP), 1.0)
+
+
+def model_likes(m: dict) -> int:
+    return int((m.get("hf_stats") or {}).get("likes") or 0)
+
+
 def components(m: dict) -> dict:
     capability = min(math.log10(1 + m["params_b"]) / math.log10(1 + 14), 1.0)
-    downloads = (m.get("hf_stats") or {}).get("downloads_30d", 0) or 0
-    momentum = min(math.log10(1 + downloads) / 7, 1.0)
+    stats = m.get("hf_stats") or {}
+    downloads = stats.get("downloads_30d", 0) or 0
+    downloads_norm = min(math.log10(1 + downloads) / 7, 1.0)
+    # Same mix as the LLM lane: likes are the vote, downloads only fill in when nobody has liked it.
+    momentum = POPULARITY_LIKES * norm_likes(model_likes(m)) + (1 - POPULARITY_LIKES) * downloads_norm
     c = m.get("cost") or {}
     cost = m["params_b"] * c.get("steps", 25) * c.get("megapixels", 1.0) * max(1.0, c.get("frames", 1) / 16)
     speed = max(0.0, min(1.0, 1 - math.log10(1 + cost) / 3.5))
@@ -111,10 +126,14 @@ def build(seed: dict, gpus: dict, previous: dict, offline: bool, today: str) -> 
     for cid, cfg in seed["categories"].items():
         tasks = {"image": {"text-to-image"}, "video": {"text-to-video", "image-to-video"}}[cfg["task"]]
         gid = cfg["reference_gpu"]
-        pool = [m for m in models.values() if m["task"] in tasks and m["fits"][gid]["verdict"] != "no"]
-        ranked = sorted(pool, key=lambda m: (-m["scores"][gid], m["id"]))
+        # HomePilot can only suggest a checkpoint it knows how to install. Order is people's likes.
+        pool = [m for m in models.values()
+                if m["task"] in tasks and m.get("homepilot") and m["fits"][gid]["verdict"] != "no"]
+        ranked = sorted(pool, key=lambda m: (-model_likes(m), -m["scores"][gid], m["id"]))
         categories[cid] = {"title": cfg["title"], "task": cfg["task"], "reference_gpu": gid,
-                           "top": [{"id": m["id"], "score": m["scores"][gid]} for m in ranked[:TOP_N]]}
+                           "order": "likes",
+                           "top": [{"id": m["id"], "score": m["scores"][gid], "likes": model_likes(m)}
+                                   for m in ranked[:TOP_N]]}
 
     return {
         "schema_version": "1.0",
@@ -123,6 +142,9 @@ def build(seed: dict, gpus: dict, previous: dict, offline: bool, today: str) -> 
         "scoring": {
             "weights": WEIGHTS,
             "fit_score": FIT_SCORE,
+            "like_cap": LIKE_CAP,
+            "popularity": "components.momentum = 0.75·log likes + 0.25·log downloads",
+            "order": "likes, then score, among models HomePilot can install whose verdict is not no",
             "thresholds": {"fits": "vram >= vram_gb.recommended", "tight": "vram >= vram_gb.min",
                            "offload": f"vram >= {OFFLOAD_FRACTION} * vram_gb.min", "no": "otherwise"},
         },

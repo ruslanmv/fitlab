@@ -69,7 +69,7 @@ def ordered_models(reg: dict, category: str):
 def fit_table(reg: dict, ids, hw: dict, quant: str, ctx: int, limit: int | None = None):
     tbl = Table(title=f"fit check · {hw['name']} · {quant} · {ctx // 1024}K ctx",
                 title_style="bold", header_style="dim")
-    for col in ("#", "model", "params", "est GB", "verdict", "~tok/s", "ollama tag"):
+    for col in ("#", "model", "params", "est GB", "verdict", "~tok/s", "likes", "ollama tag"):
         tbl.add_column(col)
     rows = []
     for i, mid in enumerate(ids[:limit] if limit else ids, 1):
@@ -79,11 +79,12 @@ def fit_table(reg: dict, ids, hw: dict, quant: str, ctx: int, limit: int | None 
         f = estimate.fit(m, quant, ctx, hw["vram_gb"], hw["bw"])
         rows.append((mid, m, f))
         tps = "—" if f["verdict"] == "no" else (f"~{f['est_tps']}" if f["est_tps"] else "n/a")
+        likes = (m.get("hf_stats") or {}).get("likes") or 0
         tbl.add_row(str(i), m["hf_id"],
                     f"{m.get('active_params_b') or m['params_b']}B",
                     f"{f['est_gb']:.1f}",
                     f"[{VERDICT_STYLE[f['verdict']]}]{f['verdict'].upper()}[/]",
-                    tps, m.get("ollama_tag") or "[dim]fit-only[/]")
+                    tps, f"{int(likes):,}", m.get("ollama_tag") or "[dim]fit-only[/]")
     console.print(tbl)
     return rows
 

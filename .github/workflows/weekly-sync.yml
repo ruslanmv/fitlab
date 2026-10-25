@@ -66,6 +66,19 @@ jobs:
                 f"{len(doc['categories'])} categories")
           PY
 
+      # Hosted models HomePilot can run (Inference Providers), ranked by popularity. A type
+      # with nothing compatible keeps last week's list, so the feed is never emptied.
+      - name: Rebuild the inference lane (chat, vision, image, video via Inference Providers)
+        run: |
+          python scripts/sync_inference.py
+          python - <<'PY'
+          import json, pathlib, jsonschema
+          doc = json.loads(pathlib.Path("data/inference_registry.json").read_text())
+          jsonschema.validate(doc, json.loads(pathlib.Path("data/schema/inference.schema.json").read_text()))
+          print("✓ inference registry valid — " + ", ".join(
+              f"{k}: {len(v['lists']['popular'])}" for k, v in doc["kinds"].items()))
+          PY
+
       - name: Validate every registry entry against the schema
         run: |
           python - <<'PY'
@@ -116,8 +129,8 @@ jobs:
           find "$WT" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
 
           mkdir -p "$WT/data" "$WT/site"
-          cp data/registry.json data/ollama_catalog.json data/media_registry.json "$WT/data/"
-          cp site/registry.json "$WT/site/"
+          cp data/registry.json data/ollama_catalog.json data/media_registry.json data/inference_registry.json "$WT/data/"
+          cp site/registry.json site/inference_registry.json "$WT/site/"
           cat > "$WT/README.md" <<'EOF'
           # registry-latest
 
@@ -128,6 +141,7 @@ jobs:
           - `site/registry.json`  — the same document, minified (leaderboard)
           - `data/ollama_catalog.json` — the Ollama library index the tags were validated against
           - `data/media_registry.json` — the media lane: image + video models ranked per GPU (HomePilot)
+          - `data/inference_registry.json` — the inference lane: hosted models HomePilot can run, by popularity
 
           The reviewed copy lives on `master`.
           EOF
@@ -167,7 +181,9 @@ jobs:
             data/registry.json
             data/ollama_catalog.json
             data/media_registry.json
+            data/inference_registry.json
             site/registry.json
+            site/inference_registry.json
             src/fitlab/data/seed_registry.json
           body: |
             Weekly registry refresh from the Hugging Face API.
