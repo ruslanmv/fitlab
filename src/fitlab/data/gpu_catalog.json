@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "updated_at": "2026-10-02",
+  "updated_at": "2026-11-01",
   "gpus": [
     {
       "id": "apple-m-16",
@@ -1998,9 +1998,9 @@
     }
   ],
   "source_hashes": {
-    "desktop": "5f025783a8556ebdfaf356885b92c1d2a6a0b776578780734c3c0dfac345dd28",
-    "laptop": "78568433bc1e3a0ee4f4ff55440056a33fb1bf1f6800ff77b7c7515d4bf7954f",
-    "laptop30": "44a694cf377004cf452f3796c505716533f4d2180deb20e250c4a0c44d1337dc",
-    "cuda": "a5830879aa04db9b5319be06c63ffdd3918673310bb0c5abd535a66dbe93aeb3"
+    "desktop": "9d7dc902c5cd1e472d9b80a8c83ed45cd442695c5ee14dbddafbb39653e3eaef",
+    "laptop": "10c732c8b408436794670bbd9b1674cdbfc1aff5375540a24aa8a28b08829553",
+    "laptop30": "6d19047be47d735ce04b73f2d55d027213da1d8ba5b565084acd6fd3e504fdfa",
+    "cuda": "0ef0dae8995ec12836b2543322682dd1565749e9d6493c5f7ff6eedbd95bedf9"
   }
 }
