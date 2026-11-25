@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-25",
+  "generated_at": "2026-11-25",
   "kind": "homepilot.inference",
   "kinds": {
     "chat": {
@@ -1547,10 +1547,10 @@
       "pipeline_tag": "text-generation"
     },
     "image": {
-      "candidates": 223,
-      "compatible": 25,
+      "candidates": 221,
+      "compatible": 24,
       "diversity": {
-        "publishers": 11,
+        "publishers": 10,
         "rows": 20,
         "top_publisher_share": 0.25
       },
@@ -1558,360 +1558,374 @@
         "likes": [
           {
             "created_at": "2024-07-31T21:13:44.000Z",
-            "downloads": 628495,
+            "downloads": 420532,
             "id": "black-forest-labs/FLUX.1-dev",
-            "last_modified": "2025-06-27T16:22:19.000Z",
-            "likes": 15748,
+            "last_modified": "2026-11-19T14:41:01.000Z",
+            "likes": 16338,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "black-forest-labs",
             "provider_label": "Black Forest Labs",
-            "score": 0.8406,
-            "trending_score": 53.0
+            "score": 0.8847,
+            "trending_score": 36.0
           },
           {
             "created_at": "2023-07-25T13:25:51.000Z",
-            "downloads": 4204941,
+            "downloads": 4783288,
             "id": "stabilityai/stable-diffusion-xl-base-1.0",
             "last_modified": "2023-10-30T16:03:47.000Z",
-            "likes": 8392,
+            "likes": 8506,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.7488,
-            "trending_score": 13.0
+            "score": 0.7416,
+            "trending_score": 10.0
           },
           {
             "created_at": "2024-07-31T19:58:05.000Z",
-            "downloads": 507663,
+            "downloads": 287421,
             "id": "black-forest-labs/FLUX.1-schnell",
-            "last_modified": "2024-08-16T14:37:56.000Z",
-            "likes": 6440,
+            "last_modified": "2026-11-19T14:49:47.000Z",
+            "likes": 6945,
             "live_providers": [
               "fal-ai",
-              "nscale",
               "wavespeed"
             ],
             "provider": "black-forest-labs",
             "provider_label": "Black Forest Labs",
-            "score": 0.7654,
-            "trending_score": 45.0
+            "score": 0.8389,
+            "trending_score": 42.0
           },
           {
             "created_at": "2025-11-25T15:09:48.000Z",
-            "downloads": 697001,
+            "downloads": 818951,
             "id": "Tongyi-MAI/Z-Image-Turbo",
             "last_modified": "2026-01-30T16:58:07.000Z",
-            "likes": 5509,
+            "likes": 5659,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "tongyi-mai",
             "provider_label": "Tongyi",
-            "score": 0.765,
-            "trending_score": 17.0
-          },
-          {
-            "created_at": "2024-05-30T07:38:13.000Z",
-            "downloads": 2121,
-            "id": "stabilityai/stable-diffusion-3-medium",
-            "last_modified": "2024-08-12T12:37:42.000Z",
-            "likes": 5064,
-            "live_providers": [
-              "replicate"
-            ],
-            "provider": "stabilityai",
-            "provider_label": "Stability AI",
-            "score": 0.5667,
-            "trending_score": 0.0
+            "score": 0.7339,
+            "trending_score": 6.5
           },
           {
             "created_at": "2024-10-22T07:29:57.000Z",
-            "downloads": 58666,
+            "downloads": 35260,
             "id": "stabilityai/stable-diffusion-3.5-large",
             "last_modified": "2024-10-22T14:36:33.000Z",
-            "likes": 4158,
+            "likes": 4258,
             "live_providers": [
               "replicate"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.6668,
-            "trending_score": 8.0
+            "score": 0.6721,
+            "trending_score": 11.0
           },
           {
             "created_at": "2025-08-02T04:58:07.000Z",
-            "downloads": 307477,
+            "downloads": 375385,
             "id": "Qwen/Qwen-Image",
             "last_modified": "2025-08-18T02:42:19.000Z",
-            "likes": 2681,
+            "likes": 2706,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "qwen",
             "provider_label": "Qwen",
-            "score": 0.6681,
-            "trending_score": 6.0
+            "score": 0.6626,
+            "trending_score": 5.0
           },
           {
             "created_at": "2026-06-18T04:50:10.000Z",
-            "downloads": 77642,
+            "downloads": 86160,
             "id": "krea/Krea-2-Turbo",
             "last_modified": "2026-07-24T15:50:26.000Z",
-            "likes": 1767,
+            "likes": 2084,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "krea",
             "provider_label": "krea",
-            "score": 0.7403,
-            "trending_score": 48.0
-          },
-          {
-            "created_at": "2026-01-23T10:02:00.000Z",
-            "downloads": 44752,
-            "id": "Tongyi-MAI/Z-Image",
-            "last_modified": "2026-01-28T14:26:13.000Z",
-            "likes": 1283,
-            "live_providers": [
-              "wavespeed"
-            ],
-            "provider": "tongyi-mai",
-            "provider_label": "Tongyi",
-            "score": 0.6299,
-            "trending_score": 7.0
+            "score": 0.7348,
+            "trending_score": 35.0
           },
           {
             "created_at": "2024-10-29T10:27:32.000Z",
-            "downloads": 69148,
+            "downloads": 74337,
             "id": "stabilityai/stable-diffusion-3.5-medium",
             "last_modified": "2024-10-31T08:18:43.000Z",
-            "likes": 1246,
+            "likes": 1361,
             "live_providers": [
               "replicate"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.6089,
-            "trending_score": 10.0
+            "score": 0.6019,
+            "trending_score": 7.0
           },
           {
-            "created_at": "2025-09-25T06:28:28.000Z",
-            "downloads": 1289,
-            "id": "tencent/HunyuanImage-3.0",
-            "last_modified": "2026-01-28T08:14:42.000Z",
-            "likes": 1154,
+            "created_at": "2026-01-23T10:02:00.000Z",
+            "downloads": 59047,
+            "id": "Tongyi-MAI/Z-Image",
+            "last_modified": "2026-01-28T14:26:13.000Z",
+            "likes": 1314,
             "live_providers": [
-              "fal-ai"
+              "fal-ai",
+              "wavespeed"
             ],
-            "provider": "tencent",
-            "provider_label": "Tencent",
-            "score": 0.5809,
+            "provider": "tongyi-mai",
+            "provider_label": "Tongyi",
+            "score": 0.6203,
             "trending_score": 5.0
           },
           {
             "created_at": "2025-04-06T14:18:31.000Z",
-            "downloads": 790,
+            "downloads": 767,
             "id": "HiDream-ai/HiDream-I1-Full",
             "last_modified": "2025-07-17T06:11:32.000Z",
-            "likes": 1010,
+            "likes": 1015,
             "live_providers": [
+              "fal-ai",
               "wavespeed"
             ],
             "provider": "hidream-ai",
             "provider_label": "HiDream-ai",
-            "score": 0.5262,
-            "trending_score": 2.0
+            "score": 0.4853,
+            "trending_score": 0.0
           },
           {
             "created_at": "2025-12-30T02:29:01.000Z",
-            "downloads": 50433,
+            "downloads": 36713,
             "id": "Qwen/Qwen-Image-2512",
             "last_modified": "2025-12-31T09:47:56.000Z",
-            "likes": 981,
+            "likes": 998,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "qwen",
             "provider_label": "Qwen",
-            "score": 0.5887,
-            "trending_score": 3.0
+            "score": 0.5491,
+            "trending_score": 0.5
+          },
+          {
+            "created_at": "2025-09-08T12:44:15.000Z",
+            "downloads": 817,
+            "id": "tencent/SRPO",
+            "last_modified": "2025-09-15T06:03:16.000Z",
+            "likes": 988,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "tencent",
+            "provider_label": "Tencent",
+            "score": 0.4891,
+            "trending_score": 0.0
           },
           {
             "created_at": "2025-07-07T10:39:11.000Z",
-            "downloads": 30248,
+            "downloads": 22340,
             "id": "black-forest-labs/FLUX.1-Krea-dev",
-            "last_modified": "2025-07-31T14:33:39.000Z",
-            "likes": 953,
+            "last_modified": "2026-11-19T14:40:40.000Z",
+            "likes": 972,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "black-forest-labs",
             "provider_label": "Black Forest Labs",
-            "score": 0.5681,
-            "trending_score": 3.0
-          },
-          {
-            "created_at": "2024-06-05T05:26:43.000Z",
-            "downloads": 618,
-            "id": "Kwai-Kolors/Kolors",
-            "last_modified": "2024-07-12T09:26:09.000Z",
-            "likes": 877,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "kwai-kolors",
-            "provider_label": "Kwai-Kolors",
-            "score": 0.5131,
-            "trending_score": 4.0
+            "score": 0.6063,
+            "trending_score": 1.5
           },
           {
             "created_at": "2026-05-30T23:40:55.000Z",
-            "downloads": 67018,
+            "downloads": 59836,
             "id": "ideogram-ai/ideogram-4-fp8",
             "last_modified": "2026-06-03T18:34:44.000Z",
-            "likes": 853,
+            "likes": 886,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "ideogram-ai",
             "provider_label": "ideogram-ai",
-            "score": 0.6108,
-            "trending_score": 4.0
+            "score": 0.6193,
+            "trending_score": 6.0
           },
           {
             "created_at": "2024-10-22T07:32:47.000Z",
-            "downloads": 5357,
+            "downloads": 3105,
             "id": "stabilityai/stable-diffusion-3.5-large-turbo",
             "last_modified": "2024-10-22T14:35:36.000Z",
-            "likes": 735,
+            "likes": 758,
             "live_providers": [
+              "fal-ai",
               "replicate"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.4957,
-            "trending_score": 1.0
+            "score": 0.4808,
+            "trending_score": 0.5
           },
           {
             "created_at": "2026-04-07T07:26:56.000Z",
-            "downloads": 1919,
+            "downloads": 1373,
             "id": "baidu/ERNIE-Image",
             "last_modified": "2026-04-17T02:33:16.000Z",
-            "likes": 681,
+            "likes": 689,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "baidu",
             "provider_label": "baidu",
-            "score": 0.5265,
-            "trending_score": 1.0
+            "score": 0.4958,
+            "trending_score": 0.0
           },
           {
             "created_at": "2025-09-05T07:38:33.000Z",
-            "downloads": 239,
+            "downloads": 254,
             "id": "tencent/HunyuanImage-2.1",
             "last_modified": "2025-10-14T06:39:11.000Z",
-            "likes": 654,
+            "likes": 656,
             "live_providers": [
-              "replicate",
+              "fal-ai",
               "wavespeed"
             ],
             "provider": "tencent",
             "provider_label": "Tencent",
-            "score": 0.4601,
+            "score": 0.458,
             "trending_score": 0.0
           },
           {
             "created_at": "2024-06-12T16:21:22.000Z",
-            "downloads": 60275,
+            "downloads": 37274,
             "id": "stabilityai/stable-diffusion-3-medium-diffusers",
             "last_modified": "2024-06-19T13:47:26.000Z",
-            "likes": 505,
+            "likes": 530,
             "live_providers": [
               "hf-inference"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.5063,
-            "trending_score": 2.0
+            "score": 0.4892,
+            "trending_score": 1.0
+          },
+          {
+            "created_at": "2026-04-02T10:57:06.000Z",
+            "downloads": 2710,
+            "id": "baidu/ERNIE-Image-Turbo",
+            "last_modified": "2026-04-17T02:33:45.000Z",
+            "likes": 413,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "baidu",
+            "provider_label": "baidu",
+            "score": 0.4738,
+            "trending_score": 0.0
+          },
+          {
+            "created_at": "2025-10-09T11:55:45.000Z",
+            "downloads": 244,
+            "id": "briaai/FIBO",
+            "last_modified": "2026-11-15T12:57:39.000Z",
+            "likes": 335,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "briaai",
+            "provider_label": "briaai",
+            "score": 0.4966,
+            "trending_score": 1.0
           }
         ],
         "newest": [
           {
             "created_at": "2026-10-18T13:44:10.000Z",
-            "downloads": 1115,
+            "downloads": 1574,
             "id": "briaai/Fibo-2.0-dev",
-            "last_modified": "2026-10-25T06:55:44.000Z",
-            "likes": 144,
+            "last_modified": "2026-11-03T14:17:26.000Z",
+            "likes": 229,
             "live_providers": [
               "wavespeed"
             ],
             "provider": "briaai",
             "provider_label": "briaai",
-            "score": 0.6155,
-            "trending_score": 142.0
+            "score": 0.5393,
+            "trending_score": 7.0
           },
           {
             "created_at": "2026-06-18T04:50:10.000Z",
-            "downloads": 77642,
+            "downloads": 86160,
             "id": "krea/Krea-2-Turbo",
             "last_modified": "2026-07-24T15:50:26.000Z",
-            "likes": 1767,
+            "likes": 2084,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "krea",
             "provider_label": "krea",
-            "score": 0.7403,
-            "trending_score": 48.0
+            "score": 0.7348,
+            "trending_score": 35.0
           },
           {
             "created_at": "2026-05-30T23:40:55.000Z",
-            "downloads": 67018,
+            "downloads": 59836,
             "id": "ideogram-ai/ideogram-4-fp8",
             "last_modified": "2026-06-03T18:34:44.000Z",
-            "likes": 853,
+            "likes": 886,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "ideogram-ai",
             "provider_label": "ideogram-ai",
-            "score": 0.6108,
-            "trending_score": 4.0
+            "score": 0.6193,
+            "trending_score": 6.0
           },
           {
             "created_at": "2026-04-07T07:26:56.000Z",
-            "downloads": 1919,
+            "downloads": 1373,
             "id": "baidu/ERNIE-Image",
             "last_modified": "2026-04-17T02:33:16.000Z",
-            "likes": 681,
+            "likes": 689,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "baidu",
             "provider_label": "baidu",
-            "score": 0.5265,
-            "trending_score": 1.0
+            "score": 0.4958,
+            "trending_score": 0.0
+          },
+          {
+            "created_at": "2026-04-02T10:57:06.000Z",
+            "downloads": 2710,
+            "id": "baidu/ERNIE-Image-Turbo",
+            "last_modified": "2026-04-17T02:33:45.000Z",
+            "likes": 413,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "baidu",
+            "provider_label": "baidu",
+            "score": 0.4738,
+            "trending_score": 0.0
           },
           {
             "created_at": "2026-03-17T07:37:41.000Z",
-            "downloads": 169,
+            "downloads": 188,
             "id": "NucleusAI/Nucleus-Image",
             "last_modified": "2026-04-16T01:55:09.000Z",
             "likes": 261,
@@ -1920,161 +1934,160 @@
             ],
             "provider": "nucleusai",
             "provider_label": "NucleusAI",
-            "score": 0.4264,
+            "score": 0.4234,
             "trending_score": 0.0
           },
           {
             "created_at": "2026-01-23T10:02:00.000Z",
-            "downloads": 44752,
+            "downloads": 59047,
             "id": "Tongyi-MAI/Z-Image",
             "last_modified": "2026-01-28T14:26:13.000Z",
-            "likes": 1283,
+            "likes": 1314,
             "live_providers": [
+              "fal-ai",
               "wavespeed"
             ],
             "provider": "tongyi-mai",
             "provider_label": "Tongyi",
-            "score": 0.6299,
-            "trending_score": 7.0
+            "score": 0.6203,
+            "trending_score": 5.0
           },
           {
             "created_at": "2025-12-30T02:29:01.000Z",
-            "downloads": 50433,
+            "downloads": 36713,
             "id": "Qwen/Qwen-Image-2512",
             "last_modified": "2025-12-31T09:47:56.000Z",
-            "likes": 981,
+            "likes": 998,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "qwen",
             "provider_label": "Qwen",
-            "score": 0.5887,
-            "trending_score": 3.0
+            "score": 0.5491,
+            "trending_score": 0.5
           },
           {
             "created_at": "2025-11-25T15:09:48.000Z",
-            "downloads": 697001,
+            "downloads": 818951,
             "id": "Tongyi-MAI/Z-Image-Turbo",
             "last_modified": "2026-01-30T16:58:07.000Z",
-            "likes": 5509,
+            "likes": 5659,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "tongyi-mai",
             "provider_label": "Tongyi",
-            "score": 0.765,
-            "trending_score": 17.0
+            "score": 0.7339,
+            "trending_score": 6.5
           },
           {
             "created_at": "2025-10-09T11:55:45.000Z",
-            "downloads": 558,
+            "downloads": 244,
             "id": "briaai/FIBO",
-            "last_modified": "2026-08-18T11:36:07.000Z",
-            "likes": 333,
+            "last_modified": "2026-11-15T12:57:39.000Z",
+            "likes": 335,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "briaai",
             "provider_label": "briaai",
-            "score": 0.508,
-            "trending_score": 2.0
+            "score": 0.4966,
+            "trending_score": 1.0
           },
           {
-            "created_at": "2025-09-25T06:28:28.000Z",
-            "downloads": 1289,
-            "id": "tencent/HunyuanImage-3.0",
-            "last_modified": "2026-01-28T08:14:42.000Z",
-            "likes": 1154,
+            "created_at": "2025-09-08T12:44:15.000Z",
+            "downloads": 817,
+            "id": "tencent/SRPO",
+            "last_modified": "2025-09-15T06:03:16.000Z",
+            "likes": 988,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "tencent",
             "provider_label": "Tencent",
-            "score": 0.5809,
-            "trending_score": 5.0
+            "score": 0.4891,
+            "trending_score": 0.0
           },
           {
             "created_at": "2025-09-05T07:38:33.000Z",
-            "downloads": 239,
+            "downloads": 254,
             "id": "tencent/HunyuanImage-2.1",
             "last_modified": "2025-10-14T06:39:11.000Z",
-            "likes": 654,
+            "likes": 656,
             "live_providers": [
-              "replicate",
+              "fal-ai",
               "wavespeed"
             ],
             "provider": "tencent",
             "provider_label": "Tencent",
-            "score": 0.4601,
+            "score": 0.458,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-08-02T04:58:07.000Z",
-            "downloads": 307477,
+            "downloads": 375385,
             "id": "Qwen/Qwen-Image",
             "last_modified": "2025-08-18T02:42:19.000Z",
-            "likes": 2681,
+            "likes": 2706,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "qwen",
             "provider_label": "Qwen",
-            "score": 0.6681,
-            "trending_score": 6.0
+            "score": 0.6626,
+            "trending_score": 5.0
           },
           {
             "created_at": "2025-07-07T10:39:11.000Z",
-            "downloads": 30248,
+            "downloads": 22340,
             "id": "black-forest-labs/FLUX.1-Krea-dev",
-            "last_modified": "2025-07-31T14:33:39.000Z",
-            "likes": 953,
+            "last_modified": "2026-11-19T14:40:40.000Z",
+            "likes": 972,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "black-forest-labs",
             "provider_label": "Black Forest Labs",
-            "score": 0.5681,
-            "trending_score": 3.0
+            "score": 0.6063,
+            "trending_score": 1.5
+          },
+          {
+            "created_at": "2025-04-06T14:18:51.000Z",
+            "downloads": 30363,
+            "id": "HiDream-ai/HiDream-I1-Fast",
+            "last_modified": "2025-06-16T16:18:12.000Z",
+            "likes": 108,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "hidream-ai",
+            "provider_label": "HiDream-ai",
+            "score": 0.3934,
+            "trending_score": 0.0
           },
           {
             "created_at": "2025-04-06T14:18:31.000Z",
-            "downloads": 790,
+            "downloads": 767,
             "id": "HiDream-ai/HiDream-I1-Full",
             "last_modified": "2025-07-17T06:11:32.000Z",
-            "likes": 1010,
+            "likes": 1015,
             "live_providers": [
+              "fal-ai",
               "wavespeed"
             ],
             "provider": "hidream-ai",
             "provider_label": "HiDream-ai",
-            "score": 0.5262,
-            "trending_score": 2.0
-          },
-          {
-            "created_at": "2025-04-06T07:46:12.000Z",
-            "downloads": 201,
-            "id": "HiDream-ai/HiDream-I1-Dev",
-            "last_modified": "2025-06-16T16:17:54.000Z",
-            "likes": 173,
-            "live_providers": [
-              "wavespeed"
-            ],
-            "provider": "hidream-ai",
-            "provider_label": "HiDream-ai",
-            "score": 0.3749,
+            "score": 0.4853,
             "trending_score": 0.0
           },
           {
             "created_at": "2024-11-04T07:51:41.000Z",
-            "downloads": 1051,
+            "downloads": 176,
             "id": "Efficient-Large-Model/Sana_1600M_1024px",
             "last_modified": "2026-07-31T14:28:54.000Z",
             "likes": 226,
@@ -2083,681 +2096,662 @@
             ],
             "provider": "efficient-large-model",
             "provider_label": "Efficient-Large-Model",
-            "score": 0.451,
+            "score": 0.4295,
             "trending_score": 0.0
           },
           {
             "created_at": "2024-10-29T10:27:32.000Z",
-            "downloads": 69148,
+            "downloads": 74337,
             "id": "stabilityai/stable-diffusion-3.5-medium",
             "last_modified": "2024-10-31T08:18:43.000Z",
-            "likes": 1246,
+            "likes": 1361,
             "live_providers": [
               "replicate"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.6089,
-            "trending_score": 10.0
+            "score": 0.6019,
+            "trending_score": 7.0
           },
           {
             "created_at": "2024-10-22T07:32:47.000Z",
-            "downloads": 5357,
+            "downloads": 3105,
             "id": "stabilityai/stable-diffusion-3.5-large-turbo",
             "last_modified": "2024-10-22T14:35:36.000Z",
-            "likes": 735,
+            "likes": 758,
             "live_providers": [
+              "fal-ai",
               "replicate"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.4957,
-            "trending_score": 1.0
+            "score": 0.4808,
+            "trending_score": 0.5
           },
           {
             "created_at": "2024-10-22T07:29:57.000Z",
-            "downloads": 58666,
+            "downloads": 35260,
             "id": "stabilityai/stable-diffusion-3.5-large",
             "last_modified": "2024-10-22T14:36:33.000Z",
-            "likes": 4158,
+            "likes": 4258,
             "live_providers": [
               "replicate"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.6668,
-            "trending_score": 8.0
-          },
-          {
-            "created_at": "2024-07-31T21:13:44.000Z",
-            "downloads": 628495,
-            "id": "black-forest-labs/FLUX.1-dev",
-            "last_modified": "2025-06-27T16:22:19.000Z",
-            "likes": 15748,
-            "live_providers": [
-              "fal-ai",
-              "replicate",
-              "wavespeed"
-            ],
-            "provider": "black-forest-labs",
-            "provider_label": "Black Forest Labs",
-            "score": 0.8406,
-            "trending_score": 53.0
+            "score": 0.6721,
+            "trending_score": 11.0
           }
         ],
         "popular": [
           {
             "created_at": "2024-07-31T21:13:44.000Z",
-            "downloads": 628495,
+            "downloads": 420532,
             "id": "black-forest-labs/FLUX.1-dev",
-            "last_modified": "2025-06-27T16:22:19.000Z",
-            "likes": 15748,
+            "last_modified": "2026-11-19T14:41:01.000Z",
+            "likes": 16338,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "black-forest-labs",
             "provider_label": "Black Forest Labs",
-            "score": 0.8406,
-            "trending_score": 53.0
+            "score": 0.8847,
+            "trending_score": 36.0
           },
           {
             "created_at": "2024-07-31T19:58:05.000Z",
-            "downloads": 507663,
+            "downloads": 287421,
             "id": "black-forest-labs/FLUX.1-schnell",
-            "last_modified": "2024-08-16T14:37:56.000Z",
-            "likes": 6440,
+            "last_modified": "2026-11-19T14:49:47.000Z",
+            "likes": 6945,
             "live_providers": [
               "fal-ai",
-              "nscale",
               "wavespeed"
             ],
             "provider": "black-forest-labs",
             "provider_label": "Black Forest Labs",
-            "score": 0.7654,
-            "trending_score": 45.0
-          },
-          {
-            "created_at": "2025-11-25T15:09:48.000Z",
-            "downloads": 697001,
-            "id": "Tongyi-MAI/Z-Image-Turbo",
-            "last_modified": "2026-01-30T16:58:07.000Z",
-            "likes": 5509,
-            "live_providers": [
-              "fal-ai",
-              "replicate",
-              "wavespeed"
-            ],
-            "provider": "tongyi-mai",
-            "provider_label": "Tongyi",
-            "score": 0.765,
-            "trending_score": 17.0
+            "score": 0.8389,
+            "trending_score": 42.0
           },
           {
             "created_at": "2023-07-25T13:25:51.000Z",
-            "downloads": 4204941,
+            "downloads": 4783288,
             "id": "stabilityai/stable-diffusion-xl-base-1.0",
             "last_modified": "2023-10-30T16:03:47.000Z",
-            "likes": 8392,
+            "likes": 8506,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.7488,
-            "trending_score": 13.0
+            "score": 0.7416,
+            "trending_score": 10.0
           },
           {
             "created_at": "2026-06-18T04:50:10.000Z",
-            "downloads": 77642,
+            "downloads": 86160,
             "id": "krea/Krea-2-Turbo",
             "last_modified": "2026-07-24T15:50:26.000Z",
-            "likes": 1767,
+            "likes": 2084,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "krea",
             "provider_label": "krea",
-            "score": 0.7403,
-            "trending_score": 48.0
+            "score": 0.7348,
+            "trending_score": 35.0
           },
           {
-            "created_at": "2025-08-02T04:58:07.000Z",
-            "downloads": 307477,
-            "id": "Qwen/Qwen-Image",
-            "last_modified": "2025-08-18T02:42:19.000Z",
-            "likes": 2681,
+            "created_at": "2025-11-25T15:09:48.000Z",
+            "downloads": 818951,
+            "id": "Tongyi-MAI/Z-Image-Turbo",
+            "last_modified": "2026-01-30T16:58:07.000Z",
+            "likes": 5659,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
-            "provider": "qwen",
-            "provider_label": "Qwen",
-            "score": 0.6681,
-            "trending_score": 6.0
+            "provider": "tongyi-mai",
+            "provider_label": "Tongyi",
+            "score": 0.7339,
+            "trending_score": 6.5
           },
           {
             "created_at": "2024-10-22T07:29:57.000Z",
-            "downloads": 58666,
+            "downloads": 35260,
             "id": "stabilityai/stable-diffusion-3.5-large",
             "last_modified": "2024-10-22T14:36:33.000Z",
-            "likes": 4158,
+            "likes": 4258,
             "live_providers": [
               "replicate"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.6668,
-            "trending_score": 8.0
+            "score": 0.6721,
+            "trending_score": 11.0
+          },
+          {
+            "created_at": "2025-08-02T04:58:07.000Z",
+            "downloads": 375385,
+            "id": "Qwen/Qwen-Image",
+            "last_modified": "2025-08-18T02:42:19.000Z",
+            "likes": 2706,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "qwen",
+            "provider_label": "Qwen",
+            "score": 0.6626,
+            "trending_score": 5.0
           },
           {
             "created_at": "2026-01-23T10:02:00.000Z",
-            "downloads": 44752,
+            "downloads": 59047,
             "id": "Tongyi-MAI/Z-Image",
             "last_modified": "2026-01-28T14:26:13.000Z",
-            "likes": 1283,
+            "likes": 1314,
             "live_providers": [
+              "fal-ai",
               "wavespeed"
             ],
             "provider": "tongyi-mai",
             "provider_label": "Tongyi",
-            "score": 0.6299,
-            "trending_score": 7.0
-          },
-          {
-            "created_at": "2026-10-18T13:44:10.000Z",
-            "downloads": 1115,
-            "id": "briaai/Fibo-2.0-dev",
-            "last_modified": "2026-10-25T06:55:44.000Z",
-            "likes": 144,
-            "live_providers": [
-              "wavespeed"
-            ],
-            "provider": "briaai",
-            "provider_label": "briaai",
-            "score": 0.6155,
-            "trending_score": 142.0
+            "score": 0.6203,
+            "trending_score": 5.0
           },
           {
             "created_at": "2026-05-30T23:40:55.000Z",
-            "downloads": 67018,
+            "downloads": 59836,
             "id": "ideogram-ai/ideogram-4-fp8",
             "last_modified": "2026-06-03T18:34:44.000Z",
-            "likes": 853,
+            "likes": 886,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "ideogram-ai",
             "provider_label": "ideogram-ai",
-            "score": 0.6108,
-            "trending_score": 4.0
-          },
-          {
-            "created_at": "2024-10-29T10:27:32.000Z",
-            "downloads": 69148,
-            "id": "stabilityai/stable-diffusion-3.5-medium",
-            "last_modified": "2024-10-31T08:18:43.000Z",
-            "likes": 1246,
-            "live_providers": [
-              "replicate"
-            ],
-            "provider": "stabilityai",
-            "provider_label": "Stability AI",
-            "score": 0.6089,
-            "trending_score": 10.0
-          },
-          {
-            "created_at": "2025-12-30T02:29:01.000Z",
-            "downloads": 50433,
-            "id": "Qwen/Qwen-Image-2512",
-            "last_modified": "2025-12-31T09:47:56.000Z",
-            "likes": 981,
-            "live_providers": [
-              "fal-ai",
-              "wavespeed"
-            ],
-            "provider": "qwen",
-            "provider_label": "Qwen",
-            "score": 0.5887,
-            "trending_score": 3.0
-          },
-          {
-            "created_at": "2025-09-25T06:28:28.000Z",
-            "downloads": 1289,
-            "id": "tencent/HunyuanImage-3.0",
-            "last_modified": "2026-01-28T08:14:42.000Z",
-            "likes": 1154,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "tencent",
-            "provider_label": "Tencent",
-            "score": 0.5809,
-            "trending_score": 5.0
+            "score": 0.6193,
+            "trending_score": 6.0
           },
           {
             "created_at": "2025-07-07T10:39:11.000Z",
-            "downloads": 30248,
+            "downloads": 22340,
             "id": "black-forest-labs/FLUX.1-Krea-dev",
-            "last_modified": "2025-07-31T14:33:39.000Z",
-            "likes": 953,
+            "last_modified": "2026-11-19T14:40:40.000Z",
+            "likes": 972,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "black-forest-labs",
             "provider_label": "Black Forest Labs",
-            "score": 0.5681,
-            "trending_score": 3.0
+            "score": 0.6063,
+            "trending_score": 1.5
           },
           {
-            "created_at": "2024-05-30T07:38:13.000Z",
-            "downloads": 2121,
-            "id": "stabilityai/stable-diffusion-3-medium",
-            "last_modified": "2024-08-12T12:37:42.000Z",
-            "likes": 5064,
+            "created_at": "2024-10-29T10:27:32.000Z",
+            "downloads": 74337,
+            "id": "stabilityai/stable-diffusion-3.5-medium",
+            "last_modified": "2024-10-31T08:18:43.000Z",
+            "likes": 1361,
             "live_providers": [
               "replicate"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.5667,
-            "trending_score": 0.0
+            "score": 0.6019,
+            "trending_score": 7.0
+          },
+          {
+            "created_at": "2025-12-30T02:29:01.000Z",
+            "downloads": 36713,
+            "id": "Qwen/Qwen-Image-2512",
+            "last_modified": "2025-12-31T09:47:56.000Z",
+            "likes": 998,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "qwen",
+            "provider_label": "Qwen",
+            "score": 0.5491,
+            "trending_score": 0.5
+          },
+          {
+            "created_at": "2026-10-18T13:44:10.000Z",
+            "downloads": 1574,
+            "id": "briaai/Fibo-2.0-dev",
+            "last_modified": "2026-11-03T14:17:26.000Z",
+            "likes": 229,
+            "live_providers": [
+              "wavespeed"
+            ],
+            "provider": "briaai",
+            "provider_label": "briaai",
+            "score": 0.5393,
+            "trending_score": 7.0
+          },
+          {
+            "created_at": "2025-10-09T11:55:45.000Z",
+            "downloads": 244,
+            "id": "briaai/FIBO",
+            "last_modified": "2026-11-15T12:57:39.000Z",
+            "likes": 335,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "briaai",
+            "provider_label": "briaai",
+            "score": 0.4966,
+            "trending_score": 1.0
           },
           {
             "created_at": "2026-04-07T07:26:56.000Z",
-            "downloads": 1919,
+            "downloads": 1373,
             "id": "baidu/ERNIE-Image",
             "last_modified": "2026-04-17T02:33:16.000Z",
-            "likes": 681,
+            "likes": 689,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "baidu",
             "provider_label": "baidu",
-            "score": 0.5265,
-            "trending_score": 1.0
-          },
-          {
-            "created_at": "2025-04-06T14:18:31.000Z",
-            "downloads": 790,
-            "id": "HiDream-ai/HiDream-I1-Full",
-            "last_modified": "2025-07-17T06:11:32.000Z",
-            "likes": 1010,
-            "live_providers": [
-              "wavespeed"
-            ],
-            "provider": "hidream-ai",
-            "provider_label": "HiDream-ai",
-            "score": 0.5262,
-            "trending_score": 2.0
-          },
-          {
-            "created_at": "2024-06-05T05:26:43.000Z",
-            "downloads": 618,
-            "id": "Kwai-Kolors/Kolors",
-            "last_modified": "2024-07-12T09:26:09.000Z",
-            "likes": 877,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "kwai-kolors",
-            "provider_label": "Kwai-Kolors",
-            "score": 0.5131,
-            "trending_score": 4.0
-          },
-          {
-            "created_at": "2025-10-09T11:55:45.000Z",
-            "downloads": 558,
-            "id": "briaai/FIBO",
-            "last_modified": "2026-08-18T11:36:07.000Z",
-            "likes": 333,
-            "live_providers": [
-              "fal-ai",
-              "replicate",
-              "wavespeed"
-            ],
-            "provider": "briaai",
-            "provider_label": "briaai",
-            "score": 0.508,
-            "trending_score": 2.0
+            "score": 0.4958,
+            "trending_score": 0.0
           },
           {
             "created_at": "2024-06-12T16:21:22.000Z",
-            "downloads": 60275,
+            "downloads": 37274,
             "id": "stabilityai/stable-diffusion-3-medium-diffusers",
             "last_modified": "2024-06-19T13:47:26.000Z",
-            "likes": 505,
+            "likes": 530,
             "live_providers": [
               "hf-inference"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.5063,
-            "trending_score": 2.0
+            "score": 0.4892,
+            "trending_score": 1.0
+          },
+          {
+            "created_at": "2025-09-08T12:44:15.000Z",
+            "downloads": 817,
+            "id": "tencent/SRPO",
+            "last_modified": "2025-09-15T06:03:16.000Z",
+            "likes": 988,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "tencent",
+            "provider_label": "Tencent",
+            "score": 0.4891,
+            "trending_score": 0.0
+          },
+          {
+            "created_at": "2025-04-06T14:18:31.000Z",
+            "downloads": 767,
+            "id": "HiDream-ai/HiDream-I1-Full",
+            "last_modified": "2025-07-17T06:11:32.000Z",
+            "likes": 1015,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "hidream-ai",
+            "provider_label": "HiDream-ai",
+            "score": 0.4853,
+            "trending_score": 0.0
+          },
+          {
+            "created_at": "2024-10-22T07:32:47.000Z",
+            "downloads": 3105,
+            "id": "stabilityai/stable-diffusion-3.5-large-turbo",
+            "last_modified": "2024-10-22T14:35:36.000Z",
+            "likes": 758,
+            "live_providers": [
+              "fal-ai",
+              "replicate"
+            ],
+            "provider": "stabilityai",
+            "provider_label": "Stability AI",
+            "score": 0.4808,
+            "trending_score": 0.5
+          },
+          {
+            "created_at": "2026-04-02T10:57:06.000Z",
+            "downloads": 2710,
+            "id": "baidu/ERNIE-Image-Turbo",
+            "last_modified": "2026-04-17T02:33:45.000Z",
+            "likes": 413,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "baidu",
+            "provider_label": "baidu",
+            "score": 0.4738,
+            "trending_score": 0.0
           }
         ],
         "rising": [
           {
             "created_at": "2026-10-18T13:44:10.000Z",
-            "downloads": 1115,
+            "downloads": 1574,
             "id": "briaai/Fibo-2.0-dev",
-            "last_modified": "2026-10-25T06:55:44.000Z",
-            "likes": 144,
+            "last_modified": "2026-11-03T14:17:26.000Z",
+            "likes": 229,
             "live_providers": [
               "wavespeed"
             ],
             "provider": "briaai",
             "provider_label": "briaai",
-            "score": 0.6155,
-            "trending_score": 142.0
+            "score": 0.5393,
+            "trending_score": 7.0
           }
         ],
         "trending": [
           {
-            "created_at": "2026-10-18T13:44:10.000Z",
-            "downloads": 1115,
-            "id": "briaai/Fibo-2.0-dev",
-            "last_modified": "2026-10-25T06:55:44.000Z",
-            "likes": 144,
-            "live_providers": [
-              "wavespeed"
-            ],
-            "provider": "briaai",
-            "provider_label": "briaai",
-            "score": 0.6155,
-            "trending_score": 142.0
-          },
-          {
-            "created_at": "2024-07-31T21:13:44.000Z",
-            "downloads": 628495,
-            "id": "black-forest-labs/FLUX.1-dev",
-            "last_modified": "2025-06-27T16:22:19.000Z",
-            "likes": 15748,
+            "created_at": "2024-07-31T19:58:05.000Z",
+            "downloads": 287421,
+            "id": "black-forest-labs/FLUX.1-schnell",
+            "last_modified": "2026-11-19T14:49:47.000Z",
+            "likes": 6945,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "black-forest-labs",
             "provider_label": "Black Forest Labs",
-            "score": 0.8406,
-            "trending_score": 53.0
+            "score": 0.8389,
+            "trending_score": 42.0
+          },
+          {
+            "created_at": "2024-07-31T21:13:44.000Z",
+            "downloads": 420532,
+            "id": "black-forest-labs/FLUX.1-dev",
+            "last_modified": "2026-11-19T14:41:01.000Z",
+            "likes": 16338,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "black-forest-labs",
+            "provider_label": "Black Forest Labs",
+            "score": 0.8847,
+            "trending_score": 36.0
           },
           {
             "created_at": "2026-06-18T04:50:10.000Z",
-            "downloads": 77642,
+            "downloads": 86160,
             "id": "krea/Krea-2-Turbo",
             "last_modified": "2026-07-24T15:50:26.000Z",
-            "likes": 1767,
+            "likes": 2084,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "krea",
             "provider_label": "krea",
-            "score": 0.7403,
-            "trending_score": 48.0
-          },
-          {
-            "created_at": "2024-07-31T19:58:05.000Z",
-            "downloads": 507663,
-            "id": "black-forest-labs/FLUX.1-schnell",
-            "last_modified": "2024-08-16T14:37:56.000Z",
-            "likes": 6440,
-            "live_providers": [
-              "fal-ai",
-              "nscale",
-              "wavespeed"
-            ],
-            "provider": "black-forest-labs",
-            "provider_label": "Black Forest Labs",
-            "score": 0.7654,
-            "trending_score": 45.0
-          },
-          {
-            "created_at": "2025-11-25T15:09:48.000Z",
-            "downloads": 697001,
-            "id": "Tongyi-MAI/Z-Image-Turbo",
-            "last_modified": "2026-01-30T16:58:07.000Z",
-            "likes": 5509,
-            "live_providers": [
-              "fal-ai",
-              "replicate",
-              "wavespeed"
-            ],
-            "provider": "tongyi-mai",
-            "provider_label": "Tongyi",
-            "score": 0.765,
-            "trending_score": 17.0
-          },
-          {
-            "created_at": "2023-07-25T13:25:51.000Z",
-            "downloads": 4204941,
-            "id": "stabilityai/stable-diffusion-xl-base-1.0",
-            "last_modified": "2023-10-30T16:03:47.000Z",
-            "likes": 8392,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "stabilityai",
-            "provider_label": "Stability AI",
-            "score": 0.7488,
-            "trending_score": 13.0
-          },
-          {
-            "created_at": "2024-10-29T10:27:32.000Z",
-            "downloads": 69148,
-            "id": "stabilityai/stable-diffusion-3.5-medium",
-            "last_modified": "2024-10-31T08:18:43.000Z",
-            "likes": 1246,
-            "live_providers": [
-              "replicate"
-            ],
-            "provider": "stabilityai",
-            "provider_label": "Stability AI",
-            "score": 0.6089,
-            "trending_score": 10.0
+            "score": 0.7348,
+            "trending_score": 35.0
           },
           {
             "created_at": "2024-10-22T07:29:57.000Z",
-            "downloads": 58666,
+            "downloads": 35260,
             "id": "stabilityai/stable-diffusion-3.5-large",
             "last_modified": "2024-10-22T14:36:33.000Z",
-            "likes": 4158,
+            "likes": 4258,
             "live_providers": [
               "replicate"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.6668,
-            "trending_score": 8.0
+            "score": 0.6721,
+            "trending_score": 11.0
           },
           {
-            "created_at": "2026-01-23T10:02:00.000Z",
-            "downloads": 44752,
-            "id": "Tongyi-MAI/Z-Image",
-            "last_modified": "2026-01-28T14:26:13.000Z",
-            "likes": 1283,
+            "created_at": "2023-07-25T13:25:51.000Z",
+            "downloads": 4783288,
+            "id": "stabilityai/stable-diffusion-xl-base-1.0",
+            "last_modified": "2023-10-30T16:03:47.000Z",
+            "likes": 8506,
             "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "stabilityai",
+            "provider_label": "Stability AI",
+            "score": 0.7416,
+            "trending_score": 10.0
+          },
+          {
+            "created_at": "2024-10-29T10:27:32.000Z",
+            "downloads": 74337,
+            "id": "stabilityai/stable-diffusion-3.5-medium",
+            "last_modified": "2024-10-31T08:18:43.000Z",
+            "likes": 1361,
+            "live_providers": [
+              "replicate"
+            ],
+            "provider": "stabilityai",
+            "provider_label": "Stability AI",
+            "score": 0.6019,
+            "trending_score": 7.0
+          },
+          {
+            "created_at": "2026-10-18T13:44:10.000Z",
+            "downloads": 1574,
+            "id": "briaai/Fibo-2.0-dev",
+            "last_modified": "2026-11-03T14:17:26.000Z",
+            "likes": 229,
+            "live_providers": [
+              "wavespeed"
+            ],
+            "provider": "briaai",
+            "provider_label": "briaai",
+            "score": 0.5393,
+            "trending_score": 7.0
+          },
+          {
+            "created_at": "2025-11-25T15:09:48.000Z",
+            "downloads": 818951,
+            "id": "Tongyi-MAI/Z-Image-Turbo",
+            "last_modified": "2026-01-30T16:58:07.000Z",
+            "likes": 5659,
+            "live_providers": [
+              "fal-ai",
               "wavespeed"
             ],
             "provider": "tongyi-mai",
             "provider_label": "Tongyi",
-            "score": 0.6299,
-            "trending_score": 7.0
-          },
-          {
-            "created_at": "2025-08-02T04:58:07.000Z",
-            "downloads": 307477,
-            "id": "Qwen/Qwen-Image",
-            "last_modified": "2025-08-18T02:42:19.000Z",
-            "likes": 2681,
-            "live_providers": [
-              "fal-ai",
-              "replicate",
-              "wavespeed"
-            ],
-            "provider": "qwen",
-            "provider_label": "Qwen",
-            "score": 0.6681,
-            "trending_score": 6.0
-          },
-          {
-            "created_at": "2025-09-25T06:28:28.000Z",
-            "downloads": 1289,
-            "id": "tencent/HunyuanImage-3.0",
-            "last_modified": "2026-01-28T08:14:42.000Z",
-            "likes": 1154,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "tencent",
-            "provider_label": "Tencent",
-            "score": 0.5809,
-            "trending_score": 5.0
+            "score": 0.7339,
+            "trending_score": 6.5
           },
           {
             "created_at": "2026-05-30T23:40:55.000Z",
-            "downloads": 67018,
+            "downloads": 59836,
             "id": "ideogram-ai/ideogram-4-fp8",
             "last_modified": "2026-06-03T18:34:44.000Z",
-            "likes": 853,
+            "likes": 886,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "ideogram-ai",
             "provider_label": "ideogram-ai",
-            "score": 0.6108,
-            "trending_score": 4.0
+            "score": 0.6193,
+            "trending_score": 6.0
           },
           {
-            "created_at": "2024-06-05T05:26:43.000Z",
-            "downloads": 618,
-            "id": "Kwai-Kolors/Kolors",
-            "last_modified": "2024-07-12T09:26:09.000Z",
-            "likes": 877,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "kwai-kolors",
-            "provider_label": "Kwai-Kolors",
-            "score": 0.5131,
-            "trending_score": 4.0
-          },
-          {
-            "created_at": "2025-12-30T02:29:01.000Z",
-            "downloads": 50433,
-            "id": "Qwen/Qwen-Image-2512",
-            "last_modified": "2025-12-31T09:47:56.000Z",
-            "likes": 981,
+            "created_at": "2025-08-02T04:58:07.000Z",
+            "downloads": 375385,
+            "id": "Qwen/Qwen-Image",
+            "last_modified": "2025-08-18T02:42:19.000Z",
+            "likes": 2706,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "qwen",
             "provider_label": "Qwen",
-            "score": 0.5887,
-            "trending_score": 3.0
+            "score": 0.6626,
+            "trending_score": 5.0
+          },
+          {
+            "created_at": "2026-01-23T10:02:00.000Z",
+            "downloads": 59047,
+            "id": "Tongyi-MAI/Z-Image",
+            "last_modified": "2026-01-28T14:26:13.000Z",
+            "likes": 1314,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "tongyi-mai",
+            "provider_label": "Tongyi",
+            "score": 0.6203,
+            "trending_score": 5.0
           },
           {
             "created_at": "2025-07-07T10:39:11.000Z",
-            "downloads": 30248,
+            "downloads": 22340,
             "id": "black-forest-labs/FLUX.1-Krea-dev",
-            "last_modified": "2025-07-31T14:33:39.000Z",
-            "likes": 953,
+            "last_modified": "2026-11-19T14:40:40.000Z",
+            "likes": 972,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "black-forest-labs",
             "provider_label": "Black Forest Labs",
-            "score": 0.5681,
-            "trending_score": 3.0
-          },
-          {
-            "created_at": "2025-04-06T14:18:31.000Z",
-            "downloads": 790,
-            "id": "HiDream-ai/HiDream-I1-Full",
-            "last_modified": "2025-07-17T06:11:32.000Z",
-            "likes": 1010,
-            "live_providers": [
-              "wavespeed"
-            ],
-            "provider": "hidream-ai",
-            "provider_label": "HiDream-ai",
-            "score": 0.5262,
-            "trending_score": 2.0
+            "score": 0.6063,
+            "trending_score": 1.5
           },
           {
             "created_at": "2025-10-09T11:55:45.000Z",
-            "downloads": 558,
+            "downloads": 244,
             "id": "briaai/FIBO",
-            "last_modified": "2026-08-18T11:36:07.000Z",
-            "likes": 333,
+            "last_modified": "2026-11-15T12:57:39.000Z",
+            "likes": 335,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "briaai",
             "provider_label": "briaai",
-            "score": 0.508,
-            "trending_score": 2.0
+            "score": 0.4966,
+            "trending_score": 1.0
           },
           {
             "created_at": "2024-06-12T16:21:22.000Z",
-            "downloads": 60275,
+            "downloads": 37274,
             "id": "stabilityai/stable-diffusion-3-medium-diffusers",
             "last_modified": "2024-06-19T13:47:26.000Z",
-            "likes": 505,
+            "likes": 530,
             "live_providers": [
               "hf-inference"
             ],
             "provider": "stabilityai",
             "provider_label": "Stability AI",
-            "score": 0.5063,
-            "trending_score": 2.0
+            "score": 0.4892,
+            "trending_score": 1.0
+          },
+          {
+            "created_at": "2025-12-30T02:29:01.000Z",
+            "downloads": 36713,
+            "id": "Qwen/Qwen-Image-2512",
+            "last_modified": "2025-12-31T09:47:56.000Z",
+            "likes": 998,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "qwen",
+            "provider_label": "Qwen",
+            "score": 0.5491,
+            "trending_score": 0.5
+          },
+          {
+            "created_at": "2024-10-22T07:32:47.000Z",
+            "downloads": 3105,
+            "id": "stabilityai/stable-diffusion-3.5-large-turbo",
+            "last_modified": "2024-10-22T14:35:36.000Z",
+            "likes": 758,
+            "live_providers": [
+              "fal-ai",
+              "replicate"
+            ],
+            "provider": "stabilityai",
+            "provider_label": "Stability AI",
+            "score": 0.4808,
+            "trending_score": 0.5
           },
           {
             "created_at": "2026-04-07T07:26:56.000Z",
-            "downloads": 1919,
+            "downloads": 1373,
             "id": "baidu/ERNIE-Image",
             "last_modified": "2026-04-17T02:33:16.000Z",
-            "likes": 681,
+            "likes": 689,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "baidu",
             "provider_label": "baidu",
-            "score": 0.5265,
-            "trending_score": 1.0
+            "score": 0.4958,
+            "trending_score": 0.0
           },
           {
-            "created_at": "2024-10-22T07:32:47.000Z",
-            "downloads": 5357,
-            "id": "stabilityai/stable-diffusion-3.5-large-turbo",
-            "last_modified": "2024-10-22T14:35:36.000Z",
-            "likes": 735,
+            "created_at": "2025-09-08T12:44:15.000Z",
+            "downloads": 817,
+            "id": "tencent/SRPO",
+            "last_modified": "2025-09-15T06:03:16.000Z",
+            "likes": 988,
             "live_providers": [
-              "replicate"
+              "fal-ai"
             ],
-            "provider": "stabilityai",
-            "provider_label": "Stability AI",
-            "score": 0.4957,
-            "trending_score": 1.0
+            "provider": "tencent",
+            "provider_label": "Tencent",
+            "score": 0.4891,
+            "trending_score": 0.0
+          },
+          {
+            "created_at": "2025-04-06T14:18:31.000Z",
+            "downloads": 767,
+            "id": "HiDream-ai/HiDream-I1-Full",
+            "last_modified": "2025-07-17T06:11:32.000Z",
+            "likes": 1015,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "hidream-ai",
+            "provider_label": "HiDream-ai",
+            "score": 0.4853,
+            "trending_score": 0.0
+          },
+          {
+            "created_at": "2026-04-02T10:57:06.000Z",
+            "downloads": 2710,
+            "id": "baidu/ERNIE-Image-Turbo",
+            "last_modified": "2026-04-17T02:33:45.000Z",
+            "likes": 413,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "baidu",
+            "provider_label": "baidu",
+            "score": 0.4738,
+            "trending_score": 0.0
           }
         ]
       },
       "pipeline_tag": "text-to-image"
     },
     "video": {
-      "candidates": 166,
+      "candidates": 176,
       "compatible": 14,
       "diversity": {
         "publishers": 7,
@@ -2768,183 +2762,180 @@
         "likes": [
           {
             "created_at": "2024-12-01T06:00:34.000Z",
-            "downloads": 1516,
+            "downloads": 80397,
             "id": "tencent/HunyuanVideo",
             "last_modified": "2025-03-06T15:39:29.000Z",
-            "likes": 2342,
+            "likes": 2380,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "tencent",
             "provider_label": "Tencent",
-            "score": 0.5555,
-            "trending_score": 1.0
+            "score": 0.6057,
+            "trending_score": 2.0
           },
           {
             "created_at": "2025-02-25T07:26:34.000Z",
-            "downloads": 79505,
+            "downloads": 82763,
             "id": "Wan-AI/Wan2.1-T2V-14B",
             "last_modified": "2025-03-12T03:08:09.000Z",
-            "likes": 1598,
+            "likes": 1627,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.637,
-            "trending_score": 12.0
+            "score": 0.5953,
+            "trending_score": 3.0
           },
           {
             "created_at": "2024-10-22T07:36:03.000Z",
-            "downloads": 4219,
+            "downloads": 3887,
             "id": "genmo/mochi-1-preview",
             "last_modified": "2026-10-06T17:19:35.000Z",
-            "likes": 1379,
+            "likes": 1384,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "genmo",
             "provider_label": "Genmo",
-            "score": 0.6385,
-            "trending_score": 5.0
+            "score": 0.5939,
+            "trending_score": 1.0
           },
           {
             "created_at": "2025-11-18T06:36:54.000Z",
-            "downloads": 1352,
+            "downloads": 2250,
             "id": "tencent/HunyuanVideo-1.5",
             "last_modified": "2025-12-25T03:58:59.000Z",
-            "likes": 1054,
+            "likes": 1073,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "tencent",
             "provider_label": "Tencent",
-            "score": 0.5584,
-            "trending_score": 3.0
+            "score": 0.5508,
+            "trending_score": 2.0
           },
           {
             "created_at": "2025-07-18T09:35:44.000Z",
-            "downloads": 18641,
+            "downloads": 19776,
             "id": "Wan-AI/Wan2.2-TI2V-5B",
             "last_modified": "2025-08-07T10:22:24.000Z",
-            "likes": 874,
+            "likes": 1064,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.612,
-            "trending_score": 17.0
+            "score": 0.6339,
+            "trending_score": 25.0
           },
           {
             "created_at": "2024-08-17T11:42:28.000Z",
-            "downloads": 8391,
+            "downloads": 6611,
             "id": "zai-org/CogVideoX-5b",
             "last_modified": "2024-11-23T06:30:11.000Z",
-            "likes": 702,
+            "likes": 709,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "zai-org",
             "provider_label": "Z.ai",
-            "score": 0.4988,
-            "trending_score": 1.0
+            "score": 0.4714,
+            "trending_score": 0.0
           },
           {
             "created_at": "2025-02-25T11:13:48.000Z",
-            "downloads": 67297,
+            "downloads": 92775,
             "id": "Wan-AI/Wan2.1-T2V-1.3B",
             "last_modified": "2025-03-01T09:31:33.000Z",
-            "likes": 639,
+            "likes": 694,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.5427,
-            "trending_score": 3.0
+            "score": 0.568,
+            "trending_score": 6.0
           },
           {
             "created_at": "2025-07-24T15:07:15.000Z",
-            "downloads": 3939,
+            "downloads": 5452,
             "id": "Wan-AI/Wan2.2-T2V-A14B",
             "last_modified": "2025-08-07T09:43:34.000Z",
-            "likes": 591,
+            "likes": 641,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.5516,
-            "trending_score": 8.0
+            "score": 0.5424,
+            "trending_score": 5.0
           },
           {
             "created_at": "2025-10-24T16:04:08.000Z",
-            "downloads": 2509,
+            "downloads": 5175,
             "id": "meituan-longcat/LongCat-Video",
             "last_modified": "2025-10-29T06:22:46.000Z",
-            "likes": 587,
+            "likes": 610,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "meituan-longcat",
             "provider_label": "meituan-longcat",
-            "score": 0.5259,
-            "trending_score": 3.0
+            "score": 0.5674,
+            "trending_score": 10.0
           },
           {
             "created_at": "2025-07-28T09:04:28.000Z",
-            "downloads": 170405,
+            "downloads": 192705,
             "id": "Wan-AI/Wan2.2-T2V-A14B-Diffusers",
             "last_modified": "2025-08-09T03:36:13.000Z",
             "likes": 163,
             "live_providers": [
-              "fal-ai",
-              "replicate"
+              "fal-ai"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.4385,
+            "score": 0.4372,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-05-14T16:55:19.000Z",
-            "downloads": 1562,
+            "downloads": 2593,
             "id": "Lightricks/LTX-Video-0.9.7-distilled",
             "last_modified": "2025-07-08T10:13:57.000Z",
-            "likes": 64,
+            "likes": 67,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3409,
+            "score": 0.3458,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-09-29T10:45:14.000Z",
-            "downloads": 0,
+            "downloads": 270,
             "id": "htdong/Wan-Alpha",
-            "last_modified": "2025-12-17T15:28:39.000Z",
+            "last_modified": "2026-11-23T12:09:41.000Z",
             "likes": 43,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "htdong",
             "provider_label": "htdong",
-            "score": 0.2654,
+            "score": 0.3619,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-03-16T11:14:42.000Z",
-            "downloads": 8959,
+            "downloads": 12220,
             "id": "Lightricks/LTX-Video-0.9.5",
             "last_modified": "2025-05-06T16:11:26.000Z",
             "likes": 36,
@@ -2953,146 +2944,143 @@
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3213,
+            "score": 0.3221,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-05-13T12:02:56.000Z",
-            "downloads": 578,
+            "downloads": 1383,
             "id": "Lightricks/LTX-Video-0.9.7-dev",
             "last_modified": "2025-07-08T10:13:53.000Z",
-            "likes": 28,
+            "likes": 29,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3111,
-            "trending_score": 1.0
+            "score": 0.2945,
+            "trending_score": 0.0
           }
         ],
         "newest": [
           {
             "created_at": "2025-11-18T06:36:54.000Z",
-            "downloads": 1352,
+            "downloads": 2250,
             "id": "tencent/HunyuanVideo-1.5",
             "last_modified": "2025-12-25T03:58:59.000Z",
-            "likes": 1054,
+            "likes": 1073,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "tencent",
             "provider_label": "Tencent",
-            "score": 0.5584,
-            "trending_score": 3.0
+            "score": 0.5508,
+            "trending_score": 2.0
           },
           {
             "created_at": "2025-10-24T16:04:08.000Z",
-            "downloads": 2509,
+            "downloads": 5175,
             "id": "meituan-longcat/LongCat-Video",
             "last_modified": "2025-10-29T06:22:46.000Z",
-            "likes": 587,
+            "likes": 610,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "meituan-longcat",
             "provider_label": "meituan-longcat",
-            "score": 0.5259,
-            "trending_score": 3.0
+            "score": 0.5674,
+            "trending_score": 10.0
           },
           {
             "created_at": "2025-09-29T10:45:14.000Z",
-            "downloads": 0,
+            "downloads": 270,
             "id": "htdong/Wan-Alpha",
-            "last_modified": "2025-12-17T15:28:39.000Z",
+            "last_modified": "2026-11-23T12:09:41.000Z",
             "likes": 43,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "htdong",
             "provider_label": "htdong",
-            "score": 0.2654,
+            "score": 0.3619,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-07-28T09:04:28.000Z",
-            "downloads": 170405,
+            "downloads": 192705,
             "id": "Wan-AI/Wan2.2-T2V-A14B-Diffusers",
             "last_modified": "2025-08-09T03:36:13.000Z",
             "likes": 163,
             "live_providers": [
-              "fal-ai",
-              "replicate"
+              "fal-ai"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.4385,
+            "score": 0.4372,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-07-24T15:07:15.000Z",
-            "downloads": 3939,
+            "downloads": 5452,
             "id": "Wan-AI/Wan2.2-T2V-A14B",
             "last_modified": "2025-08-07T09:43:34.000Z",
-            "likes": 591,
+            "likes": 641,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.5516,
-            "trending_score": 8.0
+            "score": 0.5424,
+            "trending_score": 5.0
           },
           {
             "created_at": "2025-07-18T09:35:44.000Z",
-            "downloads": 18641,
+            "downloads": 19776,
             "id": "Wan-AI/Wan2.2-TI2V-5B",
             "last_modified": "2025-08-07T10:22:24.000Z",
-            "likes": 874,
+            "likes": 1064,
             "live_providers": [
               "fal-ai",
-              "replicate",
               "wavespeed"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.612,
-            "trending_score": 17.0
+            "score": 0.6339,
+            "trending_score": 25.0
           },
           {
             "created_at": "2025-05-14T16:55:19.000Z",
-            "downloads": 1562,
+            "downloads": 2593,
             "id": "Lightricks/LTX-Video-0.9.7-distilled",
             "last_modified": "2025-07-08T10:13:57.000Z",
-            "likes": 64,
+            "likes": 67,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3409,
+            "score": 0.3458,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-05-13T12:02:56.000Z",
-            "downloads": 578,
+            "downloads": 1383,
             "id": "Lightricks/LTX-Video-0.9.7-dev",
             "last_modified": "2025-07-08T10:13:53.000Z",
-            "likes": 28,
+            "likes": 29,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3111,
-            "trending_score": 1.0
+            "score": 0.2945,
+            "trending_score": 0.0
           },
           {
             "created_at": "2025-03-16T11:14:42.000Z",
-            "downloads": 8959,
+            "downloads": 12220,
             "id": "Lightricks/LTX-Video-0.9.5",
             "last_modified": "2025-05-06T16:11:26.000Z",
             "likes": 36,
@@ -3101,248 +3089,259 @@
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3213,
+            "score": 0.3221,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-02-25T11:13:48.000Z",
-            "downloads": 67297,
+            "downloads": 92775,
             "id": "Wan-AI/Wan2.1-T2V-1.3B",
             "last_modified": "2025-03-01T09:31:33.000Z",
-            "likes": 639,
+            "likes": 694,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.5427,
-            "trending_score": 3.0
+            "score": 0.568,
+            "trending_score": 6.0
           },
           {
             "created_at": "2025-02-25T07:26:34.000Z",
-            "downloads": 79505,
+            "downloads": 82763,
             "id": "Wan-AI/Wan2.1-T2V-14B",
             "last_modified": "2025-03-12T03:08:09.000Z",
-            "likes": 1598,
+            "likes": 1627,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.637,
-            "trending_score": 12.0
+            "score": 0.5953,
+            "trending_score": 3.0
           },
           {
             "created_at": "2024-12-01T06:00:34.000Z",
-            "downloads": 1516,
+            "downloads": 80397,
             "id": "tencent/HunyuanVideo",
             "last_modified": "2025-03-06T15:39:29.000Z",
-            "likes": 2342,
+            "likes": 2380,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "tencent",
             "provider_label": "Tencent",
-            "score": 0.5555,
-            "trending_score": 1.0
+            "score": 0.6057,
+            "trending_score": 2.0
           },
           {
             "created_at": "2024-10-22T07:36:03.000Z",
-            "downloads": 4219,
+            "downloads": 3887,
             "id": "genmo/mochi-1-preview",
             "last_modified": "2026-10-06T17:19:35.000Z",
-            "likes": 1379,
+            "likes": 1384,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "genmo",
             "provider_label": "Genmo",
-            "score": 0.6385,
-            "trending_score": 5.0
+            "score": 0.5939,
+            "trending_score": 1.0
           },
           {
             "created_at": "2024-08-17T11:42:28.000Z",
-            "downloads": 8391,
+            "downloads": 6611,
             "id": "zai-org/CogVideoX-5b",
             "last_modified": "2024-11-23T06:30:11.000Z",
-            "likes": 702,
+            "likes": 709,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "zai-org",
             "provider_label": "Z.ai",
-            "score": 0.4988,
-            "trending_score": 1.0
+            "score": 0.4714,
+            "trending_score": 0.0
           }
         ],
         "popular": [
           {
+            "created_at": "2025-07-18T09:35:44.000Z",
+            "downloads": 19776,
+            "id": "Wan-AI/Wan2.2-TI2V-5B",
+            "last_modified": "2025-08-07T10:22:24.000Z",
+            "likes": 1064,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "wan-ai",
+            "provider_label": "Wan-AI",
+            "score": 0.6339,
+            "trending_score": 25.0
+          },
+          {
+            "created_at": "2024-12-01T06:00:34.000Z",
+            "downloads": 80397,
+            "id": "tencent/HunyuanVideo",
+            "last_modified": "2025-03-06T15:39:29.000Z",
+            "likes": 2380,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "tencent",
+            "provider_label": "Tencent",
+            "score": 0.6057,
+            "trending_score": 2.0
+          },
+          {
+            "created_at": "2025-02-25T07:26:34.000Z",
+            "downloads": 82763,
+            "id": "Wan-AI/Wan2.1-T2V-14B",
+            "last_modified": "2025-03-12T03:08:09.000Z",
+            "likes": 1627,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "wan-ai",
+            "provider_label": "Wan-AI",
+            "score": 0.5953,
+            "trending_score": 3.0
+          },
+          {
             "created_at": "2024-10-22T07:36:03.000Z",
-            "downloads": 4219,
+            "downloads": 3887,
             "id": "genmo/mochi-1-preview",
             "last_modified": "2026-10-06T17:19:35.000Z",
-            "likes": 1379,
+            "likes": 1384,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "genmo",
             "provider_label": "Genmo",
-            "score": 0.6385,
-            "trending_score": 5.0
-          },
-          {
-            "created_at": "2025-02-25T07:26:34.000Z",
-            "downloads": 79505,
-            "id": "Wan-AI/Wan2.1-T2V-14B",
-            "last_modified": "2025-03-12T03:08:09.000Z",
-            "likes": 1598,
-            "live_providers": [
-              "fal-ai",
-              "wavespeed"
-            ],
-            "provider": "wan-ai",
-            "provider_label": "Wan-AI",
-            "score": 0.637,
-            "trending_score": 12.0
-          },
-          {
-            "created_at": "2025-07-18T09:35:44.000Z",
-            "downloads": 18641,
-            "id": "Wan-AI/Wan2.2-TI2V-5B",
-            "last_modified": "2025-08-07T10:22:24.000Z",
-            "likes": 874,
-            "live_providers": [
-              "fal-ai",
-              "replicate",
-              "wavespeed"
-            ],
-            "provider": "wan-ai",
-            "provider_label": "Wan-AI",
-            "score": 0.612,
-            "trending_score": 17.0
-          },
-          {
-            "created_at": "2025-11-18T06:36:54.000Z",
-            "downloads": 1352,
-            "id": "tencent/HunyuanVideo-1.5",
-            "last_modified": "2025-12-25T03:58:59.000Z",
-            "likes": 1054,
-            "live_providers": [
-              "fal-ai",
-              "wavespeed"
-            ],
-            "provider": "tencent",
-            "provider_label": "Tencent",
-            "score": 0.5584,
-            "trending_score": 3.0
-          },
-          {
-            "created_at": "2024-12-01T06:00:34.000Z",
-            "downloads": 1516,
-            "id": "tencent/HunyuanVideo",
-            "last_modified": "2025-03-06T15:39:29.000Z",
-            "likes": 2342,
-            "live_providers": [
-              "fal-ai",
-              "wavespeed"
-            ],
-            "provider": "tencent",
-            "provider_label": "Tencent",
-            "score": 0.5555,
+            "score": 0.5939,
             "trending_score": 1.0
           },
           {
-            "created_at": "2025-07-24T15:07:15.000Z",
-            "downloads": 3939,
-            "id": "Wan-AI/Wan2.2-T2V-A14B",
-            "last_modified": "2025-08-07T09:43:34.000Z",
-            "likes": 591,
-            "live_providers": [
-              "fal-ai",
-              "replicate",
-              "wavespeed"
-            ],
-            "provider": "wan-ai",
-            "provider_label": "Wan-AI",
-            "score": 0.5516,
-            "trending_score": 8.0
-          },
-          {
             "created_at": "2025-02-25T11:13:48.000Z",
-            "downloads": 67297,
+            "downloads": 92775,
             "id": "Wan-AI/Wan2.1-T2V-1.3B",
             "last_modified": "2025-03-01T09:31:33.000Z",
-            "likes": 639,
+            "likes": 694,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.5427,
-            "trending_score": 3.0
+            "score": 0.568,
+            "trending_score": 6.0
           },
           {
             "created_at": "2025-10-24T16:04:08.000Z",
-            "downloads": 2509,
+            "downloads": 5175,
             "id": "meituan-longcat/LongCat-Video",
             "last_modified": "2025-10-29T06:22:46.000Z",
-            "likes": 587,
+            "likes": 610,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "meituan-longcat",
             "provider_label": "meituan-longcat",
-            "score": 0.5259,
-            "trending_score": 3.0
+            "score": 0.5674,
+            "trending_score": 10.0
+          },
+          {
+            "created_at": "2025-11-18T06:36:54.000Z",
+            "downloads": 2250,
+            "id": "tencent/HunyuanVideo-1.5",
+            "last_modified": "2025-12-25T03:58:59.000Z",
+            "likes": 1073,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "tencent",
+            "provider_label": "Tencent",
+            "score": 0.5508,
+            "trending_score": 2.0
+          },
+          {
+            "created_at": "2025-07-24T15:07:15.000Z",
+            "downloads": 5452,
+            "id": "Wan-AI/Wan2.2-T2V-A14B",
+            "last_modified": "2025-08-07T09:43:34.000Z",
+            "likes": 641,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "wan-ai",
+            "provider_label": "Wan-AI",
+            "score": 0.5424,
+            "trending_score": 5.0
           },
           {
             "created_at": "2024-08-17T11:42:28.000Z",
-            "downloads": 8391,
+            "downloads": 6611,
             "id": "zai-org/CogVideoX-5b",
             "last_modified": "2024-11-23T06:30:11.000Z",
-            "likes": 702,
+            "likes": 709,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "zai-org",
             "provider_label": "Z.ai",
-            "score": 0.4988,
-            "trending_score": 1.0
+            "score": 0.4714,
+            "trending_score": 0.0
           },
           {
             "created_at": "2025-07-28T09:04:28.000Z",
-            "downloads": 170405,
+            "downloads": 192705,
             "id": "Wan-AI/Wan2.2-T2V-A14B-Diffusers",
             "last_modified": "2025-08-09T03:36:13.000Z",
             "likes": 163,
             "live_providers": [
-              "fal-ai",
-              "replicate"
+              "fal-ai"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.4385,
+            "score": 0.4372,
+            "trending_score": 0.0
+          },
+          {
+            "created_at": "2025-09-29T10:45:14.000Z",
+            "downloads": 270,
+            "id": "htdong/Wan-Alpha",
+            "last_modified": "2026-11-23T12:09:41.000Z",
+            "likes": 43,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "htdong",
+            "provider_label": "htdong",
+            "score": 0.3619,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-05-14T16:55:19.000Z",
-            "downloads": 1562,
+            "downloads": 2593,
             "id": "Lightricks/LTX-Video-0.9.7-distilled",
             "last_modified": "2025-07-08T10:13:57.000Z",
-            "likes": 64,
+            "likes": 67,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3409,
+            "score": 0.3458,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-03-16T11:14:42.000Z",
-            "downloads": 8959,
+            "downloads": 12220,
             "id": "Lightricks/LTX-Video-0.9.5",
             "last_modified": "2025-05-06T16:11:26.000Z",
             "likes": 36,
@@ -3351,35 +3350,21 @@
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3213,
+            "score": 0.3221,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-05-13T12:02:56.000Z",
-            "downloads": 578,
+            "downloads": 1383,
             "id": "Lightricks/LTX-Video-0.9.7-dev",
             "last_modified": "2025-07-08T10:13:53.000Z",
-            "likes": 28,
+            "likes": 29,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3111,
-            "trending_score": 1.0
-          },
-          {
-            "created_at": "2025-09-29T10:45:14.000Z",
-            "downloads": 0,
-            "id": "htdong/Wan-Alpha",
-            "last_modified": "2025-12-17T15:28:39.000Z",
-            "likes": 43,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "htdong",
-            "provider_label": "htdong",
-            "score": 0.2654,
+            "score": 0.2945,
             "trending_score": 0.0
           }
         ],
@@ -3387,183 +3372,180 @@
         "trending": [
           {
             "created_at": "2025-07-18T09:35:44.000Z",
-            "downloads": 18641,
+            "downloads": 19776,
             "id": "Wan-AI/Wan2.2-TI2V-5B",
             "last_modified": "2025-08-07T10:22:24.000Z",
-            "likes": 874,
-            "live_providers": [
-              "fal-ai",
-              "replicate",
-              "wavespeed"
-            ],
-            "provider": "wan-ai",
-            "provider_label": "Wan-AI",
-            "score": 0.612,
-            "trending_score": 17.0
-          },
-          {
-            "created_at": "2025-02-25T07:26:34.000Z",
-            "downloads": 79505,
-            "id": "Wan-AI/Wan2.1-T2V-14B",
-            "last_modified": "2025-03-12T03:08:09.000Z",
-            "likes": 1598,
+            "likes": 1064,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.637,
-            "trending_score": 12.0
-          },
-          {
-            "created_at": "2025-07-24T15:07:15.000Z",
-            "downloads": 3939,
-            "id": "Wan-AI/Wan2.2-T2V-A14B",
-            "last_modified": "2025-08-07T09:43:34.000Z",
-            "likes": 591,
-            "live_providers": [
-              "fal-ai",
-              "replicate",
-              "wavespeed"
-            ],
-            "provider": "wan-ai",
-            "provider_label": "Wan-AI",
-            "score": 0.5516,
-            "trending_score": 8.0
-          },
-          {
-            "created_at": "2024-10-22T07:36:03.000Z",
-            "downloads": 4219,
-            "id": "genmo/mochi-1-preview",
-            "last_modified": "2026-10-06T17:19:35.000Z",
-            "likes": 1379,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "genmo",
-            "provider_label": "Genmo",
-            "score": 0.6385,
-            "trending_score": 5.0
-          },
-          {
-            "created_at": "2025-11-18T06:36:54.000Z",
-            "downloads": 1352,
-            "id": "tencent/HunyuanVideo-1.5",
-            "last_modified": "2025-12-25T03:58:59.000Z",
-            "likes": 1054,
-            "live_providers": [
-              "fal-ai",
-              "wavespeed"
-            ],
-            "provider": "tencent",
-            "provider_label": "Tencent",
-            "score": 0.5584,
-            "trending_score": 3.0
-          },
-          {
-            "created_at": "2025-02-25T11:13:48.000Z",
-            "downloads": 67297,
-            "id": "Wan-AI/Wan2.1-T2V-1.3B",
-            "last_modified": "2025-03-01T09:31:33.000Z",
-            "likes": 639,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "wan-ai",
-            "provider_label": "Wan-AI",
-            "score": 0.5427,
-            "trending_score": 3.0
+            "score": 0.6339,
+            "trending_score": 25.0
           },
           {
             "created_at": "2025-10-24T16:04:08.000Z",
-            "downloads": 2509,
+            "downloads": 5175,
             "id": "meituan-longcat/LongCat-Video",
             "last_modified": "2025-10-29T06:22:46.000Z",
-            "likes": 587,
+            "likes": 610,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "meituan-longcat",
             "provider_label": "meituan-longcat",
-            "score": 0.5259,
+            "score": 0.5674,
+            "trending_score": 10.0
+          },
+          {
+            "created_at": "2025-02-25T11:13:48.000Z",
+            "downloads": 92775,
+            "id": "Wan-AI/Wan2.1-T2V-1.3B",
+            "last_modified": "2025-03-01T09:31:33.000Z",
+            "likes": 694,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "wan-ai",
+            "provider_label": "Wan-AI",
+            "score": 0.568,
+            "trending_score": 6.0
+          },
+          {
+            "created_at": "2025-07-24T15:07:15.000Z",
+            "downloads": 5452,
+            "id": "Wan-AI/Wan2.2-T2V-A14B",
+            "last_modified": "2025-08-07T09:43:34.000Z",
+            "likes": 641,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "wan-ai",
+            "provider_label": "Wan-AI",
+            "score": 0.5424,
+            "trending_score": 5.0
+          },
+          {
+            "created_at": "2025-02-25T07:26:34.000Z",
+            "downloads": 82763,
+            "id": "Wan-AI/Wan2.1-T2V-14B",
+            "last_modified": "2025-03-12T03:08:09.000Z",
+            "likes": 1627,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "wan-ai",
+            "provider_label": "Wan-AI",
+            "score": 0.5953,
             "trending_score": 3.0
           },
           {
             "created_at": "2024-12-01T06:00:34.000Z",
-            "downloads": 1516,
+            "downloads": 80397,
             "id": "tencent/HunyuanVideo",
             "last_modified": "2025-03-06T15:39:29.000Z",
-            "likes": 2342,
+            "likes": 2380,
             "live_providers": [
               "fal-ai",
               "wavespeed"
             ],
             "provider": "tencent",
             "provider_label": "Tencent",
-            "score": 0.5555,
+            "score": 0.6057,
+            "trending_score": 2.0
+          },
+          {
+            "created_at": "2025-11-18T06:36:54.000Z",
+            "downloads": 2250,
+            "id": "tencent/HunyuanVideo-1.5",
+            "last_modified": "2025-12-25T03:58:59.000Z",
+            "likes": 1073,
+            "live_providers": [
+              "fal-ai",
+              "wavespeed"
+            ],
+            "provider": "tencent",
+            "provider_label": "Tencent",
+            "score": 0.5508,
+            "trending_score": 2.0
+          },
+          {
+            "created_at": "2024-10-22T07:36:03.000Z",
+            "downloads": 3887,
+            "id": "genmo/mochi-1-preview",
+            "last_modified": "2026-10-06T17:19:35.000Z",
+            "likes": 1384,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "genmo",
+            "provider_label": "Genmo",
+            "score": 0.5939,
             "trending_score": 1.0
           },
           {
             "created_at": "2024-08-17T11:42:28.000Z",
-            "downloads": 8391,
+            "downloads": 6611,
             "id": "zai-org/CogVideoX-5b",
             "last_modified": "2024-11-23T06:30:11.000Z",
-            "likes": 702,
+            "likes": 709,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "zai-org",
             "provider_label": "Z.ai",
-            "score": 0.4988,
-            "trending_score": 1.0
-          },
-          {
-            "created_at": "2025-05-13T12:02:56.000Z",
-            "downloads": 578,
-            "id": "Lightricks/LTX-Video-0.9.7-dev",
-            "last_modified": "2025-07-08T10:13:53.000Z",
-            "likes": 28,
-            "live_providers": [
-              "fal-ai"
-            ],
-            "provider": "lightricks",
-            "provider_label": "Lightricks",
-            "score": 0.3111,
-            "trending_score": 1.0
+            "score": 0.4714,
+            "trending_score": 0.0
           },
           {
             "created_at": "2025-07-28T09:04:28.000Z",
-            "downloads": 170405,
+            "downloads": 192705,
             "id": "Wan-AI/Wan2.2-T2V-A14B-Diffusers",
             "last_modified": "2025-08-09T03:36:13.000Z",
             "likes": 163,
             "live_providers": [
-              "fal-ai",
-              "replicate"
+              "fal-ai"
             ],
             "provider": "wan-ai",
             "provider_label": "Wan-AI",
-            "score": 0.4385,
+            "score": 0.4372,
+            "trending_score": 0.0
+          },
+          {
+            "created_at": "2025-09-29T10:45:14.000Z",
+            "downloads": 270,
+            "id": "htdong/Wan-Alpha",
+            "last_modified": "2026-11-23T12:09:41.000Z",
+            "likes": 43,
+            "live_providers": [
+              "fal-ai"
+            ],
+            "provider": "htdong",
+            "provider_label": "htdong",
+            "score": 0.3619,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-05-14T16:55:19.000Z",
-            "downloads": 1562,
+            "downloads": 2593,
             "id": "Lightricks/LTX-Video-0.9.7-distilled",
             "last_modified": "2025-07-08T10:13:57.000Z",
-            "likes": 64,
+            "likes": 67,
             "live_providers": [
               "fal-ai"
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3409,
+            "score": 0.3458,
             "trending_score": 0.0
           },
           {
             "created_at": "2025-03-16T11:14:42.000Z",
-            "downloads": 8959,
+            "downloads": 12220,
             "id": "Lightricks/LTX-Video-0.9.5",
             "last_modified": "2025-05-06T16:11:26.000Z",
             "likes": 36,
@@ -3572,21 +3554,21 @@
             ],
             "provider": "lightricks",
             "provider_label": "Lightricks",
-            "score": 0.3213,
+            "score": 0.3221,
             "trending_score": 0.0
           },
           {
-            "created_at": "2025-09-29T10:45:14.000Z",
-            "downloads": 0,
-            "id": "htdong/Wan-Alpha",
-            "last_modified": "2025-12-17T15:28:39.000Z",
-            "likes": 43,
+            "created_at": "2025-05-13T12:02:56.000Z",
+            "downloads": 1383,
+            "id": "Lightricks/LTX-Video-0.9.7-dev",
+            "last_modified": "2025-07-08T10:13:53.000Z",
+            "likes": 29,
             "live_providers": [
               "fal-ai"
             ],
-            "provider": "htdong",
-            "provider_label": "htdong",
-            "score": 0.2654,
+            "provider": "lightricks",
+            "provider_label": "Lightricks",
+            "score": 0.2945,
             "trending_score": 0.0
           }
         ]

@@ -8,28 +8,28 @@
       "top": [
         {
           "id": "flux1-dev",
-          "likes": 15747,
-          "score": 0.6187
+          "likes": 16338,
+          "score": 0.6179
         },
         {
           "id": "sdxl-base-1.0",
-          "likes": 8392,
-          "score": 0.8128
+          "likes": 8506,
+          "score": 0.8136
         },
         {
           "id": "flux1-schnell",
-          "likes": 6440,
-          "score": 0.6249
+          "likes": 6945,
+          "score": 0.6241
         },
         {
           "id": "sd15",
-          "likes": 1341,
-          "score": 0.7319
+          "likes": 1384,
+          "score": 0.7331
         },
         {
           "id": "realistic-vision-5.1",
-          "likes": 273,
-          "score": 0.6971
+          "likes": 283,
+          "score": 0.6958
         }
       ]
     },
@@ -41,28 +41,28 @@
       "top": [
         {
           "id": "flux1-dev",
-          "likes": 15747,
-          "score": 0.7787
+          "likes": 16338,
+          "score": 0.7779
         },
         {
           "id": "sdxl-base-1.0",
-          "likes": 8392,
-          "score": 0.8128
+          "likes": 8506,
+          "score": 0.8136
         },
         {
           "id": "flux1-schnell",
-          "likes": 6440,
-          "score": 0.7849
+          "likes": 6945,
+          "score": 0.7841
         },
         {
           "id": "sd15",
-          "likes": 1341,
-          "score": 0.7319
+          "likes": 1384,
+          "score": 0.7331
         },
         {
           "id": "realistic-vision-5.1",
-          "likes": 273,
-          "score": 0.6971
+          "likes": 283,
+          "score": 0.6958
         }
       ]
     },
@@ -74,28 +74,28 @@
       "top": [
         {
           "id": "flux1-dev",
-          "likes": 15747,
-          "score": 0.8987
+          "likes": 16338,
+          "score": 0.8979
         },
         {
           "id": "sdxl-base-1.0",
-          "likes": 8392,
-          "score": 0.8128
+          "likes": 8506,
+          "score": 0.8136
         },
         {
           "id": "flux1-schnell",
-          "likes": 6440,
-          "score": 0.9049
+          "likes": 6945,
+          "score": 0.9041
         },
         {
           "id": "sd15",
-          "likes": 1341,
-          "score": 0.7319
+          "likes": 1384,
+          "score": 0.7331
         },
         {
           "id": "realistic-vision-5.1",
-          "likes": 273,
-          "score": 0.6971
+          "likes": 283,
+          "score": 0.6958
         }
       ]
     },
@@ -107,23 +107,23 @@
       "top": [
         {
           "id": "ltx-video-2b-0.9.1",
-          "likes": 2378,
-          "score": 0.7349
+          "likes": 2438,
+          "score": 0.7372
         },
         {
           "id": "hunyuanvideo-q4",
-          "likes": 2342,
-          "score": 0.7
+          "likes": 2380,
+          "score": 0.7157
         },
         {
           "id": "svd-xt-1.1",
-          "likes": 1227,
-          "score": 0.7058
+          "likes": 1305,
+          "score": 0.7071
         },
         {
           "id": "wan2.2-ti2v-5b",
-          "likes": 874,
-          "score": 0.6255
+          "likes": 1064,
+          "score": 0.6295
         }
       ]
     },
@@ -135,33 +135,33 @@
       "top": [
         {
           "id": "ltx-video-2b-0.9.1",
-          "likes": 2378,
-          "score": 0.7349
+          "likes": 2438,
+          "score": 0.7372
         },
         {
           "id": "hunyuanvideo-q4",
-          "likes": 2342,
-          "score": 0.82
+          "likes": 2380,
+          "score": 0.8357
         },
         {
           "id": "mochi-1-preview",
-          "likes": 1379,
-          "score": 0.5158
+          "likes": 1384,
+          "score": 0.5155
         },
         {
           "id": "svd-xt-1.1",
-          "likes": 1227,
-          "score": 0.7058
+          "likes": 1305,
+          "score": 0.7071
         },
         {
           "id": "wan2.2-ti2v-5b",
-          "likes": 874,
-          "score": 0.7455
+          "likes": 1064,
+          "score": 0.7495
         },
         {
           "id": "cogvideox-1.5-5b-i2v",
-          "likes": 124,
-          "score": 0.4152
+          "likes": 127,
+          "score": 0.4124
         }
       ]
     },
@@ -173,44 +173,44 @@
       "top": [
         {
           "id": "ltx-video-2b-0.9.1",
-          "likes": 2378,
-          "score": 0.7349
+          "likes": 2438,
+          "score": 0.7372
         },
         {
           "id": "hunyuanvideo-q4",
-          "likes": 2342,
-          "score": 0.82
+          "likes": 2380,
+          "score": 0.8357
         },
         {
           "id": "mochi-1-preview",
-          "likes": 1379,
-          "score": 0.7958
+          "likes": 1384,
+          "score": 0.7955
         },
         {
           "id": "svd-xt-1.1",
-          "likes": 1227,
-          "score": 0.7058
+          "likes": 1305,
+          "score": 0.7071
         },
         {
           "id": "wan2.2-ti2v-5b",
-          "likes": 874,
-          "score": 0.7455
+          "likes": 1064,
+          "score": 0.7495
         },
         {
           "id": "cogvideox-1.5-5b-i2v",
-          "likes": 124,
-          "score": 0.6952
+          "likes": 127,
+          "score": 0.6924
         }
       ]
     }
   },
-  "generated_at": "2026-10-25",
+  "generated_at": "2026-11-25",
   "media_ranking_version": "1.1",
   "models": {
     "cogvideox-1.5-5b-i2v": {
       "components": {
         "capability": 0.6616,
-        "momentum": 0.4758,
+        "momentum": 0.4646,
         "speed": 0.1087
       },
       "cost": {
@@ -233,9 +233,9 @@
       },
       "hf_id": "THUDM/CogVideoX1.5-5B-I2V",
       "hf_stats": {
-        "downloads_30d": 1209,
-        "fetched_at": "2026-10-25",
-        "likes": 124
+        "downloads_30d": 525,
+        "fetched_at": "2026-11-25",
+        "likes": 127
       },
       "homepilot": {
         "model_id": "cogvideox1.5_5b_i2v_snapshot",
@@ -247,9 +247,9 @@
       "name": "CogVideoX 1.5 5B I2V",
       "params_b": 5.0,
       "scores": {
-        "rtx3060-12": 0.2952,
-        "rtx4060ti-16": 0.4152,
-        "rtx4090-24": 0.6952
+        "rtx3060-12": 0.2924,
+        "rtx4060ti-16": 0.4124,
+        "rtx4090-24": 0.6924
       },
       "task": "image-to-video",
       "vram_gb": {
@@ -261,7 +261,7 @@
     "flux1-dev": {
       "components": {
         "capability": 0.9472,
-        "momentum": 0.939,
+        "momentum": 0.9355,
         "speed": 0.2718
       },
       "cost": {
@@ -283,9 +283,9 @@
       },
       "hf_id": "black-forest-labs/FLUX.1-dev",
       "hf_stats": {
-        "downloads_30d": 628495,
-        "fetched_at": "2026-10-25",
-        "likes": 15747
+        "downloads_30d": 420532,
+        "fetched_at": "2026-11-25",
+        "likes": 16338
       },
       "homepilot": {
         "model_id": "flux1-dev.safetensors",
@@ -297,9 +297,9 @@
       "name": "FLUX.1 dev",
       "params_b": 12.0,
       "scores": {
-        "rtx3060-12": 0.6187,
-        "rtx4060ti-16": 0.7787,
-        "rtx4090-24": 0.8987
+        "rtx3060-12": 0.6179,
+        "rtx4060ti-16": 0.7779,
+        "rtx4090-24": 0.8979
       },
       "task": "text-to-image",
       "vram_gb": {
@@ -311,7 +311,7 @@
     "flux1-schnell": {
       "components": {
         "capability": 0.9472,
-        "momentum": 0.868,
+        "momentum": 0.8649,
         "speed": 0.5112
       },
       "cost": {
@@ -333,9 +333,9 @@
       },
       "hf_id": "black-forest-labs/FLUX.1-schnell",
       "hf_stats": {
-        "downloads_30d": 507663,
-        "fetched_at": "2026-10-25",
-        "likes": 6440
+        "downloads_30d": 287421,
+        "fetched_at": "2026-11-25",
+        "likes": 6945
       },
       "homepilot": {
         "model_id": "flux1-schnell.safetensors",
@@ -347,9 +347,9 @@
       "name": "FLUX.1 schnell",
       "params_b": 12.0,
       "scores": {
-        "rtx3060-12": 0.6249,
-        "rtx4060ti-16": 0.7849,
-        "rtx4090-24": 0.9049
+        "rtx3060-12": 0.6241,
+        "rtx4060ti-16": 0.7841,
+        "rtx4090-24": 0.9041
       },
       "task": "text-to-image",
       "vram_gb": {
@@ -361,7 +361,7 @@
     "hunyuanvideo-q4": {
       "components": {
         "capability": 0.9745,
-        "momentum": 0.7012,
+        "momentum": 0.764,
         "speed": 0.011
       },
       "cost": {
@@ -384,9 +384,9 @@
       },
       "hf_id": "tencent/HunyuanVideo",
       "hf_stats": {
-        "downloads_30d": 1516,
-        "fetched_at": "2026-10-25",
-        "likes": 2342
+        "downloads_30d": 80397,
+        "fetched_at": "2026-11-25",
+        "likes": 2380
       },
       "homepilot": {
         "model_id": "hunyuanvideo_t2v_720p_gguf_q4_k_m_pack",
@@ -398,9 +398,9 @@
       "name": "HunyuanVideo 720p (GGUF Q4_K_M)",
       "params_b": 13.0,
       "scores": {
-        "rtx3060-12": 0.7,
-        "rtx4060ti-16": 0.82,
-        "rtx4090-24": 0.82
+        "rtx3060-12": 0.7157,
+        "rtx4060ti-16": 0.8357,
+        "rtx4090-24": 0.8357
       },
       "task": "text-to-video",
       "vram_gb": {
@@ -412,7 +412,7 @@
     "ltx-video-2b-0.9.1": {
       "components": {
         "capability": 0.4057,
-        "momentum": 0.8013,
+        "momentum": 0.8105,
         "speed": 0.3312
       },
       "cost": {
@@ -435,9 +435,9 @@
       },
       "hf_id": "Lightricks/LTX-Video",
       "hf_stats": {
-        "downloads_30d": 893769,
-        "fetched_at": "2026-10-25",
-        "likes": 2378
+        "downloads_30d": 1429367,
+        "fetched_at": "2026-11-25",
+        "likes": 2438
       },
       "homepilot": {
         "model_id": "ltx-video-2b-v0.9.1.safetensors",
@@ -449,9 +449,9 @@
       "name": "LTX-Video 2B 0.9.1",
       "params_b": 2.0,
       "scores": {
-        "rtx3060-12": 0.7349,
-        "rtx4060ti-16": 0.7349,
-        "rtx4090-24": 0.7349
+        "rtx3060-12": 0.7372,
+        "rtx4060ti-16": 0.7372,
+        "rtx4090-24": 0.7372
       },
       "task": "text-to-video",
       "vram_gb": {
@@ -463,7 +463,7 @@
     "mochi-1-preview": {
       "components": {
         "capability": 0.8855,
-        "momentum": 0.677,
+        "momentum": 0.676,
         "speed": 0.0514
       },
       "cost": {
@@ -486,9 +486,9 @@
       },
       "hf_id": "genmo/mochi-1-preview",
       "hf_stats": {
-        "downloads_30d": 4219,
-        "fetched_at": "2026-10-25",
-        "likes": 1379
+        "downloads_30d": 3887,
+        "fetched_at": "2026-11-25",
+        "likes": 1384
       },
       "homepilot": {
         "model_id": "mochi_preview_fp8_pack",
@@ -500,9 +500,9 @@
       "name": "Mochi 1 Preview (FP8)",
       "params_b": 10.0,
       "scores": {
-        "rtx3060-12": 0.3958,
-        "rtx4060ti-16": 0.5158,
-        "rtx4090-24": 0.7958
+        "rtx3060-12": 0.3955,
+        "rtx4060ti-16": 0.5155,
+        "rtx4090-24": 0.7955
       },
       "task": "text-to-video",
       "vram_gb": {
@@ -514,7 +514,7 @@
     "realistic-vision-5.1": {
       "components": {
         "capability": 0.2687,
-        "momentum": 0.6225,
+        "momentum": 0.6173,
         "speed": 0.7427
       },
       "cost": {
@@ -536,9 +536,9 @@
       },
       "hf_id": "SG161222/Realistic_Vision_V5.1_noVAE",
       "hf_stats": {
-        "downloads_30d": 336499,
-        "fetched_at": "2026-10-25",
-        "likes": 273
+        "downloads_30d": 202598,
+        "fetched_at": "2026-11-25",
+        "likes": 283
       },
       "homepilot": {
         "model_id": "realisticVisionV51.safetensors",
@@ -550,9 +550,9 @@
       "name": "Realistic Vision 5.1",
       "params_b": 1.07,
       "scores": {
-        "rtx3060-12": 0.6971,
-        "rtx4060ti-16": 0.6971,
-        "rtx4090-24": 0.6971
+        "rtx3060-12": 0.6958,
+        "rtx4060ti-16": 0.6958,
+        "rtx4090-24": 0.6958
       },
       "task": "text-to-image",
       "vram_gb": {
@@ -564,7 +564,7 @@
     "sd15": {
       "components": {
         "capability": 0.2687,
-        "momentum": 0.7619,
+        "momentum": 0.7667,
         "speed": 0.7427
       },
       "cost": {
@@ -586,9 +586,9 @@
       },
       "hf_id": "stable-diffusion-v1-5/stable-diffusion-v1-5",
       "hf_stats": {
-        "downloads_30d": 1151698,
-        "fetched_at": "2026-10-25",
-        "likes": 1341
+        "downloads_30d": 1344143,
+        "fetched_at": "2026-11-25",
+        "likes": 1384
       },
       "homepilot": {
         "model_id": "sd15.safetensors",
@@ -600,9 +600,9 @@
       "name": "Stable Diffusion 1.5",
       "params_b": 1.07,
       "scores": {
-        "rtx3060-12": 0.7319,
-        "rtx4060ti-16": 0.7319,
-        "rtx4090-24": 0.7319
+        "rtx3060-12": 0.7331,
+        "rtx4060ti-16": 0.7331,
+        "rtx4090-24": 0.7331
       },
       "task": "text-to-image",
       "vram_gb": {
@@ -614,7 +614,7 @@
     "sd3.5-large": {
       "components": {
         "capability": 0.8154,
-        "momentum": 0.8014,
+        "momentum": 0.7953,
         "speed": 0.3204
       },
       "cost": {
@@ -636,9 +636,9 @@
       },
       "hf_id": "stabilityai/stable-diffusion-3.5-large",
       "hf_stats": {
-        "downloads_30d": 58666,
-        "fetched_at": "2026-10-25",
-        "likes": 4158
+        "downloads_30d": 35260,
+        "fetched_at": "2026-11-25",
+        "likes": 4258
       },
       "homepilot": null,
       "id": "sd3.5-large",
@@ -646,9 +646,9 @@
       "name": "Stable Diffusion 3.5 Large",
       "params_b": 8.1,
       "scores": {
-        "rtx3060-12": 0.5562,
-        "rtx4060ti-16": 0.7162,
-        "rtx4090-24": 0.8362
+        "rtx3060-12": 0.5547,
+        "rtx4060ti-16": 0.7147,
+        "rtx4090-24": 0.8347
       },
       "task": "text-to-image",
       "vram_gb": {
@@ -660,7 +660,7 @@
     "sd3.5-medium": {
       "components": {
         "capability": 0.4626,
-        "momentum": 0.7127,
+        "momentum": 0.7205,
         "speed": 0.4651
       },
       "cost": {
@@ -682,9 +682,9 @@
       },
       "hf_id": "stabilityai/stable-diffusion-3.5-medium",
       "hf_stats": {
-        "downloads_30d": 69148,
-        "fetched_at": "2026-10-25",
-        "likes": 1246
+        "downloads_30d": 74337,
+        "fetched_at": "2026-11-25",
+        "likes": 1361
       },
       "homepilot": null,
       "id": "sd3.5-medium",
@@ -692,9 +692,9 @@
       "name": "Stable Diffusion 3.5 Medium",
       "params_b": 2.5,
       "scores": {
-        "rtx3060-12": 0.7403,
-        "rtx4060ti-16": 0.7403,
-        "rtx4090-24": 0.7403
+        "rtx3060-12": 0.7423,
+        "rtx4060ti-16": 0.7423,
+        "rtx4090-24": 0.7423
       },
       "task": "text-to-image",
       "vram_gb": {
@@ -706,7 +706,7 @@
     "sdxl-base-1.0": {
       "components": {
         "capability": 0.5554,
-        "momentum": 0.9208,
+        "momentum": 0.9238,
         "speed": 0.4377
       },
       "cost": {
@@ -728,9 +728,9 @@
       },
       "hf_id": "stabilityai/stable-diffusion-xl-base-1.0",
       "hf_stats": {
-        "downloads_30d": 4204941,
-        "fetched_at": "2026-10-25",
-        "likes": 8392
+        "downloads_30d": 4783288,
+        "fetched_at": "2026-11-25",
+        "likes": 8506
       },
       "homepilot": {
         "model_id": "sd_xl_base_1.0.safetensors",
@@ -742,9 +742,9 @@
       "name": "SDXL Base 1.0",
       "params_b": 3.5,
       "scores": {
-        "rtx3060-12": 0.8128,
-        "rtx4060ti-16": 0.8128,
-        "rtx4090-24": 0.8128
+        "rtx3060-12": 0.8136,
+        "rtx4060ti-16": 0.8136,
+        "rtx4090-24": 0.8136
       },
       "task": "text-to-image",
       "vram_gb": {
@@ -756,7 +756,7 @@
     "svd-xt-1.1": {
       "components": {
         "capability": 0.3384,
-        "momentum": 0.6619,
+        "momentum": 0.6673,
         "speed": 0.5568
       },
       "cost": {
@@ -779,9 +779,9 @@
       },
       "hf_id": "stabilityai/stable-video-diffusion-img2vid-xt-1-1",
       "hf_stats": {
-        "downloads_30d": 2823,
-        "fetched_at": "2026-10-25",
-        "likes": 1227
+        "downloads_30d": 2959,
+        "fetched_at": "2026-11-25",
+        "likes": 1305
       },
       "homepilot": {
         "model_id": "svd_xt_1_1.safetensors",
@@ -793,9 +793,9 @@
       "name": "Stable Video Diffusion XT 1.1",
       "params_b": 1.5,
       "scores": {
-        "rtx3060-12": 0.7058,
-        "rtx4060ti-16": 0.7058,
-        "rtx4090-24": 0.7058
+        "rtx3060-12": 0.7071,
+        "rtx4060ti-16": 0.7071,
+        "rtx4090-24": 0.7071
       },
       "task": "image-to-video",
       "vram_gb": {
@@ -807,7 +807,7 @@
     "wan2.1-t2v-1.3b": {
       "components": {
         "capability": 0.3076,
-        "momentum": 0.6618,
+        "momentum": 0.673,
         "speed": 0.4533
       },
       "cost": {
@@ -830,9 +830,9 @@
       },
       "hf_id": "Wan-AI/Wan2.1-T2V-1.3B",
       "hf_stats": {
-        "downloads_30d": 67297,
-        "fetched_at": "2026-10-25",
-        "likes": 639
+        "downloads_30d": 92775,
+        "fetched_at": "2026-11-25",
+        "likes": 694
       },
       "homepilot": null,
       "id": "wan2.1-t2v-1.3b",
@@ -840,9 +840,9 @@
       "name": "Wan 2.1 T2V 1.3B",
       "params_b": 1.3,
       "scores": {
-        "rtx3060-12": 0.6877,
-        "rtx4060ti-16": 0.6877,
-        "rtx4090-24": 0.6877
+        "rtx3060-12": 0.6905,
+        "rtx4060ti-16": 0.6905,
+        "rtx4090-24": 0.6905
       },
       "task": "text-to-video",
       "vram_gb": {
@@ -854,7 +854,7 @@
     "wan2.2-ti2v-5b": {
       "components": {
         "capability": 0.6616,
-        "momentum": 0.6655,
+        "momentum": 0.6813,
         "speed": 0.1374
       },
       "cost": {
@@ -877,9 +877,9 @@
       },
       "hf_id": "Wan-AI/Wan2.2-TI2V-5B",
       "hf_stats": {
-        "downloads_30d": 18641,
-        "fetched_at": "2026-10-25",
-        "likes": 874
+        "downloads_30d": 19776,
+        "fetched_at": "2026-11-25",
+        "likes": 1064
       },
       "homepilot": {
         "model_id": "wan2.2_5b_fp16_pack",
@@ -891,9 +891,9 @@
       "name": "Wan 2.2 TI2V 5B",
       "params_b": 5.0,
       "scores": {
-        "rtx3060-12": 0.6255,
-        "rtx4060ti-16": 0.7455,
-        "rtx4090-24": 0.7455
+        "rtx3060-12": 0.6295,
+        "rtx4060ti-16": 0.7495,
+        "rtx4090-24": 0.7495
       },
       "task": "text-to-video",
       "vram_gb": {
